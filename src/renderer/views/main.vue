@@ -2,7 +2,9 @@
     <div class="">
         <el-container class="container">
             <el-container>
-                <el-aside class="aside" width="230px"></el-aside>
+                <el-aside class="aside" width="230px">
+                  <Aside />
+                </el-aside>
                 <el-container>
                     <el-header class="head" height="50px">
                         <Header></Header>
@@ -13,15 +15,20 @@
                 </el-container>
             </el-container>
             <el-footer class="footer" height="70px">
+              <Footer />
             </el-footer>
         </el-container>
     </div>
 </template>
 <script>
-import Header from '../components/header'
+import Header from '@/components/header';
+import Aside from '@/components/aside';
+import Footer from '@/components/footer';
 export default {
     components: {
-        Header
+        Header,
+        Aside,
+        Footer
     }
 }
 </script>
@@ -30,10 +37,10 @@ export default {
         height: 100vh;
     }
     .aside{
-        background: red;
+        background: rgba(0,0,0,0.1);
     }
     .head{
-        background: green;
+        // background: green;
     }
     .main{
         background: rgba(0,0,0,0.1);

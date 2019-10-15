@@ -11,5 +11,6 @@
 </script>
 
 <style>
+@import url('./comment/public.less');
   /* CSS */
 </style>
