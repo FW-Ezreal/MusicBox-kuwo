@@ -48,15 +48,20 @@
       <el-popover
         v-model="visible"
         width="300"
+        popper-class="ls"
         placement="top">
-        
+        <PlayList />
         <el-button slot="reference"><i class="iconfont icon-liebiao"></i></el-button>
       </el-popover>
     </div>
   </div>
 </template>
 <script>
+import PlayList from './component/playList';
 export default {
+  components: {
+    PlayList
+  },
   data() {
     return {
       is_play: false,

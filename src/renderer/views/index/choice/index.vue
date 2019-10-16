@@ -1,6 +1,7 @@
 <template>
     <div>
       <Banner/>
+      <div class="title">推荐歌单</div>
       <Recommend/>
     </div>
 </template>
@@ -26,5 +27,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+  .title{
+    margin: 10px 0;
+  }
 </style>
