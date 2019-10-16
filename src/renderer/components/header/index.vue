@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrapper drag">
     <div class="left-btn">
-        <el-button size="mini" class="no-drag">
+        <el-button size="mini" class="no-drag" @click="back">
           <i class="el-icon-arrow-left"></i>
         </el-button>
         <!-- <el-input size="mini" class="no-drag" v-model="input" placeholder="请输入内容" prefix-icon="el-icon-search"> -->
@@ -20,6 +20,9 @@
 <script>
 export default {
   methods: {
+    back() {
+      this.$router.go(-1);
+    },
     minimize() {
       this.$electron.ipcRenderer.send('mini');
     },

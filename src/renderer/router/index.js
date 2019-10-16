@@ -20,5 +20,9 @@ export default new Router({
         }
       ]
     },
+    {
+      path: './playlist_detail',
+      name: 'playlist_detail',
+    }
   ]
 })
