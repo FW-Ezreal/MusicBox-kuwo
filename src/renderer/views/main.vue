@@ -46,7 +46,7 @@ export default {
         background: rgba(0,0,0,0.1);
     }
     .footer{
-        background: pink;
+      padding: 0px;
     }
 
 </style>
