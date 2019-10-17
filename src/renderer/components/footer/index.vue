@@ -14,7 +14,10 @@
     </div>
     <div class="cover">
       <img src="http://img1.kwcdn.kuwo.cn/star/userpl2015/47/31/1564050079629_11868547_500.jpg">
-      <!-- <audio src=""></audio> -->
+      <audio
+        autoplay
+        src="https://win-web-ra01-sycdn.kuwo.cn/372b2c9db3a73a018a0eaa3a03efbbc3/5da8298b/resource/n3/128/59/62/3529844721.mp3">
+      </audio>
     </div>
     <div class="info">
       <div class="top">

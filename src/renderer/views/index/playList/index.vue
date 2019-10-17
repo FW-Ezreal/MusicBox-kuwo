@@ -23,13 +23,13 @@ export default {
         url: 'http://wapi.kuwo.cn/api/pc/classify/playlist/getRcmPlayList?pn=1&rn=100&order=new',
         method: 'get',
       };
-      this.$http(param).then(res => {
-        console.log(res);
-        if (res.status === 200) {
-          this.playListData = res.data.data.data || [];
-          console.log('this.playListData: ', this.playListData);
-        }
-      })
+      // this.$http(param).then(res => {
+      //   console.log(res);
+      //   if (res.status === 200) {
+      //     this.playListData = res.data.data.data || [];
+      //     console.log('this.playListData: ', this.playListData);
+      //   }
+      // })
     }
   }
 }

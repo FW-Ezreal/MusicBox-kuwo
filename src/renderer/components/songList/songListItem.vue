@@ -39,6 +39,16 @@ export default {
   },
   methods: {
     toSongListDetails() {
+      const id = this.listData.playlist_id || 0;
+      if (!id) {
+        this.$message({
+          message: '歌单id错误',
+          type: 'error',
+          center: true
+        });
+      } else {
+        this.$router.push({name: 'playlist_detail', params: {id}})
+      }
     }
   }
 }
