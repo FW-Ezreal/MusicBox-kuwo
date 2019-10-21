@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-import { formatListenNum } from '@/comment/tools'
+import { formatListenNum } from '@/common/tools'
 export default {
   props: {
     listData: Object

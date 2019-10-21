@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import jsonp from '@/untils/jsonp.js';
 export default {
   props: {
     musicList: Array
@@ -46,16 +47,7 @@ export default {
       return item.score100;
     },
     playSong(item) {
-      const params = {
-        url: `http://www.kuwo.cn/url?format=mp3&rid=${item.id}&response=url&type=convert_url3&br=128kmp3&from=web&t=1571301747629`,
-        method: 'get'
-      }
-      this.$http(params).then(res => {
-        if (res.code) {
-          console.log('url', res.url)
-        }
-      })
-      
+      this.$store.commit('NOW_SONG', {rid: item.id});
     }
   }
 }

@@ -20,12 +20,12 @@ export default {
   methods: {
     init() {
       const param = {
-        url: 'http://mgxhtj.kuwo.cn/mgxh.s?type=rcm_keyword_playlist&apiv=1',
+        url: 'http://mgxhtj.kuwo.cn/mgxh.s',
         method: 'get',
-        // data: {
-        //   type: 'rcm_keyword_playlist',
-        //   apiv: 1
-        // }
+        params: {
+          type: 'rcm_keyword_playlist',
+          apiv: 1
+        }
       }
       this.$http(param).then(res => {
         console.log('res1', res)

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '../views/index'
-import Playlist_detail from '@/components/playlist_detail'
+import Playlist_detail from '@/views/playlist_detail'
 // console.log('Index: ', Index);
 
 Vue.use(Router)

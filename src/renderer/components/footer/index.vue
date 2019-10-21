@@ -13,27 +13,35 @@
       </el-button>
     </div>
     <div class="cover">
-      <img src="http://img1.kwcdn.kuwo.cn/star/userpl2015/47/31/1564050079629_11868547_500.jpg">
+      <img :src="curSong.pic">
       <audio
+        ref="audio"
+        muted
         autoplay
-        src="https://win-web-ra01-sycdn.kuwo.cn/372b2c9db3a73a018a0eaa3a03efbbc3/5da8298b/resource/n3/128/59/62/3529844721.mp3">
+        @timeupdate="timeupdate"
+        :src="curSong.url">
       </audio>
     </div>
     <div class="info">
       <div class="top">
         <div class="names">
           <div>
-            <span class="name">天涯过客</span>
-            <span class="ar_name">周杰伦</span>
+            <span class="name">{{ curSong.name }}</span>
+            -
+            <span class="ar_name">{{ curSong.artist }}</span>
           </div>
           <div class="time"></div>
         </div>
-        <div class="time">00:00-04:50</div>
+        <div class="time">
+          <span class="cur-time">{{ curTime }}</span>
+          <span class="all-time">{{ curSong.songTimeMinutes }}</span>
+        </div>
       </div>
       <div class="progress">
+        {{currTime}} {{curSong.duration}}
         <el-slider
-          :max="time/1000"
-          v-model="play_time"
+          :max="curSong.duration"
+          :value="currTime" 
           @change="playTimeChange">
         </el-slider>
       </div>
@@ -60,6 +68,9 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+import { mFormat } from '@/common/tools.js'
+import jsonp from '@/untils/jsonp.js';
 import PlayList from './component/playList';
 export default {
   components: {
@@ -72,8 +83,34 @@ export default {
       after_song: true,
       play_time: 40,
       time: 1300000,
-      visible: false
+      visible: false,
+      curTime: '00:00'
     }
+  },
+  computed: {
+    ...mapState({
+      curSongId(state) {
+        return this.curSong.rid;
+      },
+      curSong(state){
+        return state.song.curSong;
+      },
+      percent(state) {
+// console.log('state.song.percent: ', state.song.percent);
+        return state.song.percent;
+      },
+      currTime(state) {
+        return state.song.curTime;
+      }
+    })
+  },
+  watch: {
+    curSongId(curData, lastData) {
+      this.getPlayUrl()
+    }
+  },
+  created() {
+    window.a = this;
   },
   methods: {
     playBefore() {
@@ -85,8 +122,35 @@ export default {
     playAfter() {
 
     },
-    playTimeChange() {
-
+    playTimeChange(e) {
+      console.log('e', e);
+      const audio = this.$refs.audio;
+      audio.currentTime = e;
+    },
+    timeupdate(e) {
+      // console.log(e)
+      const currTime = e.target.currentTime;
+      const percent = currTime / this.curSong.duration;
+      this.curTime = mFormat(currTime);
+      this.$store.commit('CUR_TIME', currTime);
+      this.$store.commit('PERCENT', percent);
+    },
+    getPlayUrl(){
+      // console.log('curSongId');
+      const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
+      const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
+      const fn = (res) => {
+        return res;
+      }
+      const arr = [];
+      arr[0] = jsonp(musicUrl).then(fn);
+      arr[1] = jsonp(infoUrl).then(fn);
+      Promise.all(arr).then(res => {
+        console.log('res: ', res);
+        const playSong = res[1].data;
+        playSong.url = res[0].url;
+        this.$store.commit('NOW_SONG', playSong);
+      })
     }
   }
 }
