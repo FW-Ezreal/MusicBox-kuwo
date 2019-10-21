@@ -20,19 +20,19 @@
 <script>
 export default {
   methods: {
-    back() {
-      this.$router.go(-1);
+    back () {
+      this.$router.go(-1)
     },
-    minimize() {
-      this.$electron.ipcRenderer.send('mini');
+    minimize () {
+      this.$electron.ipcRenderer.send('mini')
     },
-    close() {
+    close () {
       this.$confirm('此操作将退出音乐盒~, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'info'
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
       }).then(() => {
-          this.$electron.ipcRenderer.send('close')
+        this.$electron.ipcRenderer.send('close')
       }).catch(() => {
       })
     }

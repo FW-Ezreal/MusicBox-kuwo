@@ -4,22 +4,22 @@
   </div>
 </template>
 <script>
-import ListItem from '@/components/list';
+import ListItem from '@/components/list'
 export default {
   components: {
     ListItem
   },
-  data() {
+  data () {
     return {
       musicList: [],
       listInfo: {}
     }
   },
-  created() {
-    this.init();
+  created () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       const params = {
         url: `http://nplserver.kuwo.cn/pl.svc?op=getlistinfo&pid=${this.$route.params.id}&pn=0&rn=100&encode=utf8&keyset=pl2012&identity=kuwo&pcmp4=1&vipver=MUSIC_9.0.6.0_BCS27&newver=1`,
         method: 'get'
@@ -27,8 +27,8 @@ export default {
       this.$http(params).then(res => {
         console.log('playlist', res)
         if (res.status === 200) {
-          this.listInfo = res.data || {};
-          this.musicList = res.data.musiclist || [];
+          this.listInfo = res.data || {}
+          this.musicList = res.data.musiclist || []
         }
       })
     }

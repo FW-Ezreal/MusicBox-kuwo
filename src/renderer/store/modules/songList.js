@@ -1,39 +1,39 @@
 export default {
   state: {
-    list: [],
+    list: []
   },
   mutations: {
-    add(state,song) {
-      const list = state.list;
+    add (state, song) {
+      const list = state.list
       if (list.length > 0) {
         const index = list.findIndex((item, index) => {
-          return item.rid === song.rid;
-        });
+          return item.rid === song.rid
+        })
         if (index > -1) {
-          return;
+          return
           // state.list.unshift(song);
         }
       }
-      state.list.unshift(song);
+      state.list.unshift(song)
     },
     // playAll(state, songObj) {
-    //   const 
+    //   const
     // },
-    del(state, song) {
-      const list = state.list;
+    del (state, song) {
+      const list = state.list
       if (list.length > 0) {
         const index = list.findIndex((item, index) => {
-          return item.rid === song.rid;
-        });
+          return item.rid === song.rid
+        })
         if (index > -1) {
-          state.list.splice(song, 1);
-          return;
+          state.list.splice(song, 1)
+          return
         }
       }
-      state.list.unshift(song);
+      state.list.unshift(song)
     },
-    clear(state){
-      state.list = [];
+    clear (state) {
+      state.list = []
     }
   }
 }

@@ -68,15 +68,15 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 import { mFormat } from '@/common/tools.js'
-import jsonp from '@/untils/jsonp.js';
-import PlayList from './component/playList';
+import jsonp from '@/untils/jsonp.js'
+import PlayList from './component/playList'
 export default {
   components: {
     PlayList
   },
-  data() {
+  data () {
     return {
       is_play: false,
       before_song: true,
@@ -89,67 +89,67 @@ export default {
   },
   computed: {
     ...mapState({
-      curSongId(state) {
-        return this.curSong.rid;
+      curSongId (state) {
+        return this.curSong.rid
       },
-      curSong(state){
-        return state.song.curSong;
+      curSong (state) {
+        return state.song.curSong
       },
-      percent(state) {
-// console.log('state.song.percent: ', state.song.percent);
-        return state.song.percent;
+      percent (state) {
+        // console.log('state.song.percent: ', state.song.percent);
+        return state.song.percent
       },
-      currTime(state) {
-        return state.song.curTime;
+      currTime (state) {
+        return state.song.curTime
       }
     })
   },
   watch: {
-    curSongId(curData, lastData) {
+    curSongId (curData, lastData) {
       this.getPlayUrl()
     }
   },
-  created() {
-    window.a = this;
+  created () {
+    window.a = this
   },
   methods: {
-    playBefore() {
+    playBefore () {
 
     },
-    playClick() {
+    playClick () {
 
     },
-    playAfter() {
+    playAfter () {
 
     },
-    playTimeChange(e) {
-      console.log('e', e);
-      const audio = this.$refs.audio;
-      audio.currentTime = e;
+    playTimeChange (e) {
+      console.log('e', e)
+      const audio = this.$refs.audio
+      audio.currentTime = e
     },
-    timeupdate(e) {
+    timeupdate (e) {
       // console.log(e)
-      const currTime = e.target.currentTime;
-      const percent = currTime / this.curSong.duration;
-      this.curTime = mFormat(currTime);
-      this.$store.commit('CUR_TIME', currTime);
-      this.$store.commit('PERCENT', percent);
+      const currTime = e.target.currentTime
+      const percent = currTime / this.curSong.duration
+      this.curTime = mFormat(currTime)
+      this.$store.commit('CUR_TIME', currTime)
+      this.$store.commit('PERCENT', percent)
     },
-    getPlayUrl(){
+    getPlayUrl () {
       // console.log('curSongId');
-      const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
-      const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
+      const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`
+      const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`
       const fn = (res) => {
-        return res;
+        return res
       }
-      const arr = [];
-      arr[0] = jsonp(musicUrl).then(fn);
-      arr[1] = jsonp(infoUrl).then(fn);
+      const arr = []
+      arr[0] = jsonp(musicUrl).then(fn)
+      arr[1] = jsonp(infoUrl).then(fn)
       Promise.all(arr).then(res => {
-        console.log('res: ', res);
-        const playSong = res[1].data;
-        playSong.url = res[0].url;
-        this.$store.commit('NOW_SONG', playSong);
+        console.log('res: ', res)
+        const playSong = res[1].data
+        playSong.url = res[0].url
+        this.$store.commit('NOW_SONG', playSong)
       })
     }
   }

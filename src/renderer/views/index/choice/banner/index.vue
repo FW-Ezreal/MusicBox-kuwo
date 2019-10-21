@@ -8,20 +8,20 @@
     </div>
 </template>
 <script>
-import { banner } from '@/api';
+import { banner } from '@/api'
 export default {
-  data() {
+  data () {
     return {
       activeName: 'choice',
       focusMap: []
     }
   },
-  created() {
-    this.init();
+  created () {
+    this.init()
   },
   methods: {
-    init() {
-      console.log('bannerUrl: ', banner);
+    init () {
+      console.log('bannerUrl: ', banner)
       const param = {
         url: banner,
         method: 'get'
@@ -29,8 +29,8 @@ export default {
       this.$http(param).then(res => {
         console.log('res', res)
         if (res.status === 200) {
-          this.focusMap = res.data.data.focusPicture.list || [];
-          console.log('this.focusMap: ', this.focusMap);
+          this.focusMap = res.data.data.focusPicture.list || []
+          console.log('this.focusMap: ', this.focusMap)
         }
       })
     }

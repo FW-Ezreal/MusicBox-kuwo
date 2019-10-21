@@ -20,34 +20,33 @@
   </div>
 </template>
 <script>
-import jsonp from '@/untils/jsonp.js';
 export default {
   props: {
     musicList: Array
   },
   methods: {
-    sort(index) {
-      let idx = parseInt(index) + 1;
-      idx = idx < 10 ? `0${idx}` : idx;
-      return idx;
+    sort (index) {
+      let idx = parseInt(index) + 1
+      idx = idx < 10 ? `0${idx}` : idx
+      return idx
     },
-    name(item) {
-      return item.name || '';
+    name (item) {
+      return item.name || ''
     },
-    artist(item) {
-      return item.artist || '';
+    artist (item) {
+      return item.artist || ''
     },
-    album(item) {
-      return item.album || '';
+    album (item) {
+      return item.album || ''
     },
-    time(item) {
-      return item.songTimeMinutes || '';
+    time (item) {
+      return item.songTimeMinutes || ''
     },
-    hot(item) {
-      return item.score100;
+    hot (item) {
+      return item.score100
     },
-    playSong(item) {
-      this.$store.commit('NOW_SONG', {rid: item.id});
+    playSong (item) {
+      this.$store.commit('NOW_SONG', {rid: item.id})
     }
   }
 }

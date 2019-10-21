@@ -4,14 +4,14 @@
   </div>
 </template>
 <script>
-import SongListItem from './songListItem';
+import SongListItem from './songListItem'
 export default {
   props: {
     listData: Array
-    
+
   },
-  mounted() {
-console.log('listData11: ', this.listData);
+  mounted () {
+    console.log('listData11: ', this.listData)
   },
   components: {
     SongListItem
