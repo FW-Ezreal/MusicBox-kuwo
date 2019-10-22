@@ -1,13 +1,16 @@
 <template>
   <div class="list">
+    <HeadItem :list-info="listInfo"/>
     <ListItem :music-list="musicList"/>
   </div>
 </template>
 <script>
 import ListItem from '@/components/list';
+import HeadItem from '@/components/headItem'
 export default {
   components: {
-    ListItem
+    ListItem,
+    HeadItem
   },
   data() {
     return {

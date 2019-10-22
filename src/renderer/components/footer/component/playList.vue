@@ -4,21 +4,22 @@
       <div class="top">
         <div class="title">播放队列</div>
         <div class="act-grid">
-            <div class="act-item">30首歌曲</div>
+            <div class="act-item">{{ `${songList.length}首歌曲` }}</div>
             <div class="act-item"><i class="iconfont icon-piliangchuli"></i>批量操作</div>
-            <div class="act-item"><i class="iconfont icon-qingkong"></i>清空</div>
+            <div class="act-item" @click="clearSongList"><i class="iconfont icon-qingkong"></i>清空</div>
         </div>
       </div>
       <el-scrollbar class="scrollbar">
-        <div class="song-item" v-for="i in 20" :key="i">
-          <div class="name">天涯过客</div>
+        <div class="song-item" v-for="(item, index) in songList" :key="index" @dblclick="play(item)">
+          <div class="name" :style="{color: item.rid == curSongId ? 'pink' : ''}" >{{ item.name }}</div>
           <div class="info">
-            <span class="singler">周杰伦</span>
-            <span class="time">04:13</span>
+            {{item.rid }} {{curSongId}}
+            <span class="singler">{{ item.artist }}</span>
+            <span class="time">{{ time(item.duration) }}</span>
           </div>
           <div class="icon">
             <!-- :class="{'icon-zanting1':item.id===song.id}" -->
-            <i class="iconfont icon-bofangsanjiaoxing" @click="play()"></i>
+            <i class="iconfont icon-bofangsanjiaoxing" @click="play(item)"></i>
             <i class="iconfont icon-shoucang"></i>
           </div>
         </div>
@@ -27,15 +28,38 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+import { mFormat } from '@/common/tools.js';
 export default {
   data() {
     return {
 
     }
   },
+  computed: {
+    ...mapState({
+      songList(state) {
+        return state.songList.list;
+      },
+      curSongId(state) {
+        return state.song.curSong.rid;
+      }
+    })
+  },
   methods: {
-    play() {
-
+    play(item) {
+      const now_rid = item.rid;
+      const index = this.songList.findIndex((ele) => {
+        return ele.rid === now_rid;
+      })
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[index]);
+    },
+    time(duration) {
+      return mFormat(duration);
+    },
+    clearSongList() {
+      this.$store.commit('CLEAR');
+      this.$store.commit('CHANGE_NOW_SONG', {});
     }
   }
 }
@@ -68,6 +92,7 @@ export default {
           color:#666;
           margin-top: 5px;
           .act-item{
+            cursor: pointer;
             display: flex;
             align-items: center;
           }

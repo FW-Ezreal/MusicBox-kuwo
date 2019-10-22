@@ -47,7 +47,8 @@ export default {
       return item.score100;
     },
     playSong(item) {
-      this.$store.commit('NOW_SONG', {rid: item.id});
+      this.$store.commit('CHANGE_NOW_SONG', { rid: Number(item.id) });
+      this.$store.commit('ADD', Object.assign(item, {rid: Number(item.id)}) );
     }
   }
 }

@@ -5,7 +5,7 @@
           <i class="iconfont icon-kuaitui"></i>
       </el-button>
       <el-button class="play-btn" @click="playClick">
-          <i class="iconfont icon-zanting" v-if="!is_play"></i>
+          <i class="iconfont icon-zanting" v-if="is_play"></i>
           <i class="iconfont icon-bofang" v-else></i>
       </el-button>
       <el-button @click="playAfter" :disabled="!after_song">
@@ -16,7 +16,6 @@
       <img :src="curSong.pic">
       <audio
         ref="audio"
-        muted
         autoplay
         @timeupdate="timeupdate"
         :src="curSong.url">
@@ -26,7 +25,7 @@
       <div class="top">
         <div class="names">
           <div>
-            <span class="name">{{ curSong.name }}</span>
+            <span class="name">{{ curSong.name }} </span>
             -
             <span class="ar_name">{{ curSong.artist }}</span>
           </div>
@@ -34,14 +33,13 @@
         </div>
         <div class="time">
           <span class="cur-time">{{ curTime }}</span>
-          <span class="all-time">{{ curSong.songTimeMinutes }}</span>
+          <span class="all-time">{{ curSong.songTimeMinutes ? curSong.songTimeMinutes : '00:00' }}</span>
         </div>
       </div>
       <div class="progress">
-        {{currTime}} {{curSong.duration}}
         <el-slider
-          :max="curSong.duration"
-          :value="currTime" 
+          v-model="nowTime"
+          :max="Number(curSong.duration)"
           @change="playTimeChange">
         </el-slider>
       </div>
@@ -53,12 +51,26 @@
       <el-button type="text">
           <i class="iconfont icon-liebiaoxunhuan"></i>
       </el-button>
-      <el-button type="text">
-          <i class="iconfont icon-shengyin"></i>
-      </el-button>
+      <el-popover
+        width="10"
+        placement="top"
+        popper-class="volume"
+      >
+        <el-slider
+          v-model="volumeNum"
+          :max="100"
+          :height="'100px'"
+          @input="changeVolume"
+          vertical>
+        </el-slider>
+        <el-button type="text" slot="reference">
+            <i class="iconfont icon-shengyin"></i>
+        </el-button>
+      </el-popover>
       <el-popover
         v-model="visible"
         width="300"
+        min-width="40"
         popper-class="ls"
         placement="top">
         <PlayList />
@@ -78,35 +90,51 @@ export default {
   },
   data() {
     return {
-      is_play: false,
       before_song: true,
       after_song: true,
       play_time: 40,
       time: 1300000,
       visible: false,
-      curTime: '00:00'
+      curTime: '00:00',
+      nowTime: 0,
+      is_play: false,
+      volumeNum: this.$store.state.song.volumeNum
     }
   },
   computed: {
     ...mapState({
       curSongId(state) {
-        return this.curSong.rid;
+        return this.curSong.rid || this.curSong.id;
       },
       curSong(state){
         return state.song.curSong;
       },
       percent(state) {
-// console.log('state.song.percent: ', state.song.percent);
         return state.song.percent;
       },
       currTime(state) {
         return state.song.curTime;
+      },
+      songList(state) {
+        return state.songList.list;
       }
-    })
+    }),
+    currentIndex() {
+      const list = this.songList;
+      if (list.length === 0) return -1;
+      return list.findIndex((ele, idx) => {
+        console.log('ele.rid === this.curSongId: ', ele.rid, this.curSongId);
+        return ele.rid === this.curSongId;
+      })
+    }
   },
   watch: {
     curSongId(curData, lastData) {
-      this.getPlayUrl()
+      console.log('curData: ', curData);
+      if (curData){
+        this.curTime = '00:00'
+        this.getPlayUrl();
+      }
     }
   },
   created() {
@@ -114,16 +142,27 @@ export default {
   },
   methods: {
     playBefore() {
-
+      console.log(this.currentIndex);
+      if (this.currentIndex === 0) return;
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex - 1]);
     },
     playClick() {
-
+      const audio = this.$refs.audio;
+      console.log(audio.paused);
+      this.is_play = !audio.paused;
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+      // if (this.songList.length === 0) return;
+      // this.$store.commit('CHANGE_STATE');
     },
     playAfter() {
-
+      if (this.currentIndex === this.songList.length - 1) return;
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex + 1]);      
     },
     playTimeChange(e) {
-      console.log('e', e);
       const audio = this.$refs.audio;
       audio.currentTime = e;
     },
@@ -132,11 +171,16 @@ export default {
       const currTime = e.target.currentTime;
       const percent = currTime / this.curSong.duration;
       this.curTime = mFormat(currTime);
+      this.nowTime = currTime;
       this.$store.commit('CUR_TIME', currTime);
       this.$store.commit('PERCENT', percent);
     },
+    changeVolume(e) {
+      const audio = this.$refs.audio;
+      audio.volume = e / 100;
+      this.$store.commit('CHANGE_VOLUME', e)
+    },
     getPlayUrl(){
-      // console.log('curSongId');
       const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
       const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
       const fn = (res) => {
@@ -149,13 +193,13 @@ export default {
         console.log('res: ', res);
         const playSong = res[1].data;
         playSong.url = res[0].url;
-        this.$store.commit('NOW_SONG', playSong);
+        this.$store.commit('CHANGE_NOW_SONG', playSong);
       })
     }
   }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .player{
   display: flex;
   align-items: center;
@@ -237,5 +281,8 @@ export default {
       color: #31c27c;
     }
   }
+}
+.volume{
+  min-width: 40px;
 }
 </style>

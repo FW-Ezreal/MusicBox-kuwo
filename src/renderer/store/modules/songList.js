@@ -3,11 +3,12 @@ export default {
     list: [],
   },
   mutations: {
-    add(state,song) {
+    ADD(state,song) {
       const list = state.list;
       if (list.length > 0) {
         const index = list.findIndex((item, index) => {
-          return item.rid === song.rid;
+          return item.id === song.id;
+          
         });
         if (index > -1) {
           return;
@@ -16,10 +17,7 @@ export default {
       }
       state.list.unshift(song);
     },
-    // playAll(state, songObj) {
-    //   const 
-    // },
-    del(state, song) {
+    DEL(state, song) {
       const list = state.list;
       if (list.length > 0) {
         const index = list.findIndex((item, index) => {
@@ -32,7 +30,7 @@ export default {
       }
       state.list.unshift(song);
     },
-    clear(state){
+    CLEAR(state){
       state.list = [];
     }
   }
