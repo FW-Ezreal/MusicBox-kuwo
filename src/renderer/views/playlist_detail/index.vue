@@ -7,6 +7,7 @@
 <script>
 import ListItem from '@/components/list';
 import HeadItem from '@/components/headItem'
+import jsonp from '@/untils/jsonp'
 export default {
   components: {
     ListItem,
@@ -33,8 +34,19 @@ export default {
           this.listInfo = res.data || {};
           this.musicList = res.data.musiclist || [];
         }
-      })
+      });
+
+      // const baseDataurl = `http://mobilebasedata.kuwo.cn/basedata.s?type=get_songlist_info2&prod=MUSIC_9.0.6.0_BCS28&f=web&id=${this.$route.params.id}`;
+      // jsonp(baseDataurl, {}, {data}).then(res => {
+      //   let json;
+      //   if (typeof (res.data) === 'string') {
+      //     json = eval('(' + res.data + ')');
+      //   } else {
+      //     json = res.data;
+      //   }
+      // })
     }
+
   }
 }
 </script>

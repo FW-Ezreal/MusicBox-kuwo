@@ -1,21 +1,38 @@
 <template>
   <div class="header-wrap">
     <div class="img">
-      <img src="">
+      <img v-lazy="listInfo.pic">
     </div>
     <div class="right">
-      <h1 class="title line1">douyu</h1>
+      <h1 class="title line1">{{ listInfo.title}}</h1>
       <div class="info">
         <img src="">
         <span class="user-name"></span>
       </div>
-      <div class="buttons"></div>
-      <div class="subtitle"></div>
+      <div>
+        <PlayAll/>
+      </div>
+      <!-- <div class="subtitle">{{ listInfo.info }}</div> -->
     </div>
   </div>
 </template>
 <script>
+import PlayAll from '@/components/buttons/playAll.vue';
 export default {
+  props: {
+    listInfo: Object,
+  },
+  components: {
+    PlayAll
+  },
+  watch: {
+    listInfo(curdata) {
+      console.log('curdata: ', curdata);
+    }
+  },
+  created() {
+    console.log('listInfo: ', this.listInfo);
+  },
   methods: {
 
   }
@@ -27,6 +44,7 @@ export default {
   .img{
     width: 180px;
     height: 180px;
+    margin-right: 20px;
     img{
       width: 100%;
       height: 100%;
@@ -34,11 +52,16 @@ export default {
   }
   .right{
     flex: 1;
+    overflow: hidden;
+    h1{
+      height: 38px;
+      line-height: 38px;
+      font-size: 26px;
+    }
     .title{
       height: 37px;
       line-height: 37px;
     }
-    .info
   }
 
 }

@@ -13,7 +13,7 @@
       </el-button>
     </div>
     <div class="cover">
-      <img :src="curSong.pic">
+      <img v-lazy="curSong.pic">
       <audio
         ref="audio"
         autoplay
