@@ -1,5 +1,22 @@
 <template>
   <div class="list">
+    <div class="list-item-wrap tab-name">
+      <span class="num">{{ musicList.length }}</span>
+      <div class="music-info">
+        <div class="name">
+          歌名
+        </div>
+        <div class="other-info">
+          <span class="artist line1">歌手</span>
+          <span class="album line1">专辑</span>
+        </div>
+      </div>
+      <!-- <span class="time">{{ time(item) }}</span> -->
+      <div class="end-icon">
+        <span class="hot">热度</span>
+        <span class="format">音质</span>
+      </div>
+    </div>
     <div class="list-item-wrap" v-for="(item, index) in musicList" :key="index">
       <span class="num">{{ sort(index) }}</span>
       <div class="music-info">
@@ -13,7 +30,7 @@
       </div>
       <!-- <span class="time">{{ time(item) }}</span> -->
       <div class="end-icon">
-        <span class="hot">{{ hot(item) }}</span>
+        <div class="hot">{{ hot(item) }}</div>
         <span class="format">音质</span>
       </div>
     </div>
@@ -54,21 +71,25 @@ export default {
       return item.score100;
     },
     playSong(item) {
-      this.$store.commit('CHANGE_NOW_SONG', { rid: Number(item.id) });
-      this.$store.commit('ADD', Object.assign(item, {rid: Number(item.id)}) );
+      this.$store.commit('CHANGE_NOW_SONG', { rid: item.rid });
+      this.$store.commit('ADD', Object.assign(item, {rid: item.rid}) );
     }
   }
 }
 </script>
 <style lang="less" scoped>
   .list-item-wrap{
+    &.tab-name{
+      background: rgba(0, 0, 0, 0.03);
+    }
     font-size: 14px;
     height: 44px;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
     >span, >div{
-      line-height: 40px;
-      height: 40px;
+      line-height: 44px;
+      height: 44px;
     }
     a:hover{
       color: rgb(199, 127, 14);

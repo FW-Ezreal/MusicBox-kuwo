@@ -11,17 +11,16 @@
       </div>
       <el-scrollbar class="scrollbar">
         <div class="song-item" v-for="(item, index) in songList" :key="index" @dblclick="play(item)">
+          <div class="num">{{ index + 1 }}</div>
           <div class="name" :style="{color: item.rid == curSongId ? 'pink' : ''}" >{{ item.name }}</div>
-          <div class="info">
-            {{item.rid }} {{curSongId}}
-            <span class="singler">{{ item.artist }}</span>
-            <span class="time">{{ time(item.duration) }}</span>
-          </div>
-          <div class="icon">
-            <!-- :class="{'icon-zanting1':item.id===song.id}" -->
+          <!-- <div class="info"> -->
+          <span class="singler">{{ item.artist }}</span>
+            <!-- <span class="time">{{ time(item.duration) }}</span> -->
+          <!-- </div> -->
+          <!-- <div class="icon">
             <i class="iconfont icon-bofangsanjiaoxing" @click="play(item)"></i>
             <i class="iconfont icon-shoucang"></i>
-          </div>
+          </div> -->
         </div>
       </el-scrollbar>
     </div>
@@ -69,12 +68,12 @@ export default {
     display: flex;
     justify-content: flex-end;
     height: 650px;
-    width: 300px;
+    width: 400px;
     background-color: transparent;
     z-index: 10;
     .listTop{
       background-color: #fff;
-      width: 300px;
+      width: 400px;
       display: flex;
       flex-direction: column;
       //box-shadow: -5px -5px 15px rgba(0,0,0,0.2);
@@ -106,29 +105,29 @@ export default {
       }
       .song-item{
         font-size: 14px;
-        padding: 10px 20px;
+        height: 44px;
+        // padding: 10px 20px;
+        line-height: 44px;
         border-bottom: 1px #f4f4f4 solid;
         position: relative;
         background: #fff;
+        display: flex;
+        .num{
+          width: 50px;
+          text-align: center;
+        }
         .name{
-          width: 220px;
+          width: 250px;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
         }
-        .info{
-          display: flex;
-          margin-top: 5px;
-          font-size: 13px;
-          justify-content: space-between;
-          z-index: 1;
-          .singer{
-            color: #666;
-          }
-          .time{
-            color: #aaa;
-          }
+        .singer{
+          color: #666;
         }
+        // .time{
+        //   color: #aaa;
+        // }
         .icon{
           position: absolute;
           width: 80px;

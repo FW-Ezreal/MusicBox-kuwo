@@ -7,14 +7,16 @@ export default {
       const list = state.list;
       if (list.length > 0) {
         const index = list.findIndex((item, index) => {
-          return item.id === song.id;
-          
+          return item.rid === song.rid;
         });
+        console.log('index: ', index);
         if (index > -1) {
+          
           return;
           // state.list.unshift(song);
         }
       }
+      console.log('添加');
       state.list.unshift(song);
     },
     DEL(state, song) {
@@ -32,6 +34,9 @@ export default {
     },
     CLEAR(state){
       state.list = [];
+    },
+    PLAY_ALL(state, musicList){
+      state.list = musicList;
     }
   }
 }

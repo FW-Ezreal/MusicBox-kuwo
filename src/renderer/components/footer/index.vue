@@ -69,7 +69,7 @@
       </el-popover>
       <el-popover
         v-model="visible"
-        width="300"
+        width="400"
         min-width="40"
         popper-class="ls"
         placement="top">

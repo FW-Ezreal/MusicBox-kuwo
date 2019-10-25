@@ -3,7 +3,7 @@
     <div class="menu-top">
       <div class="menu-name">音乐库</div>
       <div class="menu-group">
-        <div class="menu-item"><i class="el-icon-apple"></i> 推荐</div>
+        <div class="menu-item" @click="goIndex"><i class="el-icon-apple"></i> 推荐</div>
         <div class="menu-item"><i class="el-icon-grape"></i> 歌单</div>
         <div class="menu-item"><i class="el-icon-sugar"></i> 排行榜</div>
       </div>
@@ -19,7 +19,11 @@
 </template>
 <script>
 export default {
-  
+  methods: {
+    goIndex() {
+      this.$router.push({path: '/'});
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
