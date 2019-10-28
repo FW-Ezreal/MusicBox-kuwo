@@ -2,7 +2,7 @@
     <div class="">
         <el-container class="container">
             <el-container>
-                <el-aside class="aside" width="230px">
+                <el-aside class="aside" width="200px">
                   <Aside />
                 </el-aside>
                 <el-container>
@@ -37,13 +37,13 @@ export default {
         height: 100vh;
     }
     .aside{
-        background: rgba(0,0,0,0.1);
+        background: rgba(0,0,0,0.04);
     }
     .head{
         // background: green;
     }
     .main{
-        background: rgba(0,0,0,0.1);
+        background: rgba(0,0,0,0.02);
     }
     .footer{
       padding: 0px;

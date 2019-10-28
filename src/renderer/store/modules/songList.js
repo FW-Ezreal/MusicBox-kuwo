@@ -3,24 +3,24 @@ export default {
     list: []
   },
   mutations: {
-    add (state, song) {
-      const list = state.list
+    ADD(state,song) {
+      const list = state.list;
       if (list.length > 0) {
         const index = list.findIndex((item, index) => {
-          return item.rid === song.rid
-        })
+          return item.rid === song.rid;
+        });
+        console.log('index: ', index);
         if (index > -1) {
-          return
+          
+          return;
           // state.list.unshift(song);
         }
       }
-      state.list.unshift(song)
+      console.log('添加');
+      state.list.unshift(song);
     },
-    // playAll(state, songObj) {
-    //   const
-    // },
-    del (state, song) {
-      const list = state.list
+    DEL(state, song) {
+      const list = state.list;
       if (list.length > 0) {
         const index = list.findIndex((item, index) => {
           return item.rid === song.rid
@@ -32,8 +32,11 @@ export default {
       }
       state.list.unshift(song)
     },
-    clear (state) {
-      state.list = []
+    CLEAR(state){
+      state.list = [];
+    },
+    PLAY_ALL(state, musicList){
+      state.list = musicList;
     }
   }
 }

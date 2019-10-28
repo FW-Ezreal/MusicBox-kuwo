@@ -4,38 +4,61 @@
       <div class="top">
         <div class="title">播放队列</div>
         <div class="act-grid">
-            <div class="act-item">30首歌曲</div>
+            <div class="act-item">{{ `${songList.length}首歌曲` }}</div>
             <div class="act-item"><i class="iconfont icon-piliangchuli"></i>批量操作</div>
-            <div class="act-item"><i class="iconfont icon-qingkong"></i>清空</div>
+            <div class="act-item" @click="clearSongList"><i class="iconfont icon-qingkong"></i>清空</div>
         </div>
       </div>
       <el-scrollbar class="scrollbar">
-        <div class="song-item" v-for="i in 20" :key="i">
-          <div class="name">天涯过客</div>
-          <div class="info">
-            <span class="singler">周杰伦</span>
-            <span class="time">04:13</span>
-          </div>
-          <div class="icon">
-            <!-- :class="{'icon-zanting1':item.id===song.id}" -->
-            <i class="iconfont icon-bofangsanjiaoxing" @click="play()"></i>
+        <div class="song-item" v-for="(item, index) in songList" :key="index" @dblclick="play(item)">
+          <div class="num">{{ index + 1 }}</div>
+          <div class="name" :style="{color: item.rid == curSongId ? 'pink' : ''}" >{{ item.name }}</div>
+          <!-- <div class="info"> -->
+          <span class="singler">{{ item.artist }}</span>
+            <!-- <span class="time">{{ time(item.duration) }}</span> -->
+          <!-- </div> -->
+          <!-- <div class="icon">
+            <i class="iconfont icon-bofangsanjiaoxing" @click="play(item)"></i>
             <i class="iconfont icon-shoucang"></i>
-          </div>
+          </div> -->
         </div>
       </el-scrollbar>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+import { mFormat } from '@/common/tools.js';
 export default {
   data () {
     return {
 
     }
   },
+  computed: {
+    ...mapState({
+      songList(state) {
+        return state.songList.list;
+      },
+      curSongId(state) {
+        return state.song.curSong.rid;
+      }
+    })
+  },
   methods: {
-    play () {
-
+    play(item) {
+      const now_rid = item.rid;
+      const index = this.songList.findIndex((ele) => {
+        return ele.rid === now_rid;
+      })
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[index]);
+    },
+    time(duration) {
+      return mFormat(duration);
+    },
+    clearSongList() {
+      this.$store.commit('CLEAR');
+      this.$store.commit('CHANGE_NOW_SONG', {});
     }
   }
 }
@@ -45,12 +68,12 @@ export default {
     display: flex;
     justify-content: flex-end;
     height: 650px;
-    width: 300px;
+    width: 400px;
     background-color: transparent;
     z-index: 10;
     .listTop{
       background-color: #fff;
-      width: 300px;
+      width: 400px;
       display: flex;
       flex-direction: column;
       //box-shadow: -5px -5px 15px rgba(0,0,0,0.2);
@@ -68,6 +91,7 @@ export default {
           color:#666;
           margin-top: 5px;
           .act-item{
+            cursor: pointer;
             display: flex;
             align-items: center;
           }
@@ -81,29 +105,29 @@ export default {
       }
       .song-item{
         font-size: 14px;
-        padding: 10px 20px;
+        height: 44px;
+        // padding: 10px 20px;
+        line-height: 44px;
         border-bottom: 1px #f4f4f4 solid;
         position: relative;
         background: #fff;
+        display: flex;
+        .num{
+          width: 50px;
+          text-align: center;
+        }
         .name{
-          width: 220px;
+          width: 250px;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
         }
-        .info{
-          display: flex;
-          margin-top: 5px;
-          font-size: 13px;
-          justify-content: space-between;
-          z-index: 1;
-          .singer{
-            color: #666;
-          }
-          .time{
-            color: #aaa;
-          }
+        .singer{
+          color: #666;
         }
+        // .time{
+        //   color: #aaa;
+        // }
         .icon{
           position: absolute;
           width: 80px;
