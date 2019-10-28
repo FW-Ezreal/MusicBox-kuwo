@@ -2,7 +2,8 @@ const state = {
   curSong: {},
   curTime: 0,
   percent: 0,
-  volumeNum: 0.3
+  volumeNum: 0.3,
+  playMode: 0
 }
 
 const mutations = {
@@ -18,6 +19,9 @@ const mutations = {
   },
   CHANGE_VOLUME(state, volumeNum) {
     state.volumeNum = volumeNum;
+  },
+  CHANGE_MODE(state, mode) {
+    state.playMode = mode
   }
 }
 

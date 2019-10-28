@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>music-player</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <% if (htmlWebpackPlugin.options.nodeModules) { %>
       <!-- Add `node_modules/` to global paths so `require` works properly in development -->
       <script>
