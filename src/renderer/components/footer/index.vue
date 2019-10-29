@@ -152,6 +152,8 @@ export default {
       if (curData){
         this.curTime = '00:00'
         this.getPlayUrl();
+      } else {
+        this.curTime = '00:00';
       }
     }
   },
@@ -184,7 +186,6 @@ export default {
         return;
       }
       if (this.currentIndex === this.songList.length - 1) return;
-
       this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex + 1]);  
     },
     playTimeChange(e) {
@@ -240,16 +241,16 @@ export default {
     },
     getPlayUrl(){
       const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
-      const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
+      // const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
       const fn = (res) => {
         return res;
       }
       const arr = [];
       arr[0] = jsonp(musicUrl).then(fn);
-      arr[1] = jsonp(infoUrl).then(fn);
+      // arr[1] = jsonp(infoUrl).then(fn);
       Promise.all(arr).then(res => {
         console.log('res: ', res);
-        const playSong = res[1].data;
+        const playSong = this.$store.state.song.curSong;
         playSong.url = res[0].url;
         this.$store.commit('CHANGE_NOW_SONG', playSong);
       })

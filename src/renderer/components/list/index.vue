@@ -7,8 +7,12 @@
           歌名
         </div>
         <div class="other-info">
-          <span class="artist line1">歌手</span>
-          <span class="album line1">专辑</span>
+          <span class="artist line1"
+            v-if="from !== 'artist'"
+          >歌手</span>
+          <span class="album line1"
+            v-if="from !== 'album'"
+          >专辑</span>
         </div>
       </div>
       <!-- <span class="time">{{ time(item) }}</span> -->
@@ -24,8 +28,16 @@
           <a href="javascript:;" @click="playSong(item)">{{ name(item) }}</a>
         </div>
         <div class="other-info">
-          <span class="artist line1"><a href="javascript:;">{{ artist(item)}}</a></span>
-          <span class="album line1"><a href="javascript:;">{{ album(item) }}</a></span>
+          <span class="artist line1"
+            v-if="from !== 'artist'"
+          >
+            <a href="javascript:;" @click="toArtist(item)">{{ artist(item)}}</a>
+          </span>
+          <span class="album line1"
+            v-if="from !== 'album'"
+          >
+            <a href="javascript:;" @click="toAlbum(item)">{{ album(item) }}</a>
+          </span>
         </div>
       </div>
       <!-- <span class="time">{{ time(item) }}</span> -->
@@ -40,7 +52,8 @@
 import jsonp from '@/untils/jsonp.js';
 export default {
   props: {
-    musicList: Array
+    musicList: Array,
+    from: String
   },
   watch: {
     musicList(curdata) {
@@ -71,8 +84,19 @@ export default {
       return item.score100;
     },
     playSong(item) {
-      this.$store.commit('CHANGE_NOW_SONG', { rid: item.rid });
-      this.$store.commit('ADD', Object.assign(item, {rid: item.rid}) );
+      console.log('item: ', item);
+      this.$store.commit('CHANGE_NOW_SONG', item);
+      this.$store.commit('ADD', item);
+    },
+    toArtist(item) {
+      // console.log('this.$route: ', this.$router);
+      // this.$route.push({name: 'playlist_detail', params: {id: item.artistid}})
+      
+      this.$router.push({name: 'artist', params: { id: item.artistid }})
+    },
+    toAlbum(item) {
+      this.$router.push({name: 'album', params: { id: item.albumid }})
+      // this.$route.push({name: 'artist', params: {id: item.artistid}})
     }
   }
 }

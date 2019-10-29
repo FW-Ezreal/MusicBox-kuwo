@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <!-- <HeadItem /> -->
-    <List :music-list='musicList' :from="'album'" />
+    <List :music-list='musicList' :from="'artist'" />
   </div>
 </template>
 <script>
@@ -24,14 +24,14 @@ export default {
   methods: {
     init() {
       const params = {
-        url: `http://wapi.kuwo.cn/api/www/album/albumInfo?pn=1&rn=30&albumId=${this.$route.params.id}`,
+        url: `http://wapi.kuwo.cn/api/www/artist/artistMusic?artistid=${this.$route.params.id}&pn=1&rn=30`,
         method: 'get'
       }
       this.$http(params).then((res) => {
         console.log('res', res);
         if (res.status === 200) {
-          this.ablumInfo = res.data.data;
-          this.musicList = res.data.data.musicList || [];
+          // this.ablumInfo = res.data.data;
+          this.musicList = res.data.data.list || [];
         }
       })
     }
