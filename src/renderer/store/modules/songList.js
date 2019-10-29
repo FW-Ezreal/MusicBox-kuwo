@@ -1,6 +1,6 @@
 export default {
   state: {
-    list: [],
+    list: []
   },
   mutations: {
     ADD(state,song) {
@@ -23,14 +23,14 @@ export default {
       const list = state.list;
       if (list.length > 0) {
         const index = list.findIndex((item, index) => {
-          return item.rid === song.rid;
-        });
+          return item.rid === song.rid
+        })
         if (index > -1) {
-          state.list.splice(song, 1);
-          return;
+          state.list.splice(song, 1)
+          return
         }
       }
-      state.list.unshift(song);
+      state.list.unshift(song)
     },
     CLEAR(state){
       state.list = [];

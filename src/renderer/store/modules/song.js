@@ -11,8 +11,8 @@ const mutations = {
     console.log('state: ', param);
     state.curSong = param;
   },
-  CUR_TIME(state, curTime) {
-    state.curTime = curTime;
+  CUR_TIME (state, curTime) {
+    state.curTime = curTime
   },
   PERCENT(state, percent) {
     state.percent = percent;

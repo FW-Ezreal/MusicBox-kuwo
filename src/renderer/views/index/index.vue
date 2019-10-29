@@ -12,20 +12,20 @@
     </div>
 </template>
 <script>
-import Choice from './choice';
-import PlayList from './playList';
+import Choice from './choice'
+import PlayList from './playList'
 export default {
   components: {
     Choice,
     PlayList
   },
-  data() {
+  data () {
     return {
       activeName: 'choice'
     }
   },
   methods: {
-    handleClick() {
+    handleClick () {
 
     }
   }

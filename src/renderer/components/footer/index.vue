@@ -101,7 +101,7 @@ export default {
   components: {
     PlayList
   },
-  data() {
+  data () {
     return {
       before_song: true,
       after_song: true,
@@ -122,8 +122,8 @@ export default {
       curSongId(state) {
         return this.curSong.rid || this.curSong.id;
       },
-      curSong(state){
-        return state.song.curSong;
+      curSong (state) {
+        return state.song.curSong
       },
       percent(state) {
         return state.song.percent;
@@ -157,8 +157,8 @@ export default {
       }
     }
   },
-  created() {
-    window.a = this;
+  created () {
+    window.a = this
   },
   methods: {
     playBefore() {
@@ -192,7 +192,7 @@ export default {
       const audio = this.$refs.audio;
       audio.currentTime = e || 0;
     },
-    timeupdate(e) {
+    timeupdate (e) {
       // console.log(e)
       const currTime = e.target.currentTime;
       const percent = currTime / this.curSong.duration;
@@ -243,7 +243,7 @@ export default {
       const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
       // const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
       const fn = (res) => {
-        return res;
+        return res
       }
       const arr = [];
       arr[0] = jsonp(musicUrl).then(fn);

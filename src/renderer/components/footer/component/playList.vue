@@ -30,7 +30,7 @@
 import { mapState } from 'vuex';
 import { mFormat } from '@/common/tools.js';
 export default {
-  data() {
+  data () {
     return {
 
     }

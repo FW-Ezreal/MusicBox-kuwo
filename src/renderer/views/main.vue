@@ -21,15 +21,15 @@
     </div>
 </template>
 <script>
-import Header from '@/components/header';
-import Aside from '@/components/aside';
-import Footer from '@/components/footer';
+import Header from '@/components/header'
+import Aside from '@/components/aside'
+import Footer from '@/components/footer'
 export default {
-    components: {
-        Header,
-        Aside,
-        Footer
-    }
+  components: {
+    Header,
+    Aside,
+    Footer
+  }
 }
 </script>
 <style lang="less" scoped>

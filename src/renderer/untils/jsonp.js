@@ -1,23 +1,23 @@
-import kwJsonp from 'jsonp';
-const Promise = require('promise');
+import kwJsonp from 'jsonp'
+const Promise = require('promise')
 export default function jsonp (url, data, option) {
-  url += (url.indexOf('?') < 0 ? '?' : '&') + param(data);
+  url += (url.indexOf('?') < 0 ? '?' : '&') + param(data)
   return new Promise((resolve, reject) => {
     kwJsonp(url, option, (err, data) => {
       if (!err) {
-        resolve(data);
+        resolve(data)
       } else {
-        reject(err);
+        reject(err)
       }
-    });
-  });
+    })
+  })
 }
 
 function param (data) {
-  let url = '';
+  let url = ''
   for (var k in data) {
-    const value = data[k] !== undefined ? data[k] : '';
-    url += `&${k}=${encodeURIComponent(value)}`;
+    const value = data[k] !== undefined ? data[k] : ''
+    url += `&${k}=${encodeURIComponent(value)}`
   }
-  return url ? url.substring(1) : '';
+  return url ? url.substring(1) : ''
 }

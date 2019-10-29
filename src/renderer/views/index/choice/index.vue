@@ -6,23 +6,23 @@
     </div>
 </template>
 <script>
-import Banner from './banner';
-import Recommend from './recommend';
+import Banner from './banner'
+import Recommend from './recommend'
 export default {
   components: {
     Banner,
     Recommend
   },
-  data() {
+  data () {
     return {
       activeName: 'choice',
       focusMap: []
     }
   },
-  created() {
+  created () {
   },
   methods: {
-    
+
   }
 }
 </script>

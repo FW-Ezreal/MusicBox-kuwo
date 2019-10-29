@@ -13,17 +13,17 @@ export default {
     ListItem,
     HeadItem
   },
-  data() {
+  data () {
     return {
       musicList: [],
       listInfo: {}
     }
   },
-  created() {
-    this.init();
+  created () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       const params = {
         url: `http://wapi.kuwo.cn/api/www/playlist/playListInfo?rn=30&pn=1&pid=${this.$route.params.id}`,
         method: 'get'

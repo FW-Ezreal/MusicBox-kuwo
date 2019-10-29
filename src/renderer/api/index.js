@@ -3,4 +3,4 @@ const requestUrl = {
   gxh: 'http://mgxhtj.kuwo.cn/mgxh.s'
 }
 
-module.exports = requestUrl;
+module.exports = requestUrl

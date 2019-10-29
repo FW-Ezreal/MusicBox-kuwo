@@ -19,33 +19,33 @@ export default {
   props: {
     listData: Object
   },
-  data() {
+  data () {
     return {
     }
   },
   computed: {
-    disposeCnt() {
-      const cnt = this.listData.playcnt || this.listData.listencnt || 0;
-      return formatListenNum(cnt);
+    disposeCnt () {
+      const cnt = this.listData.playcnt || this.listData.listencnt || 0
+      return formatListenNum(cnt)
     },
-    name() {
-      return this.listData.name || '';
+    name () {
+      return this.listData.name || ''
     },
-    pic() {
-      return this.listData.pic || this.listData.img;
+    pic () {
+      return this.listData.pic || this.listData.img
     }
   },
-  created() {
+  created () {
   },
   methods: {
-    toSongListDetails() {
-      const id = this.listData.playlist_id || 0;
+    toSongListDetails () {
+      const id = this.listData.playlist_id || 0
       if (!id) {
         this.$message({
           message: '歌单id错误',
           type: 'error',
           center: true
-        });
+        })
       } else {
         this.$router.push({name: 'playlist_detail', params: {id}})
       }
