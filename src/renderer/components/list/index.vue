@@ -56,7 +56,7 @@ export default {
   },
   watch: {
     musicList(curdata) {
-      console.log('curdata: ', curdata);
+      // console.log('curdata: ', curdata);
     }
   },
   mounted() {
@@ -83,7 +83,7 @@ export default {
       return item.score100
     },
     playSong(item) {
-      console.log('item: ', item);
+      // console.log('item: ', item);
       this.$store.commit('CHANGE_NOW_SONG', item);
       this.$store.commit('ADD', item);
     },

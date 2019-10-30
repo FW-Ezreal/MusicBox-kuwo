@@ -16,7 +16,6 @@ export default {
           // state.list.unshift(song);
         }
       }
-      console.log('添加');
       state.list.unshift(song);
     },
     DEL(state, song) {

@@ -8,7 +8,7 @@ const state = {
 
 const mutations = {
   CHANGE_NOW_SONG(state, param) {
-    console.log('state: ', param);
+    // console.log('state: ', param);
     state.curSong = param;
   },
   CUR_TIME (state, curTime) {

@@ -13,7 +13,7 @@
       </el-button>
     </div>
     <div class="cover">
-      <img v-lazy="curSong.pic">
+      <img v-lazy="curSong.pic" :title="curSong.url">
       <audio
         ref="audio"
         autoplay
@@ -40,7 +40,7 @@
       <div class="progress">
         <el-slider
           v-model="nowTime"
-          :max="Number(curSong.duration)"
+          :max="curSong.duration || 0"
           @change="playTimeChange">
         </el-slider>
       </div>
@@ -148,7 +148,7 @@ export default {
   },
   watch: {
     curSongId(curData, lastData) {
-      console.log('curData: ', curData);
+      // console.log('curData: ', curData);
       if (curData){
         this.curTime = '00:00'
         this.getPlayUrl();
@@ -202,6 +202,8 @@ export default {
       this.$store.commit('PERCENT', percent);
     },
     ended() {
+      this.nowTime = 0;
+
       const mode = this.playMode;
       if (mode === 0) { // 单曲播放
         this.$store.commit('CHANGE_NOW_SONG', {});
@@ -249,9 +251,10 @@ export default {
       arr[0] = jsonp(musicUrl).then(fn);
       // arr[1] = jsonp(infoUrl).then(fn);
       Promise.all(arr).then(res => {
-        console.log('res: ', res);
-        const playSong = this.$store.state.song.curSong;
+        // console.log('res: ', res);
+        const playSong = Object.assign({}, this.$store.state.song.curSong);
         playSong.url = res[0].url;
+        console.log('playSong', playSong)
         this.$store.commit('CHANGE_NOW_SONG', playSong);
       })
     }

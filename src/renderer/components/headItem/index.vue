@@ -30,7 +30,7 @@ export default {
   },
   watch: {
     listInfo(curdata) {
-      console.log('curdata: ', curdata);
+      // console.log('curdata: ', curdata);
     }
   },
   methods: {
