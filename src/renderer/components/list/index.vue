@@ -24,7 +24,7 @@
     <div class="list-item-wrap" v-for="(item, index) in musicList" :key="index">
       <span class="num">{{ sort(index) }}</span>
       <div class="music-info">
-        <div class="name">
+        <div class="name line1">
           <a href="javascript:;" @click="playSong(item)">{{ name(item) }}</a>
         </div>
         <div class="other-info">

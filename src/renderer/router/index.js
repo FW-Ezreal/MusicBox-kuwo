@@ -4,6 +4,7 @@ import Index from '../views/index'
 import Playlist_detail from '@/views/playlist_detail'
 import Artist from '@/views/artist'
 import Album from '@/views/album'
+import searchPage from '@/views/searchPage'
 // console.log('Index: ', Index);
 
 Vue.use(Router)
@@ -30,10 +31,16 @@ export default new Router({
           path: 'artist/:id',
           name: 'artist',
           component: Artist
-        },{
+        },
+        {
           path: 'album/:id',
           name: 'album',
           component: Album
+        },
+        {
+          path: 'searchPage/:key',
+          name: 'searchPage',
+          component: searchPage
         }
       ]
     }

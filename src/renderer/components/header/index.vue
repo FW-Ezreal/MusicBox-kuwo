@@ -6,10 +6,21 @@
         </el-button>
         <el-popover
           placement="bottom"
+          width="250"
         >
-          <el-input slot="reference" size="mini" class="no-drag" v-model="inputValue" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
-          <ul>
-            <!-- <li v></li> -->
+          <el-input
+            slot="reference"
+            size="mini"
+            class="no-drag"
+            v-model="inputValue"
+            placeholder="请输入内容"
+            @keydown.enter.native="goSearchPage(inputValue)"
+            suffix-icon="el-icon-search">
+          </el-input>
+          <ul class="search-keys" v-if="newKeyArr.length > 0">
+            <li v-for="(item, index) in newKeyArr" :key="index" @click="goSearchPage(item.RELWORD)">
+              {{item.RELWORD}}
+            </li>
           </ul>
         </el-popover>
     </div>
@@ -27,7 +38,8 @@
 export default {
   data() {
     return{
-      inputValue: ''
+      inputValue: '',
+      newKeyArr: []
     }
   },
   watch: {
@@ -36,6 +48,9 @@ export default {
         this.search(curData);
       }
     }
+  },
+  computed: {
+
   },
   methods: {
     back () {
@@ -62,13 +77,23 @@ export default {
       }).then(res => {
         if (res.status === 200) {
           const keyArr = res.data.data || [];
-          keyArr.map(ele => {
+          this.newKeyArr = keyArr.map(ele => {
             const keyVal = ele.split('\n');
-            // keyVal.map
-          })
+            const obj = {};
+            keyVal.forEach(item => {
+              const arr = item.split('=');
+              obj[arr[0]] = arr[1];
+            });
+            return obj
+          });
+          console.log('this.newKeyArr: ', this.newKeyArr);
         }
-        console.log('res: ', res.data.data);
       })
+    },
+    goSearchPage(key) {
+      console.log('key: ', key);
+      this.inputValue = key;
+      this.$router.push({name: 'searchPage', params: {key}});
     }
   }
 }
@@ -81,6 +106,16 @@ export default {
     .left-btn, .right-btn{
       display: flex;
       align-items: center;
+    }
+  }
+  .search-keys{
+    li{
+      height: 34px;
+      line-height: 34px;
+      margin: 0 3px;
+      &:hover{
+        background: rgba(0,0,0,0.08);
+      }
     }
   }
 </style>
