@@ -1,8 +1,11 @@
 <template>
   <div class="header-wrapper drag">
     <div class="left-btn">
-        <el-button size="mini" class="no-drag" @click="back">
+        <el-button size="mini" class="no-drag back" type="text" @click="back">
           <i class="el-icon-arrow-left"></i>
+        </el-button>
+        <el-button size="mini" class="no-drag refresh" type="text" @click="refresh">
+          <i class="el-icon-refresh-right"></i>
         </el-button>
         <el-popover
           placement="bottom"
@@ -11,7 +14,7 @@
           <el-input
             slot="reference"
             size="mini"
-            class="no-drag"
+            class="no-drag search-input"
             v-model="inputValue"
             placeholder="请输入内容"
             @keydown.enter.native="goSearchPage(inputValue)"
@@ -28,6 +31,9 @@
         <el-button size="mini" class="no-drag" @click="minimize">
           <i class="el-icon-minus"></i>
         </el-button>
+        <el-button size="mini" class="no-drag" @click="enlarge">
+          <i class="el-icon-copy-document"></i>
+        </el-button>
         <el-button size="mini" class="no-drag" @click="close">
           <i class="el-icon-close"></i>
         </el-button>
@@ -39,7 +45,8 @@ export default {
   data() {
     return{
       inputValue: '',
-      newKeyArr: []
+      newKeyArr: [],
+      isLarge: false 
     }
   },
   watch: {
@@ -53,6 +60,13 @@ export default {
 
   },
   methods: {
+    enlarge() {
+      this.isLarge = !this.isLarge;
+      this.$electron.ipcRenderer.send('enlarge',  this.isLarge);
+    },
+    refresh() {
+      console.log('refresh');
+    },
     back () {
       this.$router.go(-1)
     },
@@ -107,6 +121,17 @@ export default {
       display: flex;
       align-items: center;
     }
+    .back i{
+      font-size: 19px;
+      color: rgba(0,0,0,0.6);
+    }
+    .refresh i{
+      font-size: 19px;
+      color: rgba(0,0,0,0.6);
+    }
+    .search-input{
+      margin-left: 6px;
+    }
   }
   .search-keys{
     li{
@@ -117,5 +142,13 @@ export default {
         background: rgba(0,0,0,0.08);
       }
     }
+  }
+  /deep/.el-input--mini .el-input__inner{
+    border-radius: 35px;
+    width: 240px;
+    background: rgba(0,0,0,0.08);
+  }
+  /deep/.el-button+.el-button {
+    margin-left: 6px;
   }
 </style>

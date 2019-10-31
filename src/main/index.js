@@ -48,11 +48,20 @@ app.on('activate', () => {
 })
 
 ipcMain.on('mini', () => {
+  console.log('aa')
   mainWindow.minimize()
 })
 
 ipcMain.on('close', () => {
   mainWindow.close()
+})
+
+ipcMain.on('enlarge', (event, ...args) => {
+  if (args[0]) {
+    mainWindow.maximize()
+  } else {
+    mainWindow.unmaximize()
+  }
 })
 /**
  * Auto Updater
