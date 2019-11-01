@@ -14,7 +14,7 @@
                     </el-main>
                 </el-container>
             </el-container>
-            <el-footer class="footer" height="70px">
+            <el-footer class="footer" height="60px">
               <Footer />
             </el-footer>
         </el-container>

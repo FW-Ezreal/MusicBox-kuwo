@@ -1,5 +1,5 @@
 <template>
-  <div class="player">
+  <div class="player" :style="{backgroundColor: 'rgba(16,17,33,1)', color: 'rgba(255,255,255,0.88)'}">
     <div class="control">
       <el-button @click="playBefore" :disabled="!before_song">
           <i class="iconfont icon-kuaitui"></i>
@@ -27,7 +27,7 @@
         <div class="names">
           <div>
             <span class="name">{{ curSong.name }} </span>
-            {{ curSong.name || curSong.artist ? ' - ' : '' }}
+            {{ curSong.name || curSong.artist ? ' / ' : '' }}
             <span class="ar_name">{{ curSong.artist }}</span>
           </div>
           <div class="time"></div>
@@ -265,6 +265,7 @@ export default {
 .player{
   display: flex;
   align-items: center;
+  font-weight: lighter !important;
   .el-button{
     padding: 0px;
     border-color: transparent;
@@ -273,7 +274,8 @@ export default {
     width: 230px;
     flex-shrink: 0;
     display: flex;
-    justify-content: center;
+    padding-left: 30px;
+    // justify-content: center;
     button {
       margin: 0 15px;
       color: #31c27c;
@@ -291,15 +293,17 @@ export default {
     }
   }
   .cover{
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 16px;
     img{
-      width: 50px;
-      height: 50px;
-      border-radius: 2px;
+      width: 59px;
+      height: 59px;
+      border-radius: 0;
+      // border-radius: 2px;
     }
   }
   .info{
@@ -307,24 +311,38 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 70px;
+    height: 60px;
     .top{
       font-size: 13px;
-      color: #666;
       display: flex;
       justify-content: space-between;
       .names{
-        color: #444;
       }
       .time{
         font-size: 12px;
-        color: #999;
       }
     }
     .progress{
       margin-top: 10px;
       /deep/.el-slider__runway{
         margin: 0px;
+      }
+      /deep/.el-slider__bar{
+        height: 2px;
+        background-color: #FFD200;
+      }
+      /deep/.el-slider__runway{
+        height: 2px;
+        background: rgba(255,255,255,0.3);
+        .el-slider__button{
+          width: 12px;
+          height: 12px;
+          background-color: #FFD200;
+          border: none;
+        }
+        .el-slider__button-wrapper{
+          top: -17px;
+        }
       }
     }
   }
@@ -335,7 +353,6 @@ export default {
     flex-shrink: 0;
     justify-content: space-between;
     button {
-      color: #333;
       flex: 1;
       flex-shrink: 0;
     }

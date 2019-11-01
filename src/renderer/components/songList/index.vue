@@ -29,9 +29,15 @@ export default {
     width: 25%;
   }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1000px) and (max-width: 1430px){
   .wrap{
     width: 20%;
+  }
+}
+
+@media screen and (min-width: 1431px) {
+  .wrap{
+    width: 14.2857%;
   }
 }
 </style>
