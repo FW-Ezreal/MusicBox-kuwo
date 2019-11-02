@@ -1,15 +1,15 @@
 <template>
   <div class="player" :style="{backgroundColor: 'rgba(16,17,33,1)', color: 'rgba(255,255,255,0.88)'}">
     <div class="control">
-      <el-button @click="playBefore" :disabled="!before_song">
-          <i class="iconfont icon-kuaitui"></i>
+      <el-button class="pre-btn hover-8" @click="playBefore" :disabled="!before_song">
+          <i class="iconfont icon-shangyiqu"></i>
       </el-button>
-      <el-button class="play-btn" @click="playClick">
-          <i class="iconfont icon-zanting" v-if="is_play"></i>
-          <i class="iconfont icon-bofang" v-else></i>
+      <el-button class="play-btn hover-8" @click="playClick">
+          <i class="iconfont icon-bofang1" v-if="is_play"></i>
+          <i class="iconfont icon-zanting" v-else></i>
       </el-button>
-      <el-button @click="playAfter" :disabled="!after_song">
-        <i class="iconfont icon-kuaijin"></i>
+      <el-button class="next-btn hover-8" @click="playAfter" :disabled="!after_song">
+        <i class="iconfont icon-shangyiqu"></i>
       </el-button>
     </div>
     <div class="cover">
@@ -76,7 +76,7 @@
           vertical>
         </el-slider>
         <el-button type="text" slot="reference">
-            <i class="iconfont icon-shengyin"></i>
+            <i class="iconfont icon-yinliang"></i>
         </el-button>
       </el-popover>
       <el-popover
@@ -85,7 +85,7 @@
         popper-class="ls"
         placement="top">
         <PlayList />
-        <el-button slot="reference"><i class="iconfont icon-liebiao"></i></el-button>
+        <el-button slot="reference"><i class="iconfont icon-yinleliebiao-"></i></el-button>
       </el-popover>
     </div>
   </div>
@@ -271,24 +271,27 @@ export default {
     border-color: transparent;
   }
   .control {
-    width: 230px;
+    width: 200px;
     flex-shrink: 0;
     display: flex;
-    padding-left: 30px;
-    // justify-content: center;
     button {
-      margin: 0 15px;
-      color: #31c27c;
+      color: #FFD200;
+      background: transparent;
       i {
-          font-size: 32px;
+          font-size: 37px;
       }
     }
-    button:hover {
-      color: #2fab67;
+    .next-btn{
+      margin-left: 14px;
+      transform: rotateZ(180deg);
+    }
+    .pre-btn{
+      margin-left: 26px;
     }
     .play-btn {
+      margin-left: 15px;
       i {
-        font-size: 38px;
+        font-size: 42px;
       }
     }
   }
@@ -355,9 +358,6 @@ export default {
     button {
       flex: 1;
       flex-shrink: 0;
-    }
-    button:hover {
-      color: #31c27c;
     }
   }
 }
