@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SongList :list-data="playListData"/>
+    <SongList :list-data="playListData" :from="'playList'"/>
   </div>
 </template>
 <script>

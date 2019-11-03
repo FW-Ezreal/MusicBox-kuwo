@@ -1,9 +1,9 @@
 <template>
   <div class="header-wrap">
     <div class="img">
-      <img v-lazy="listInfo.img300">
+      <img v-lazy="listInfo.img300 || listInfo.pic300">
     </div>
-    <div class="right">
+    <div class="right" v-if="from === 'playList'">
       <div class="right-top">
         <h1 class="title line1">{{ listInfo.title || listInfo.name }}</h1>
         <div class="info">
@@ -14,7 +14,19 @@
       </div>
       <div class="right-bottom">
         <PlayAll @playAll="playAll"/>
-        <div class="subtitle">{{ listInfo.info }}</div>
+        <div class="subtitle line2">{{ listInfo.info }}</div>
+      </div>
+    </div>
+    <div v-else-if="from === 'artist'">
+      <h1>{{ listInfo.name }}</h1>
+      <div>
+        <span>{{ listInfo.aartist }}</span>
+        <span>粉丝: {{ listInfo.artistFans }}</span>
+      </div>
+      <div>
+        <span>单曲: {{ listInfo.musicNum }}</span>
+        <span>专辑: {{ listInfo.albumNum }}</span>
+        <span>MV: {{ listInfo.mvNum }}</span>
       </div>
     </div>
   </div>
@@ -24,6 +36,7 @@ import PlayAll from '@/components/buttons/playAll.vue';
 export default {
   props: {
     listInfo: Object,
+    from: String
   },
   components: {
     PlayAll
