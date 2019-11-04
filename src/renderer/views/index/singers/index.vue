@@ -27,7 +27,7 @@
           v-for="(item, index) in artistList"
           :key="index"
         >
-          <img v-lazy="item.pic120" @click="toArtist(item.id)"/>
+          <img v-lazy="item.pic300" @click="toArtist(item.id)"/>
           <div class="name" @click="toArtist(item.id)"><a href="javascript:;">{{ item.name }}</a></div>
           <div class="songs" @click="toArtist(item.id)"><a href="javascript:;">{{ item.musicNum }}首歌曲</a></div>
         </li>

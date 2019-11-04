@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <div class="list-item-wrap tab-name">
-      <span class="num">{{ musicList.length }}</span>
+      <div class="num">{{ musicList.length }}</div>
       <div class="music-info">
         <div class="name">
           歌名
@@ -21,11 +21,13 @@
         <span class="format">音质</span>
       </div>
     </div>
-    <div class="list-item-wrap" v-for="(item, index) in musicList" :key="index">
-      <span class="num">{{ sort(index) }}</span>
+    <div class="list-item-wrap tab-list" v-for="(item, index) in musicList" :key="index">
+      <div class="num">{{ sort(index) }}</div>
       <div class="music-info">
         <div class="name line1">
           <a href="javascript:;" @click="playSong(item)">{{ name(item) }}</a>
+          <i class="iconfont icon-vip" v-if="item.isListenFee"></i>
+          <i class="iconfont icon-mv-play" v-if="item.hasmv === 1"></i>
         </div>
         <div class="other-info">
           <span class="artist line1"
@@ -42,8 +44,12 @@
       </div>
       <!-- <span class="time">{{ time(item) }}</span> -->
       <div class="end-icon">
-        <div class="hot">{{ hot(item) }}</div>
-        <span class="format">音质</span>
+        <div class="hot">
+          <span class="progess-bg">
+            <span class="progess" :style="{width: `${92 - index - Math.random()*6}%`}"></span>
+          </span>
+        </div>
+        <span class="format"><i class="iconfont icon-nondestructive"></i></span>
       </div>
     </div>
   </div>
@@ -102,20 +108,30 @@ export default {
 </script>
 <style lang="less" scoped>
   .list-item-wrap{
+    i{
+      font-size: 14px;
+      color: #C77F0E;
+    }
     &.tab-name{
       background: rgba(0, 0, 0, 0.03);
+      opacity: 0.6;
     }
     font-size: 14px;
     height: 44px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid rgba(0,0,0,0.04);
+    border-bottom: 1px solid rgba(0,0,0,0.03);
     >span, >div{
       line-height: 44px;
       height: 44px;
     }
     a:hover{
       color: rgb(199, 127, 14);
+    }
+    &.tab-list{
+      .num{
+        opacity: 0.6;
+      }
     }
     .num{
       width: 71px;
@@ -124,6 +140,12 @@ export default {
     .music-info{
       flex: 1;
       display: flex;
+      i{
+        margin-left: 5px;
+      }
+      a{
+        opacity: 0.8;
+      }
       .name{
         display: flex;
         width: 50%;
@@ -140,10 +162,28 @@ export default {
       width: 135px;
       display: flex;
       .hot{
-        width: 60px;
+        position: relative;
+        width: 52px;
+        margin-right: 8px;
+        span{
+          display: inline-block;
+          height: 6px;
+          border-radius: 10px;
+          width: 100%;
+          background: rgba(0,0,0, 0.07);
+        }
+        .progess{
+          position: absolute;
+          top: 21px;
+          background: rgba(0,0,0, 0.2);
+        }
       }
       .format{
-        width: 60px;
+        width: 28px;
+        font-size: 14px;
+        line-height: 44px;
+        height: 44px;
+        margin: 0 14px 0 32px;
       }
     }
   }

@@ -1,21 +1,55 @@
 <template>
   <div class="">
     <HeadItem :list-info="singerInfo" :from="'artist'" />
-    <List :music-list='musicList' :from="'artist'" />
+    <ul>
+      <li
+        v-for="(item, index) in tabs"
+        :key="index"
+        @click="changeIndex(index)">
+        <a :class="{ act: index === tabIndex }" href="javascript:;">
+          {{ item }}
+        </a>
+        <i :class="['tab', index === tabIndex ? 'active' : '']" />
+      </li>
+    </ul>
+    <Btns class="buttons" @playAll="playAll"/>
+    <component :is="nowComponent" :music-list='musicList' :from="'artist'"/>
+    <!-- <List :music-list='musicList' :from="'artist'" /> -->
   </div>
 </template>
 <script>
 import HeadItem from '@/components/headItem';
 import List from '@/components/list';
+import Btns from '@/components/buttons/playAll';
 export default {
   components: {
     HeadItem,
-    List
+    List,
+    Btns
   },
   data() {
     return{
       musicList: [],
-      singerInfo: {}
+      singerInfo: {},
+      tabs: ['单曲', '专辑', 'MV', '简介', '评论', '相似歌手'],
+      tabIndex: 1,
+      from: 'artist'
+    }
+  },
+  computed: {
+    nowComponent() {
+      switch(this.tabIndex) {
+        case 0:
+          return 'List';
+        case 1:
+          return 'List';
+        case 2:
+          return ;
+        case 3:
+          return;
+        case 4:
+          return;
+      }
     }
   },
   created() {
@@ -50,9 +84,47 @@ export default {
           console.log("TCL: getArtistInfo -> this.singerInfo", this.singerInfo)
         }
       })
+    },
+    changeIndex(index) {
+      this.tabIndex = index;
+    },
+    playAll() {
+      this.$store.commit('PLAY_ALL', this.musicList);
+      this.$store.commit('CHANGE_NOW_SONG', this.musicList[0]);
     }
   }
 }
 </script>
 <style lang="less" scoped>
+  ul{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0, 0.04);
+    li{
+      height: 30px;
+      font-size: 16px;
+      margin-right: 50px;
+      text-align: center;
+      a{
+        opacity: 0.7;
+        &.act{
+          font-weight: 600;
+          opacity: 0.95;
+        }
+      }
+
+      .active{
+        display: block;
+        margin: 6px auto 0;
+        width: 20px;
+        height: 3px;
+        background: #FFD200;
+        border-radius: 6px;
+      }
+    }
+  }
+  .buttons{
+    margin: 16px 0 14px;
+  }
+
 </style>

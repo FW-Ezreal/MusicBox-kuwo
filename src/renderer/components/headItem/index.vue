@@ -1,6 +1,6 @@
 <template>
   <div class="header-wrap">
-    <div class="img">
+    <div class="img" :class="from">
       <img v-lazy="listInfo.img300 || listInfo.pic300">
     </div>
     <div class="right" v-if="from === 'playList'">
@@ -17,21 +17,22 @@
         <div class="subtitle line2">{{ listInfo.info }}</div>
       </div>
     </div>
-    <div v-else-if="from === 'artist'">
+    <div class="artist-right" v-else-if="from === 'artist'">
       <h1>{{ listInfo.name }}</h1>
-      <div>
-        <span>{{ listInfo.aartist }}</span>
-        <span>粉丝: {{ listInfo.artistFans }}</span>
+      <div class="info">
+        <span v-html="listInfo.aartist" v-if="listInfo.aartist"></span>
+        <span>粉丝：{{ disposeNum(listInfo.artistFans) }}</span>
       </div>
-      <div>
-        <span>单曲: {{ listInfo.musicNum }}</span>
-        <span>专辑: {{ listInfo.albumNum }}</span>
-        <span>MV: {{ listInfo.mvNum }}</span>
+      <div class="nums">
+        <span>单曲：{{ listInfo.musicNum || 0 }}</span>
+        <span>专辑：{{ listInfo.albumNum || 0 }}</span>
+        <span>MV：{{ listInfo.mvNum || 0 }}</span>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { formatNum } from '@/common/tools.js';
 import PlayAll from '@/components/buttons/playAll.vue';
 export default {
   props: {
@@ -50,6 +51,9 @@ export default {
     playAll() {
       this.$store.commit('PLAY_ALL', this.listInfo.musicList);
       this.$store.commit('CHANGE_NOW_SONG', this.listInfo.musicList[0]);
+    },
+    disposeNum(num) {
+      return formatNum(num);
     }
   }
 }
@@ -66,6 +70,13 @@ export default {
     img{
       width: 100%;
       height: 100%;
+    }
+  }
+  .artist{
+    width: 130px;
+    height: 130px;
+    img{
+      border-radius: 50%;
     }
   }
   .right{
@@ -103,6 +114,26 @@ export default {
       }
     }
   }
-
+  .artist-right{
+    h1{
+      font-size: 26px;
+      height: 36px;
+      line-height: 36px;
+      margin-top: 19px;
+    }
+    div{
+      margin: 6px 0 10px;
+    }
+    .info span{
+      margin-right: 14px;
+    }
+    .nums span{
+      margin-right: 22px;
+    }
+    span{
+      display: inline-block;
+      opacity: 0.7;
+    }
+  }
 }
 </style>

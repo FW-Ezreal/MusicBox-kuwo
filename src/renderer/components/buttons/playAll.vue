@@ -33,6 +33,7 @@ export default {
     height: 30px;
     line-height: 30px;
     border-radius: 2px;
+    vertical-align: middle;
     span {
       font-size: 14px;
     }

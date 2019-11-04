@@ -46,10 +46,22 @@
       </div>
     </div>
     <div class="actions">
-      <el-button type="text">
-          <i class="iconfont icon-xiai"></i>
-      </el-button>
       <el-popover
+        popper-class="speed"
+        width="100"
+        placement="top">
+        <div
+          class="mode-list"
+          v-for="(ele, idx) in speeds"
+          @click="changeSpeed(idx)"
+          :class="{curMode: idx === speedIndex}"
+          :key="idx">
+          {{ ele }}
+        </div>
+        <a href="javascript:;" slot="reference">{{ speeds[speedIndex] }}</a>
+      </el-popover>
+      <el-popover
+        popper-class="play-mode"
         v-model="showMode"
         width="150"
         placement="top">
@@ -59,15 +71,14 @@
           @click="changeMode(idx)"
           :class="{curMode: idx === playMode}"
           :key="idx">
-          {{ ele }}
+          <i class="iconfont" :class="playIcons[idx]"></i> {{ ele }}
         </div>
-        <el-button slot="reference"><i class="iconfont icon-liebiao"></i></el-button>
+        <i class="iconfont" :class="iconType" slot="reference"></i>
       </el-popover>
       <el-popover
         width="10"
         placement="top"
-        popper-class="volume"
-      >
+        popper-class="volume">
         <el-slider
           v-model="volumeNum"
           :max="100"
@@ -75,17 +86,20 @@
           @input="changeVolume"
           vertical>
         </el-slider>
-        <el-button type="text" slot="reference">
-            <i class="iconfont icon-yinliang"></i>
-        </el-button>
+        <a href="javascript:;" slot="reference"><i class="iconfont icon-yinliang"></i></a>
       </el-popover>
+      <a href="javascript:;"><i class="iconfont icon-junhengqi32 icon"/></a>
+      <a href="javascript:;">HIFI</a>
+      <a href="javascript:;"><i class="iconfont icon-ci icon"/></a>
+      <a href="javascript:;"><i class="iconfont icon-pinglun icon"/></a>
+      <a href="javascript:;"><i class="iconfont icon-xihuan"></i></a>
       <el-popover
         v-model="visible"
         width="400"
         popper-class="ls"
         placement="top">
         <PlayList />
-        <el-button slot="reference"><i class="iconfont icon-yinleliebiao-"></i></el-button>
+        <a href="javascript:;" slot="reference"><i class="iconfont icon-yinleliebiao-"></i>{{ songList.length ? songList.length : '' }}</a>
       </el-popover>
     </div>
   </div>
@@ -114,7 +128,10 @@ export default {
       isLoop: false,
       showMode: false,
       volumeNum: this.$store.state.song.volumeNum,
-      playModeArray: ['one', 'oneLoop', 'order','loop', 'random'],
+      playModeArray: ['单曲播放', '单曲循环', '顺序播放','循环播放', '随机播放'],
+      playIcons: ['icon-danqubofang', 'icon-danquxunhuan', 'icon-shunxu', 'icon-xunhuanbofang', 'icon-bofangye-caozuolan-suijibofang'], 
+      speeds: ['0.5x', '0.75x', '1.0x', '1.5x', '2.0x'],
+      speedIndex: 2
     }
   },
   computed: {
@@ -144,6 +161,20 @@ export default {
       return list.findIndex((ele, idx) => {
         return ele.rid === this.curSongId;
       })
+    },
+    iconType() {
+      switch(this.playMode) {
+        case 0:
+          return 'icon-danqubofang';
+        case 1:
+          return 'icon-danquxunhuan';
+        case 2:
+          return 'icon-shunxu';
+        case 3:
+          return 'icon-xunhuanbofang';
+        case 4:
+          return 'icon-bofangye-caozuolan-suijibofang';
+      }
     }
   },
   watch: {
@@ -161,6 +192,9 @@ export default {
     window.a = this
   },
   methods: {
+    changeSpeed(index) {
+      this.speedIndex = index;
+    },
     playBefore() {
       if (this.playMode === 4) {
         this.randomPlay();
@@ -350,11 +384,22 @@ export default {
     }
   }
   .actions {
-    width: 200px;
+    width: 385px;
     padding: 0 20px;
     display: flex;
     flex-shrink: 0;
     justify-content: space-between;
+    align-items: center;
+    i{
+      font-size: 18px;
+    }
+    .speed{
+
+    }
+    a{
+      font-size: 14px;
+      color: rgba(255,255,255, 1);
+    }
     button {
       flex: 1;
       flex-shrink: 0;
@@ -363,6 +408,9 @@ export default {
 }
 .volume{
   min-width: 40px;
+}
+.icon{
+  margin: 0 3px;
 }
 .mode-list{
   height: 20px;

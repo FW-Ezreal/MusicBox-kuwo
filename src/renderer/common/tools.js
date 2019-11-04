@@ -13,6 +13,16 @@ function formatListenNum (num) {
 }
 
 /**
+ * 格式化数量， 万
+ */
+function formatNum (num) {
+  if (num > 9999) {
+    num = `${parseFloat(num / 10000, 10).toFixed(1)}万`
+  }
+  return num || 0
+}
+
+/**
  * 格式化歌曲时长
 */
 const mFormat = (m) => {
@@ -25,5 +35,6 @@ const mFormat = (m) => {
 
 module.exports = {
   formatListenNum,
-  mFormat
+  mFormat,
+  formatNum
 }
