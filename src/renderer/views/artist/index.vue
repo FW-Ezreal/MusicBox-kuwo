@@ -20,19 +20,21 @@
 <script>
 import HeadItem from '@/components/headItem';
 import List from '@/components/list';
+import AlbumList from './components/albums';
 import Btns from '@/components/buttons/playAll';
 export default {
   components: {
     HeadItem,
     List,
-    Btns
+    Btns,
+    AlbumList
   },
   data() {
     return{
       musicList: [],
       singerInfo: {},
       tabs: ['单曲', '专辑', 'MV', '简介', '评论', '相似歌手'],
-      tabIndex: 1,
+      tabIndex: 0,
       from: 'artist'
     }
   },
@@ -42,7 +44,7 @@ export default {
         case 0:
           return 'List';
         case 1:
-          return 'List';
+          return 'AlbumList';
         case 2:
           return ;
         case 3:

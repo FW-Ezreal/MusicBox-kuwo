@@ -2,22 +2,30 @@
   <div class="wwrap">
     <div class="playListWrap">
       <div class="cover">
-        <img :src="pic" />
-        <div class="bg"></div>
-        <span class="listenNum">{{ disposeCnt }}</span>
+        <template>
+          <img :src="pic" />
+          <div class="bg"></div>
+          <span class="listenNum">{{ disposeCnt }}</span>
+        </template>
       </div>
       <div class="cap" @click="toSongListDetails">
         <a href="javascript:;"></a>
       </div>
     </div>
-    <div class="title line2">{{ listData.name }}</div>
+    {{ from }}
+    <div class="title line2"> {{ listData.name }}</div>
+    <div class="title">
+      <div>{{ listData.album }}</div>
+      <div>{{ listData.releaseDate }}</div>
+    </div>
   </div>
 </template>
 <script>
 import { formatListenNum } from '@/common/tools'
 export default {
   props: {
-    listData: Object
+    listData: Object,
+    from: String
   },
   data () {
     return {
