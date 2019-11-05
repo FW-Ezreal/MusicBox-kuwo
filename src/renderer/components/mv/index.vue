@@ -1,20 +1,20 @@
 <template>
   <div class="songList">
-    <SongListItem class="wrap" v-for="(item, index) in listData" :key="index" :list-data="item" :from="from"/>
+    <ul>
+      <li v-for="(item, index) in listData" :key="index">
+
+      </li>
+    </ul>
   </div>
 </template>
 <script>
-import SongListItem from './songListItem'
 export default {
   props: {
     listData: Array,
-    from: String
   },
   mounted () {
-    console.log('listData11: ', this.listData)
   },
   components: {
-    SongListItem
   }
 }
 </script>

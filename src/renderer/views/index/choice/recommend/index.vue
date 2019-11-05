@@ -1,5 +1,5 @@
 <template>
-  <SongList :list-data="playList"/>
+  <SongList :list-data="playList" :from="'playList'"/>
 </template>
 <script>
 import SongList from '@/components/songList'

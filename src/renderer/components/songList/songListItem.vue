@@ -1,22 +1,25 @@
 <template>
   <div class="wwrap">
-    <div class="playListWrap">
+    <div class="playListWrap" :class="from">
       <div class="cover">
-        <template>
+        <template v-if="from === 'playList'">
           <img :src="pic" />
           <div class="bg"></div>
           <span class="listenNum">{{ disposeCnt }}</span>
         </template>
+        <template v-if="from === 'album'">
+          <img class="album-img" :src="pic" />
+        </template>
       </div>
-      <div class="cap" @click="toSongListDetails">
+      <div class="cap" @click="toSongListDetails(listData)">
         <a href="javascript:;"></a>
       </div>
+      <i v-if="from === 'album'" class="cd"/>
     </div>
-    {{ from }}
-    <div class="title line2"> {{ listData.name }}</div>
-    <div class="title">
-      <div>{{ listData.album }}</div>
-      <div>{{ listData.releaseDate }}</div>
+    <div class="title line2" v-if="from === 'playList'"> {{ listData.name }}</div>
+    <div class="" v-if="from === 'album'">
+      <div class="main-text line1" v-html="listData.album" @click="toAlbum(listData.albumid)"></div>
+      <div class="sub-title">{{ listData.releaseDate }}</div>
     </div>
   </div>
 </template>
@@ -46,17 +49,24 @@ export default {
   created () {
   },
   methods: {
-    toSongListDetails () {
-      const id = this.listData.playlist_id || 0
-      if (!id) {
-        this.$message({
-          message: '歌单id错误',
-          type: 'error',
-          center: true
-        })
-      } else {
-        this.$router.push({name: 'playlist_detail', params: {id}})
+    toSongListDetails (listData) {
+      if (this.from === 'playList') {
+        const id = this.listData.playlist_id || 0
+        if (!id) {
+          this.$message({
+            message: '歌单id错误',
+            type: 'error',
+            center: true
+          })
+        } else {
+          this.$router.push({name: 'playlist_detail', params: {id}})
+        }
+      } else if (this.from === 'album') {
+        this.$router.push({name: 'album', params: { id: listData.albumid }});
       }
+    },
+    toAlbum(id) {
+      this.$router.push({name: 'album', params: { id } });
     }
   }
 }
@@ -69,12 +79,17 @@ export default {
     width: 100%;
     padding-top: 100%;
     position: relative;
+    &.album{
+      width: 90%;
+      padding-top: 90%;
+    }
   }
   .cover{
     position: absolute;
     top: 0;
     width: 100%;
     height: 100%;
+    
     img{
       width: 100%;
       height: 100%;
@@ -110,6 +125,7 @@ export default {
     height: 100%;
     cursor: pointer;
     opacity: 0;
+    z-index: 10;
     background: rgba(0, 0, 0, 0.5);
     transition: opacity 0.5s;
     &:hover{
@@ -125,8 +141,34 @@ export default {
       background-size: cover;
     }
   }
+  .cd{
+    position: absolute;
+    top: 8%;
+    left: 88%;
+    width: 100%;
+    height: 100%;
+    background: url('../../assets/cd.png') no-repeat;
+  }
   .title{
     padding: 4px 0 16px 0;
     font-size: 12px;
+  }
+  .main-text{
+    margin-top: 8px;
+    opacity: 0.8;
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
+    cursor: pointer;
+    &:hover{
+      color: #C77F0E;
+    }
+  }
+  .sub-title{
+    margin: 4px 0 16px;
+    font-size: 12px;
+    opacity: 0.6;
+    height: 22px;
+    line-height: 22px;
   }
 </style>

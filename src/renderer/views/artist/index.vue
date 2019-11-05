@@ -12,29 +12,30 @@
         <i :class="['tab', index === tabIndex ? 'active' : '']" />
       </li>
     </ul>
-    <Btns class="buttons" @playAll="playAll"/>
+    <Btns class="buttons" @playAll="playAll" v-if="tabIndex === 0"/>
     <component :is="nowComponent" :music-list='musicList' :from="'artist'"/>
-    <!-- <List :music-list='musicList' :from="'artist'" /> -->
   </div>
 </template>
 <script>
 import HeadItem from '@/components/headItem';
 import List from '@/components/list';
-import AlbumList from './components/albums';
 import Btns from '@/components/buttons/playAll';
+import AlbumList from './components/albums';
+import Mv from './components/mv';
 export default {
   components: {
     HeadItem,
     List,
     Btns,
-    AlbumList
+    AlbumList,
+    Mv
   },
   data() {
     return{
       musicList: [],
       singerInfo: {},
       tabs: ['单曲', '专辑', 'MV', '简介', '评论', '相似歌手'],
-      tabIndex: 0,
+      tabIndex: 2,
       from: 'artist'
     }
   },
@@ -46,7 +47,7 @@ export default {
         case 1:
           return 'AlbumList';
         case 2:
-          return ;
+          return 'Mv';
         case 3:
           return;
         case 4:
@@ -102,6 +103,7 @@ export default {
     display: flex;
     align-items: center;
     border-bottom: 1px solid rgba(0,0,0, 0.04);
+    margin-bottom: 16px;
     li{
       height: 30px;
       font-size: 16px;
@@ -126,7 +128,7 @@ export default {
     }
   }
   .buttons{
-    margin: 16px 0 14px;
+    margin-bottom: 14px;
   }
 
 </style>
