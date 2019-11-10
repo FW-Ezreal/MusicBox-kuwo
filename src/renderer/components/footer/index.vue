@@ -276,7 +276,7 @@ export default {
       this.$store.commit('CHANGE_VOLUME', e)
     },
     getPlayUrl(){
-      const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
+      const musicUrl = `https://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
       // const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
       const fn = (res) => {
         return res

@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <!-- <HeadItem /> -->
+    <HeadItem :list-info="albumInfo" :from="'album'"/>
     <List :music-list='musicList' :from="'album'" />
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
   data() {
     return{
       musicList: [],
-      ablumInfo: {}
+      albumInfo: {}
     }
   },
   created() {
@@ -30,7 +30,7 @@ export default {
       this.$http(params).then((res) => {
         console.log('res', res);
         if (res.status === 200) {
-          this.ablumInfo = res.data.data;
+          this.albumInfo = res.data.data;
           this.musicList = res.data.data.musicList || [];
         }
       })

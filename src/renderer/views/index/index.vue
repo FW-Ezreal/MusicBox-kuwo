@@ -27,7 +27,7 @@ export default {
   },
   data () {
     return {
-      activeName: 'singers'
+      activeName: 'playList'
     }
   },
   methods: {

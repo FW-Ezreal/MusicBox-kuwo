@@ -1,20 +1,18 @@
 <template>
   <div class="songList">
-    <ul>
-      <li v-for="(item, index) in listData" :key="index">
-
-      </li>
-    </ul>
+    <MvItem class="wrap" v-for="(item, index) in listData" :key="index" :list-data="item"/>
   </div>
 </template>
 <script>
+import MvItem from './components/mvItem';
 export default {
+  components: {
+    MvItem
+  },
   props: {
     listData: Array,
   },
   mounted () {
-  },
-  components: {
   }
 }
 </script>
@@ -24,20 +22,20 @@ export default {
   flex-wrap: wrap;
   margin: 0 -8px;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1430px) {
   .wrap{
     width: 25%;
   }
 }
-@media screen and (min-width: 1000px) and (max-width: 1430px){
+@media screen and (min-width: 1431px){
   .wrap{
     width: 20%;
   }
 }
 
-@media screen and (min-width: 1431px) {
-  .wrap{
-    width: 14.2857%;
-  }
-}
+// @media screen and (min-width: 1431px) {
+//   .wrap{
+//     width: 14.2857%;
+//   }
+// }
 </style>

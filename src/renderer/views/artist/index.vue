@@ -22,20 +22,22 @@ import List from '@/components/list';
 import Btns from '@/components/buttons/playAll';
 import AlbumList from './components/albums';
 import Mv from './components/mv';
+import Info from './components/introduction';
 export default {
   components: {
     HeadItem,
     List,
     Btns,
     AlbumList,
-    Mv
+    Mv,
+    Info
   },
   data() {
     return{
       musicList: [],
       singerInfo: {},
       tabs: ['单曲', '专辑', 'MV', '简介', '评论', '相似歌手'],
-      tabIndex: 2,
+      tabIndex: 3,
       from: 'artist'
     }
   },
@@ -49,7 +51,7 @@ export default {
         case 2:
           return 'Mv';
         case 3:
-          return;
+          return 'Info';
         case 4:
           return;
       }
@@ -70,7 +72,7 @@ export default {
         if (res.status === 200) {
           // this.ablumInfo = res.data.data;
           this.musicList = res.data.data.list || [];
-          console.log("TCL: init -> this.musicList", this.musicList)
+          // console.log("TCL: init -> this.musicList", this.musicList)
         }
       })
     },
@@ -80,11 +82,11 @@ export default {
         method: 'get'
       }
       this.$http(params).then((res) => {
-        console.log('getArtistInfo', res);
+        // console.log('getArtistInfo', res);
         if (res.status === 200) {
           // this.ablumInfo = res.data.data;
           this.singerInfo = res.data.data || [];
-          console.log("TCL: getArtistInfo -> this.singerInfo", this.singerInfo)
+          // console.log("TCL: getArtistInfo -> this.singerInfo", this.singerInfo)
         }
       })
     },

@@ -24,8 +24,8 @@
     <div class="list-item-wrap tab-list" v-for="(item, index) in musicList" :key="index">
       <div class="num">{{ sort(index) }}</div>
       <div class="music-info">
-        <div class="name line1">
-          <a href="javascript:;" @click="playSong(item)">{{ name(item) }}</a>
+        <div class="name">
+          <a href="javascript:;" class="line1" @click="playSong(item)">{{ name(item) }}</a>
           <i class="iconfont icon-vip" v-if="item.isListenFee"></i>
           <i class="iconfont icon-mv-play" v-if="item.hasmv === 1"></i>
         </div>
@@ -140,6 +140,7 @@ export default {
     .music-info{
       flex: 1;
       display: flex;
+      overflow: hidden;
       i{
         margin-left: 5px;
       }

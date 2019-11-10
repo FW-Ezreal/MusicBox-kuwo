@@ -3,12 +3,12 @@
     <div class="playListWrap" :class="from">
       <div class="cover">
         <template v-if="from === 'playList'">
-          <img :src="pic" />
+          <img v-lazy="pic" />
           <div class="bg"></div>
           <span class="listenNum">{{ disposeCnt }}</span>
         </template>
         <template v-if="from === 'album'">
-          <img class="album-img" :src="pic" />
+          <img class="album-img" v-lazy="pic" />
         </template>
       </div>
       <div class="cap" @click="toSongListDetails(listData)">

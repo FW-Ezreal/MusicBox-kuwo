@@ -1,24 +1,28 @@
 <template>
   <div class="header-wrap">
     <div class="img" :class="from">
-      <img v-lazy="listInfo.img300 || listInfo.pic300">
+      <img v-lazy="listInfo.img300 || listInfo.pic300 || listInfo.pic">
     </div>
-    <div class="right" v-if="from === 'playList'">
+    <div class="right" v-if="from === 'playList' || from === 'album'">
       <div class="right-top">
-        <h1 class="title line1">{{ listInfo.title || listInfo.name }}</h1>
-        <div class="info">
+        <h1 class="title line1">{{ listInfo.title || listInfo.name || listInfo.album }}</h1>
+        <div class="info" v-if="listInfo.uPic">
           <img v-lazy="listInfo.uPic">
           <span class="user-name">{{ listInfo.uname }}</span>
         </div>
         <div class="tags">{{ listInfo.tag }}</div>
+        <template v-if="from === 'album'">
+          <div class="artist-name" @click="toArtist(listInfo.artistid)">{{ listInfo.artist }}</div>
+          <div class="album-info"><span>语言: {{listInfo.lang}}</span> <span>发行时间: {{listInfo.releaseDate}}</span></div>
+        </template>
       </div>
-      <div class="right-bottom">
+      <div class="right-bottom" v-if="from === 'playList' || 'album'">
         <PlayAll @playAll="playAll"/>
-        <div class="subtitle line2">{{ listInfo.info }}</div>
+        <div class="subtitle line1">{{ listInfo.info || listInfo.albuminfo }}</div>
       </div>
     </div>
     <div class="artist-right" v-else-if="from === 'artist'">
-      <h1>{{ listInfo.name }}</h1>
+      <h1 v-html="listInfo.name"></h1>
       <div class="info">
         <span v-html="listInfo.aartist" v-if="listInfo.aartist"></span>
         <span>粉丝：{{ disposeNum(listInfo.artistFans) }}</span>
@@ -29,6 +33,9 @@
         <span>MV：{{ listInfo.mvNum || 0 }}</span>
       </div>
     </div>
+    <!-- <div class="album" v-if="from === 'album'">
+
+    </div> -->
   </div>
 </template>
 <script>
@@ -54,6 +61,9 @@ export default {
     },
     disposeNum(num) {
       return formatNum(num);
+    },
+    toArtist(id) {
+      this.$router.push({name: 'artist', params: {id}})
     }
   }
 }
@@ -104,6 +114,18 @@ export default {
       }
       .tags{
         opacity: 0.8;
+      }
+      .artist-name, .album-info{
+        height: 20px;
+        line-height: 20px;
+        opacity: 0.6;
+        margin-top: 12px;
+      }
+      .artist-name{
+        opacity: 0.8;
+      }
+      .album-info span{
+        margin-right: 20px;
       }
     }
     .right-bottom{
