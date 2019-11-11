@@ -33,9 +33,10 @@
         <span>MV：{{ listInfo.mvNum || 0 }}</span>
       </div>
     </div>
-    <div class="album" v-else-if="from === 'bang'">
-      <h1></h1>
-      <div></div>
+    <div class="bang-info" v-else-if="from === 'bang'">
+      <h1>{{ listInfo.name }}</h1>
+      <div class="pub">{{ listInfo.pub }}</div>
+      <PlayAll @playAll="playAll"/>
     </div>
   </div>
 </template>
@@ -89,6 +90,10 @@ export default {
     img{
       border-radius: 50%;
     }
+  }
+  .bang{
+    width: 130px;
+    height: 130px;
   }
   .right{
     flex: 1;
@@ -156,6 +161,23 @@ export default {
     span{
       display: inline-block;
       opacity: 0.7;
+    }
+  }
+  .bang-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    h1{
+      margin-top: 18px;
+      height: 37px;
+      line-height: 37px;
+      font-size: 26px; 
+    }
+    .pub{
+      opacity: .6;
+      height: 20px;
+      line-height: 20px;
+      margin-top: -12px;
     }
   }
 }

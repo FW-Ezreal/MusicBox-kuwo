@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <HeadItem :list-info="listInfo" :from="'bang'"/>
+    <HeadItem :list-info="listInfo" :from="'bang'" @playAll="playAll"/>
     <List :music-list="musicList" :from="'bang'"/>
   </div>
 </template>
@@ -40,19 +40,20 @@ export default {
         url: `http://wapi.kuwo.cn/api/www/bang/bang/musicList?bangId=${id}&pn=1&rn=30`,
         method: 'get'
       }
-      
       this.$http(params).then(res => {
         console.log('bang res: ', res.data.data);
         if (res.status === 200) {
           this.listInfo = {
             name,
             pic:img,
-            pub: res.data.data.pub
+            pub: res.data.data.pub,
+            musicList: res.data.data.musicList || []
           }
           this.musicList = res.data.data.musicList || [];
         }
       });
-    }
+    },
+
   }
 }
 </script>

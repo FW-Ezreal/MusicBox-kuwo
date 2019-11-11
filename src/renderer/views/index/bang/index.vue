@@ -6,7 +6,34 @@
         <div class="tri-down"></div>
       </a>
     </div>
-    <ul>
+    <div class="musicList">
+      <ul>
+        <li v-for="(item, index) in bangMusicList" :key="index" v-show="index < 10">
+          <span class="num">{{ sort(index) }}</span>
+          <div class="rank-stauts">
+            <i class="iconfont" :class="item.hasLossless ? 'icon-upward' : 'icon-downwards'"></i>
+            <span>{{ item.rank_change }}</span>
+          </div>
+          <span class="songName line1" @click="playSong(index)">{{ item.name }}</span>
+        </li>
+      </ul>
+      <ul>
+        <li v-for="(item, index) in bangMusicList" :key="index" v-show="index > 9">
+          <span class="num">{{ sort(index) }}</span>
+          <div class="rank-stauts">
+            <template v-if="item.rank_change != '0'">
+              <i class="iconfont" :class="[item.hasLossless ? 'icon-upward' : 'icon-downwards', ]"></i>
+              <span>{{ item.rank_change }}</span>
+            </template>
+            <template v-else>
+              <i class="iconfont icon-unchanged"></i>
+            </template>
+          </div>
+          <span class="songName line1" @click="playSong(index)">{{ item.name }}</span>
+        </li>
+      </ul>
+    </div>
+    <ul class="bangsList">
       <li v-for="(item, index) in allBang" :key="index">
         <p>{{ item.disname }}</p>
         <SongList :list-data="item.child" :from="'bang'" />
@@ -53,7 +80,7 @@ export default {
     },
     getBangList(id) {
       const param = {
-        url: ` http://wapi.kuwo.cn/api/www/bang/bang/musicList?bangId=${id}&pn=1&rn=30`,
+        url: ` http://wapi.kuwo.cn/api/www/bang/bang/musicList?bangId=${id}&pn=1&rn=20`,
         method: 'get'
       };
       this.$http(param).then(res => {
@@ -74,6 +101,16 @@ export default {
           console.log('this.allBang: ', this.allBang);
         }
       })
+    },
+    sort (index) {
+      let idx = parseInt(index) + 1
+      idx = idx < 10 ? `0${idx}` : idx
+      return idx
+    },
+    playSong(index) {
+      const item = this.bangMusicList[index];
+      this.$store.commit('CHANGE_NOW_SONG', item);
+      this.$store.commit('ADD', item);
     }
   }
 
@@ -84,6 +121,7 @@ export default {
   display:flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
   .rank-tab {
      display:block;
      width:33.3%;
@@ -144,6 +182,58 @@ export default {
   }
   .cur:hover{
     opacity: 1;
+  }
+}
+.musicList{
+  display: flex;
+  ul{
+    width: 50%;
+    font-size: 14px;
+    li{
+      display: flex;
+      height: 20px;
+      line-height: 20px;
+      margin-bottom: 20px;
+    }
+    .num{
+      margin-right: 10px;
+    }
+    .rank-stauts{
+      width: 40px;
+      margin-right: 10px;
+      i{
+        font-size: 13px;
+        &.icon-upward{
+          color: #C77F0E;
+        }
+        &.icon-downwards{
+          color: rgba(0,0,0,0.7);
+        }
+        &.icon-unchanged{
+          color: rgba(0,0,0,0.7);
+        }
+      }
+      span{
+        font-size: 12px;
+        opacity: 0.6;
+      }
+    }
+    .songName{
+      opacity: 0.8;
+      &:hover{
+        color: #C77F0E;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.bangsList{
+  p{
+    height: 20px;
+    line-height: 20px;
+    font-weight: 600;
+    margin: 20px 0;
+    font-size: 18px;
   }
 }
 </style>

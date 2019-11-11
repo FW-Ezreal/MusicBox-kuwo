@@ -175,7 +175,7 @@ export default {
         }
         .progess{
           position: absolute;
-          top: 21px;
+          top: 20px;
           background: rgba(0,0,0, 0.2);
         }
       }
