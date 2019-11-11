@@ -33,9 +33,10 @@
         <span>MV：{{ listInfo.mvNum || 0 }}</span>
       </div>
     </div>
-    <!-- <div class="album" v-if="from === 'album'">
-
-    </div> -->
+    <div class="album" v-else-if="from === 'bang'">
+      <h1></h1>
+      <div></div>
+    </div>
   </div>
 </template>
 <script>

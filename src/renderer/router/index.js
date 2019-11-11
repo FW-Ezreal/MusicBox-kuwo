@@ -5,6 +5,7 @@ import Playlist_detail from '@/views/playlist_detail'
 import Artist from '@/views/artist'
 import Album from '@/views/album'
 import searchPage from '@/views/searchPage'
+import bangDetial from '@/views/bang_detial'
 // console.log('Index: ', Index);
 
 Vue.use(Router)
@@ -41,6 +42,11 @@ export default new Router({
           path: 'searchPage/:key',
           name: 'searchPage',
           component: searchPage
+        },
+        {
+          path: 'bangDetial',
+          name: 'bangDetial',
+          component: bangDetial
         }
       ]
     }

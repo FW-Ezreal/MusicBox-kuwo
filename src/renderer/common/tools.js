@@ -33,8 +33,45 @@ const mFormat = (m) => {
   return second + ':' + minute
 }
 
+/**
+ * 获取某个字符串中 key对应的value getValue("xxx?a=b","a")=b
+ * @param {string} url - 要取值的字符串
+ * @param {string} type - 按什么分割的 & | ;
+ * @param {string} key - key值
+ */
+function getValue(url, type, key) {
+  let value = '';
+  const begin = url.indexOf(key + '=');
+  if (begin >= 0) {
+    let tmp = url.substring(begin + key.length + 1);
+    const eqIdx = tmp.indexOf('=');
+    let end = 0;
+    if (eqIdx >= 0) {
+      tmp = tmp.substring(0, eqIdx);
+      end = tmp.lastIndexOf(type);
+    } else {
+      end = tmp.length;
+    }
+    if (end >= 0) {
+      try {
+        value = decodeURIComponent(tmp.substring(0, end));
+      } catch (e) {
+        value = tmp.substring(0, end);
+      }
+    } else {
+      try {
+        value = decodeURIComponent(tmp);
+      } catch (e) {
+        value = tmp;
+      }
+    }
+  }
+  return value;
+}
+
 module.exports = {
   formatListenNum,
   mFormat,
-  formatNum
+  formatNum,
+  getValue
 }

@@ -12,6 +12,8 @@
         <Choice v-if="activeName === 'choice'"/>
         <Singers v-if="activeName === 'singers'"/>
         <PlayList v-if="activeName === 'playList'"/>
+        <Bang v-if="activeName === 'bang'"/>
+
       </div>
     </div>
 </template>
@@ -19,15 +21,17 @@
 import Choice from './choice'
 import PlayList from './playList'
 import Singers from './singers'
+import Bang from './bang'
 export default {
   components: {
     Choice,
     PlayList,
-    Singers
+    Singers,
+    Bang
   },
   data () {
     return {
-      activeName: 'playList'
+      activeName: 'bang'
     }
   },
   methods: {

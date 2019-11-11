@@ -10,6 +10,9 @@
         <template v-if="from === 'album'">
           <img class="album-img" v-lazy="pic" />
         </template>
+        <template v-if="from === 'bang'">
+          <img class="album-img" v-lazy="listData.pic5" />
+        </template>
       </div>
       <div class="cap" @click="toSongListDetails(listData)">
         <a href="javascript:;"></a>
@@ -20,6 +23,10 @@
     <div class="" v-if="from === 'album'">
       <div class="main-text line1" v-html="listData.album" @click="toAlbum(listData.albumid)"></div>
       <div class="sub-title">{{ listData.releaseDate }}</div>
+    </div>
+    <div class="" v-if="from === 'bang'">
+      <div class="main-text line1" v-html="listData.disname" @click="toBangDetial(listData)"></div>
+      <div class="sub-title">{{ listData.pubTime }}</div>
     </div>
   </div>
 </template>
@@ -67,6 +74,10 @@ export default {
     },
     toAlbum(id) {
       this.$router.push({name: 'album', params: { id } });
+    },
+    toBangDetial(data) {
+      const { sourceid, disname, pic5 } = data;
+      this.$router.push({name: 'bangDetial', query: { id: sourceid, name: disname, img: pic5 }});
     }
   }
 }
