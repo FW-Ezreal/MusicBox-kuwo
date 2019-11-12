@@ -6,6 +6,7 @@ import Artist from '@/views/artist'
 import Album from '@/views/album'
 import searchPage from '@/views/searchPage'
 import bangDetial from '@/views/bang_detial'
+import rcm from '@/views/rcm'
 // console.log('Index: ', Index);
 
 Vue.use(Router)
@@ -47,6 +48,11 @@ export default new Router({
           path: 'bangDetial',
           name: 'bangDetial',
           component: bangDetial
+        },
+        {
+          path: 'rcm',
+          name: 'rcm',
+          component: rcm
         }
       ]
     }

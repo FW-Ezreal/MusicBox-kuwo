@@ -46,10 +46,10 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "icon": "build/icons/kw.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/kw.ico"
     },
     "linux": {
       "icon": "build/icons"

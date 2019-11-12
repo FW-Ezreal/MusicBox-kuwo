@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <HeadItem :list-info="listInfo" :from="'bang'" @playAll="playAll"/>
+    <HeadItem :list-info="listInfo" :from="'bang'"/>
     <List :music-list="musicList" :from="'bang'"/>
   </div>
 </template>

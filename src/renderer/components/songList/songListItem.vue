@@ -2,10 +2,15 @@
   <div class="wwrap">
     <div class="playListWrap" :class="from">
       <div class="cover">
-        <template v-if="from === 'playList'">
+        <template v-if="from === 'playList' || from === 'index'">
           <img v-lazy="pic" />
-          <div class="bg"></div>
-          <span class="listenNum">{{ disposeCnt }}</span>
+          <div class="bg" v-if="!listData.rcm"></div>
+          <span class="listenNum" v-if="!listData.rcm">{{ disposeCnt }}</span>
+          <div class="date" v-if="listData.rcm" @click="toRcm">
+            <div class="day">{{ day }}</div>
+            <div class="month">{{ month }}</div>
+            <div class="disc">每日推荐</div>
+          </div>
         </template>
         <template v-if="from === 'album'">
           <img class="album-img" v-lazy="pic" />
@@ -14,12 +19,12 @@
           <img class="album-img" v-lazy="listData.pic5" />
         </template>
       </div>
-      <div class="cap" @click="toSongListDetails(listData)">
+      <div class="cap" @click="toSongListDetails(listData)" v-if="!listData.rcm">
         <a href="javascript:;"></a>
       </div>
       <i v-if="from === 'album'" class="cd"/>
     </div>
-    <div class="title line2" v-if="from === 'playList'"> {{ listData.name }}</div>
+    <div class="title line2 hover" v-if="from === 'playList' || from === 'index'" @click="toSongListDetails(listData)"> {{ listData.name }}</div>
     <div class="" v-if="from === 'album'">
       <div class="main-text line1" v-html="listData.album" @click="toAlbum(listData.albumid)"></div>
       <div class="sub-title">{{ listData.releaseDate }}</div>
@@ -39,6 +44,8 @@ export default {
   },
   data () {
     return {
+      day: '',
+      month: ''
     }
   },
   computed: {
@@ -54,11 +61,17 @@ export default {
     }
   },
   created () {
+    this.getCurDate();
   },
   methods: {
     toSongListDetails (listData) {
-      if (this.from === 'playList') {
-        const id = this.listData.playlist_id || 0
+      if (this.from === 'playList' || this.from === 'index') {
+        const id = this.listData.id || listData.playlist_id ||0
+        console.log('this.listData: ', this.listData);
+        if (listData.rcm) {
+          this.$router.push({name: 'rcm'});
+          return;
+        }
         if (!id) {
           this.$message({
             message: '歌单id错误',
@@ -78,12 +91,42 @@ export default {
     toBangDetial(data) {
       const { sourceid, disname, pic5 } = data;
       this.$router.push({name: 'bangDetial', query: { id: sourceid, name: disname, img: pic5 }});
+    },
+    toRcm() {
+      this.$router.push({name: 'rcm'});      
+    },
+    getCurDate() {
+      const date = new Date();
+      let day = date.getDate();
+      day = day < 10 ? `0${day}` : day;
+      this.day = day;
+      const month = date.getMonth();
+      const monthArr = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
+      this.month = monthArr[month];
+      // // 908新增刷新时间
+      // setTimeout(() => {
+      //   if (this.firstCome < 30) {
+      //     this.getCurDate();
+      //     this.firstCome++;
+      //   } else {
+      //     const nowDate = new Date();
+      //     const hour = nowDate.getHours();
+      //     const minutes = nowDate.getMinutes();
+      //     const second = nowDate.getSeconds() + 1;
+      //     const time = hour*3600 + minutes*60 + second - 1;
+      //     const diff = this.dayTime - time;
+      //     setTimeout(() => {
+      //       this.getCurDate();
+      //     }, diff*1000)
+      //   }
+      // }, 5000);
     }
   }
 }
 </script>
 <style lang="less" scoped>
   .wwrap{
+    cursor: default;
     padding: 0 8px
   }
   .playListWrap{
@@ -127,6 +170,32 @@ export default {
       background: url('../../assets/splice.png') no-repeat;
       background-size: cover;
     }
+    .date{
+      position: absolute;
+      top: 0;
+      color: rgba(255,255,255,0.9);
+      background: rgba(0,0,0,0.12);
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      .day{
+        height: 42px;
+        font-size: 36px;
+        line-height: 42px;
+        margin-top: 24%;
+        padding: 0 7%;
+      }
+      .month{
+        padding: 0 8%;
+        margin-top: 10px;
+        font-size: 17px;
+      }
+      .disc{
+        padding: 0 8%;
+        position: absolute;
+        bottom: 10%;
+      }
+    }
   }
   .cap{
     position: absolute;
@@ -162,7 +231,7 @@ export default {
   }
   .title{
     padding: 4px 0 16px 0;
-    font-size: 12px;
+    font-size: 14px;
   }
   .main-text{
     margin-top: 8px;

@@ -11,10 +11,16 @@
         <li v-for="(item, index) in bangMusicList" :key="index" v-show="index < 10">
           <span class="num">{{ sort(index) }}</span>
           <div class="rank-stauts">
-            <i class="iconfont" :class="item.hasLossless ? 'icon-upward' : 'icon-downwards'"></i>
-            <span>{{ item.rank_change }}</span>
+            <template v-if="item.rank_change != '0'">
+              <i class="iconfont" :class="[item.hasLossless ? 'icon-upward' : 'icon-downwards', ]"></i>
+              <span>{{ item.rank_change }}</span>
+            </template>
+            <template v-else>
+              <i class="iconfont icon-unchanged"></i>
+            </template>
           </div>
           <span class="songName line1" @click="playSong(index)">{{ item.name }}</span>
+          <span class="artist line1" @click="toArtist(index)"> - {{ item.artist }}</span>
         </li>
       </ul>
       <ul>
@@ -30,6 +36,7 @@
             </template>
           </div>
           <span class="songName line1" @click="playSong(index)">{{ item.name }}</span>
+          <span class="artist line1" @click="toArtist(artistid)">&nbsp;-&nbsp;{{ item.artist }}</span>
         </li>
       </ul>
     </div>
@@ -111,6 +118,9 @@ export default {
       const item = this.bangMusicList[index];
       this.$store.commit('CHANGE_NOW_SONG', item);
       this.$store.commit('ADD', item);
+    },
+    toArtist(id) {
+      this.$router.push({name: 'artist', params: {id}});
     }
   }
 
@@ -219,6 +229,13 @@ export default {
       }
     }
     .songName{
+      opacity: 0.8;
+      &:hover{
+        color: #C77F0E;
+        cursor: pointer;
+      }
+    }
+    .artist{
       opacity: 0.8;
       &:hover{
         color: #C77F0E;

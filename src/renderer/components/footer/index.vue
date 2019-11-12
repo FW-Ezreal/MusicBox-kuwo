@@ -27,13 +27,14 @@
         <div class="names">
           <div>
             <span class="name">{{ curSong.name }} </span>
-            {{ curSong.name || curSong.artist ? ' / ' : '' }}
+            {{ curSong.name || curSong.artist ? ' - ' : '' }}
             <span class="ar_name">{{ curSong.artist }}</span>
           </div>
           <div class="time"></div>
         </div>
         <div class="time">
           <span class="cur-time">{{ curTime }}</span>
+          {{ curTime || curSong.songTimeMinutes ? ' / ' : '' }}
           <span class="all-time">{{ curSong.songTimeMinutes ? curSong.songTimeMinutes : '00:00' }}</span>
         </div>
       </div>
@@ -88,7 +89,7 @@
         </el-slider>
         <a href="javascript:;" slot="reference"><i class="iconfont icon-yinliang"></i></a>
       </el-popover>
-      <a href="javascript:;"><i class="iconfont icon-junhengqi32 icon"/></a>
+      <!-- <a href="javascript:;"><i class="iconfont icon-junhengqi32 icon"/></a> -->
       <a href="javascript:;">HIFI</a>
       <a href="javascript:;"><i class="iconfont icon-ci icon"/></a>
       <a href="javascript:;"><i class="iconfont icon-pinglun icon"/></a>
@@ -194,6 +195,9 @@ export default {
   methods: {
     changeSpeed(index) {
       this.speedIndex = index;
+      const audio = this.$refs.audio;
+      const speedArr = [0.5, 0.75, 1, 1.5, 2]
+      audio.playbackRate = speedArr[index];
     },
     playBefore() {
       if (this.playMode === 4) {
@@ -276,7 +280,7 @@ export default {
       this.$store.commit('CHANGE_VOLUME', e)
     },
     getPlayUrl(){
-      const musicUrl = `https://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
+      const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
       // const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
       const fn = (res) => {
         return res
@@ -408,6 +412,15 @@ export default {
 }
 .volume{
   min-width: 40px;
+  /deep/.el-slider.is-vertical .el-slider__runway{
+    margin: 0px 0 0 5px;
+  }
+  .el-slider__bar{
+    background: #FFD200;
+  }
+  .el-tooltip.el-slider__button{
+    border-color: #FFD200;
+  }
 }
 .icon{
   margin: 0 3px;

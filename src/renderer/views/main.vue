@@ -34,7 +34,8 @@ export default {
 </script>
 <style lang="less" scoped>
     .container{
-        height: 100vh;
+      overflow: hidden;
+      height: 100vh;
     }
     .aside{
         background: rgba(0,0,0,0.04);
@@ -43,7 +44,27 @@ export default {
         // background: green;
     }
     .main{
-        background: rgba(0,0,0,0.02);
+      padding: 10px 20px;
+      background: rgba(0,0,0,0.02);
+      // 滚动条
+      &::-webkit-scrollbar{
+        width:10px;
+      }
+      /* 滚动条的滑轨背景颜色 */
+      &::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.0001);
+      }
+      /* 滑块颜色 */
+      &::-webkit-scrollbar-thumb {
+        border-radius:5px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,0.1);
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0,0,0,0.2);
+      }
     }
     .footer{
       padding: 0px;

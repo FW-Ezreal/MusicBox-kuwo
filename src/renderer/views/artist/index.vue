@@ -37,7 +37,7 @@ export default {
       musicList: [],
       singerInfo: {},
       tabs: ['单曲', '专辑', 'MV', '简介', '评论', '相似歌手'],
-      tabIndex: 3,
+      tabIndex: 0,
       from: 'artist'
     }
   },

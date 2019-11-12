@@ -10,6 +10,7 @@
         <el-popover
           placement="bottom"
           width="250"
+          v-model="showSearchList"
         >
           <el-input
             slot="reference"
@@ -18,6 +19,7 @@
             v-model="inputValue"
             placeholder="请输入内容"
             @keydown.enter.native="goSearchPage(inputValue)"
+            @blur.native="blur"
             suffix-icon="el-icon-search">
           </el-input>
           <ul class="search-keys" v-if="newKeyArr.length > 0">
@@ -46,7 +48,8 @@ export default {
     return{
       inputValue: '',
       newKeyArr: [],
-      isLarge: false 
+      isLarge: false ,
+      showSearchList: false
     }
   },
   watch: {
@@ -104,10 +107,15 @@ export default {
         }
       })
     },
+    blur() {
+      console.log(1)
+      this.showSearchList = false;
+    },
     goSearchPage(key) {
       console.log('key: ', key);
       this.inputValue = key;
       this.$router.push({name: 'searchPage', params: {key}});
+      this.showSearchList = false;
     }
   }
 }

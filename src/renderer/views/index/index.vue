@@ -13,7 +13,7 @@
         <Singers v-if="activeName === 'singers'"/>
         <PlayList v-if="activeName === 'playList'"/>
         <Bang v-if="activeName === 'bang'"/>
-
+        <Xc v-if="activeName === 'xc'"/>
       </div>
     </div>
 </template>
@@ -22,16 +22,18 @@ import Choice from './choice'
 import PlayList from './playList'
 import Singers from './singers'
 import Bang from './bang'
+import Xc from './xc'
 export default {
   components: {
     Choice,
     PlayList,
     Singers,
-    Bang
+    Bang,
+    Xc
   },
   data () {
     return {
-      activeName: 'bang'
+      activeName: 'xc'
     }
   },
   methods: {
@@ -42,6 +44,21 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
-
+  /deep/.el-tabs__nav.is-top{
+    width: 43%;
+    margin: 0 auto;
+    float: none;
+  }
+  /deep/.el-tabs__nav-wrap::after{
+    display: none;
+  }
+  /deep/.el-tabs__item.is-active{
+    color: black;
+  }
+  /deep/.el-tabs__active-bar{
+    background-color: #FFD200;
+  }
+  /deep/.el-tabs__item:hover{
+    color: #C77F0E;
+  }
 </style>

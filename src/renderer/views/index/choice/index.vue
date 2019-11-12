@@ -1,7 +1,7 @@
 <template>
     <div>
       <Banner/>
-      <div class="title">推荐歌单</div>
+      <div class="title">个性化推荐</div>
       <Recommend/>
     </div>
 </template>

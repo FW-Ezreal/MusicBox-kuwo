@@ -1,5 +1,5 @@
 <template>
-  <SongList :list-data="playList" :from="'playList'"/>
+  <SongList :list-data="playList" :from="'index'"/>
 </template>
 <script>
 import SongList from '@/components/songList'
@@ -10,7 +10,12 @@ export default {
   data () {
     return {
       activeName: 'choice',
-      playList: []
+      playList: [],
+      rcmList: {
+        pic: 'http://kwimg3.kuwo.cn/star/upload/42/4/1551686998992_.png',
+        name: '每日单曲推荐',
+        rcm: 1
+      }
     }
   },
   created () {
@@ -29,7 +34,9 @@ export default {
       this.$http(param).then(res => {
         console.log('res1', res)
         if (res.status === 200) {
-          this.playList = res.data.playlist || []
+          const playList = res.data.playlist || [];
+          playList.unshift(this.rcmList);
+          this.playList = playList;
         }
       })
     }

@@ -12,7 +12,7 @@
       <el-scrollbar class="scrollbar">
         <div class="song-item" v-for="(item, index) in songList" :key="index" @dblclick="play(item)">
           <div class="num">{{ index + 1 }}</div>
-          <div class="name" :style="{color: item.rid == curSongId ? 'pink' : ''}" >{{ item.name }}</div>
+          <div class="name" :style="{color: item.rid == curSongId ? '#C77F0E' : ''}" >{{ item.name }}</div>
           <!-- <div class="info"> -->
           <span class="singler">{{ item.artist }}</span>
             <!-- <span class="time">{{ time(item.duration) }}</span> -->
