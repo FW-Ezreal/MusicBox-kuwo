@@ -25,14 +25,14 @@ export default {
   methods: {
     init() {
       const params = {
-        url: `http://nplserver.kuwo.cn/pl.svc?op=getlistinfo&pid=${this.$route.params.id}&pn=0&rn=100&encode=utf8&keyset=pl2012&identity=kuwo&pcmp4=1&vipver=MUSIC_9.0.6.0_BCS27&newver=1`,
+        url: `http://wapi.kuwo.cn/api/www/playlist/playListInfo?rn=30&pn=1&pid=${this.$route.params.id}`,
         method: 'get'
       }
       this.$http(params).then(res => {
         console.log('playlist', res)
         if (res.status === 200) {
-          this.listInfo = res.data || {};
-          this.musicList = res.data.musiclist || [];
+          this.listInfo = res.data.data || {};
+          this.musicList = res.data.data.musicList || [];
         }
       });
 

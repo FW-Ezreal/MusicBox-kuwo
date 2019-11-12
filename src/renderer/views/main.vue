@@ -2,7 +2,7 @@
     <div class="">
         <el-container class="container">
             <el-container>
-                <el-aside class="aside" width="230px">
+                <el-aside class="aside" width="200px">
                   <Aside />
                 </el-aside>
                 <el-container>

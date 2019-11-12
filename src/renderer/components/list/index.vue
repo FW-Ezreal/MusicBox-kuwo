@@ -25,6 +25,13 @@ export default {
   props: {
     musicList: Array
   },
+  watch: {
+    musicList(curdata) {
+      console.log('curdata: ', curdata);
+    }
+  },
+  mounted() {
+  },
   methods: {
     sort(index) {
       let idx = parseInt(index) + 1;

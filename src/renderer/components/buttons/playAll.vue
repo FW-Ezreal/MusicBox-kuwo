@@ -4,6 +4,10 @@
       <i class="iconfont icon-play"/>
       <span>播放全部</span>
     </a>
+    <a class="btn">
+      <i class="iconfont icon-play"/>
+      <span>播放全部</span>
+    </a>
   </div>
 </template>
 <script>
