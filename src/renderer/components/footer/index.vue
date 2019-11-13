@@ -5,8 +5,8 @@
           <i class="iconfont icon-shangyiqu"></i>
       </el-button>
       <el-button class="play-btn hover-8" @click="playClick">
-          <i class="iconfont icon-bofang1" v-if="is_play"></i>
-          <i class="iconfont icon-zanting" v-else></i>
+          <i class="iconfont icon-zanting" v-if="is_play"></i>
+          <i class="iconfont icon-bofang1" v-else></i>
       </el-button>
       <el-button class="next-btn hover-8" @click="playAfter" :disabled="!after_song">
         <i class="iconfont icon-shangyiqu"></i>
@@ -16,6 +16,7 @@
       <img v-lazy="curSong.pic" :title="curSong.url">
       <audio
         ref="audio"
+        autoplay
         @timeupdate="timeupdate"
         @ended="ended"
         :src="curSong.url">
@@ -121,7 +122,7 @@ export default {
       visible: false,
       curTime: '00:00',
       nowTime: 0,
-      is_play: false,
+      is_play: true,
       isLoop: false,
       showMode: false,
       volumeNum: this.$store.state.song.volumeNum,
@@ -205,12 +206,15 @@ export default {
     },
     playClick () {
       const audio = this.$refs.audio
-      this.is_play = !audio.paused
       if (audio.paused) {
         audio.play()
       } else {
         audio.pause()
       }
+      console.log('audio.paused: ', audio.paused);
+      this.is_play = !audio.paused
+      
+
       // if (this.songList.length === 0) return;
       // this.$store.commit('CHANGE_STATE');
     },
