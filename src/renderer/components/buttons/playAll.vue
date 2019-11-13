@@ -1,8 +1,8 @@
 <template>
   <div class="play-btn">
-    <a href="javascript:;" class="btn color">
+    <a href="javascript:;" class="btn color" @click="playAll">
       <i class="iconfont icon-play"/>
-      <span @click="playAll">播放全部</span>
+      <span>播放全部</span>
     </a>
     <a href="javascript:;" class="btn other">
       <i class="iconfont icon-addbtn"/>
