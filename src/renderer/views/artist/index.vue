@@ -127,6 +127,9 @@ export default {
         border-radius: 6px;
       }
     }
+    li:nth-of-type(3) {
+      padding-top: 3px;
+    }
   }
   .buttons{
     margin-bottom: 14px;

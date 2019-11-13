@@ -3,7 +3,7 @@
     <div class="mv">
       <img v-lazy="listData.pic" alt="">
     </div>
-    <div class="title" v-html="listData.name"/>
+    <div class="title line1" v-html="listData.name"/>
     <div class="artist" v-html="listData.artist"/>
   </div>
 </template>
