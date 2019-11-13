@@ -211,12 +211,13 @@ export default {
     },
     playClick () {
       const audio = this.$refs.audio
+      this.is_play = !audio.paused
+
       if (audio.paused) {
         audio.play()
       } else {
         audio.pause()
       }
-      this.is_play = !audio.paused
       // if (this.songList.length === 0) return;
       // this.$store.commit('CHANGE_STATE');
     },
