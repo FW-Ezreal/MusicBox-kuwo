@@ -49,50 +49,50 @@ export default {
     }
   },
   created () {
-    this.toggle('hot');
-    this.init();
+    this.toggle('hot')
+    this.init()
   },
   methods: {
     init () {
       const param = {
         url: 'http://wapi.kuwo.cn/api/www/playlist/getTagList',
         method: 'get'
-      };
+      }
       this.$http(param).then(res => {
         if (res.status === 200) {
-          this.menuList = res.data.data;
-          console.log("TCL: init -> this.menu", this.menuList)
+          this.menuList = res.data.data
+          console.log('TCL: init -> this.menu', this.menuList)
         }
-      });
+      })
     },
-    toggle(type) {
-      if (type === this.active) return;
-      this.active = type;
+    toggle (type) {
+      if (type === this.active) return
+      this.active = type
       this.nowTitle = '精选歌单'
       const param = {
         url: `http://wapi.kuwo.cn/api/pc/classify/playlist/getRcmPlayList?pn=1&rn=30&order=${type}`,
         method: 'get'
-      };
+      }
       this.$http(param).then(res => {
         if (res.status === 200) {
-          this.playListData = res.data.data.data || [];
+          this.playListData = res.data.data.data || []
         }
       })
     },
-    toggleMenu() {
-      this.showMenu = !this.showMenu;
+    toggleMenu () {
+      this.showMenu = !this.showMenu
     },
-    toggleTag(ele) {
+    toggleTag (ele) {
       const param = {
         url: `http://wapi.kuwo.cn/api/pc/classify/playlist/getTagPlayList?pn=1&rn=30&id=${ele.id}`,
         method: 'get'
-      };
+      }
       this.$http(param).then(res => {
         if (res.status === 200) {
-          this.playListData = res.data.data.data || [];
-          this.nowTitle = ele.name;
-          this.showMenu = false;
-          this.active = '';
+          this.playListData = res.data.data.data || []
+          this.nowTitle = ele.name
+          this.showMenu = false
+          this.active = ''
         }
         // console.log('toggle', res)
       })

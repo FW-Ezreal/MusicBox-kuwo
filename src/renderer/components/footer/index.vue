@@ -16,7 +16,6 @@
       <img v-lazy="curSong.pic" :title="curSong.url">
       <audio
         ref="audio"
-        autoplay
         @timeupdate="timeupdate"
         @ended="ended"
         :src="curSong.url">
@@ -105,12 +104,10 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 import { mFormat } from '@/common/tools.js'
-import jsonp from '@/untils/jsonp.js';
-import PlayList from './component/playList';
-import { relative } from 'path';
+import jsonp from '@/untils/jsonp.js'
+import PlayList from './component/playList'
 export default {
   components: {
     PlayList
@@ -128,63 +125,63 @@ export default {
       isLoop: false,
       showMode: false,
       volumeNum: this.$store.state.song.volumeNum,
-      playModeArray: ['单曲播放', '单曲循环', '顺序播放','循环播放', '随机播放'],
-      playIcons: ['icon-danqubofang', 'icon-danquxunhuan', 'icon-shunxu', 'icon-xunhuanbofang', 'icon-bofangye-caozuolan-suijibofang'], 
+      playModeArray: ['单曲播放', '单曲循环', '顺序播放', '循环播放', '随机播放'],
+      playIcons: ['icon-danqubofang', 'icon-danquxunhuan', 'icon-shunxu', 'icon-xunhuanbofang', 'icon-bofangye-caozuolan-suijibofang'],
       speeds: ['0.5x', '0.75x', '1.0x', '1.5x', '2.0x'],
       speedIndex: 2
     }
   },
   computed: {
     ...mapState({
-      curSongId(state) {
-        return this.curSong.rid || this.curSong.id;
+      curSongId (state) {
+        return this.curSong.rid || this.curSong.id
       },
       curSong (state) {
         return state.song.curSong
       },
-      percent(state) {
-        return state.song.percent;
+      percent (state) {
+        return state.song.percent
       },
-      currTime(state) {
-        return state.song.curTime;
+      currTime (state) {
+        return state.song.curTime
       },
-      songList(state) {
-        return state.songList.list;
+      songList (state) {
+        return state.songList.list
       },
-      playMode(state) {
-        return state.song.playMode;
+      playMode (state) {
+        return state.song.playMode
       }
     }),
-    currentIndex() {
-      const list = this.songList;
-      if (list.length === 0) return -1;
+    currentIndex () {
+      const list = this.songList
+      if (list.length === 0) return -1
       return list.findIndex((ele, idx) => {
-        return ele.rid === this.curSongId;
+        return ele.rid === this.curSongId
       })
     },
-    iconType() {
-      switch(this.playMode) {
+    iconType () {
+      switch (this.playMode) {
         case 0:
-          return 'icon-danqubofang';
+          return 'icon-danqubofang'
         case 1:
-          return 'icon-danquxunhuan';
+          return 'icon-danquxunhuan'
         case 2:
-          return 'icon-shunxu';
+          return 'icon-shunxu'
         case 3:
-          return 'icon-xunhuanbofang';
+          return 'icon-xunhuanbofang'
         case 4:
-          return 'icon-bofangye-caozuolan-suijibofang';
+          return 'icon-bofangye-caozuolan-suijibofang'
       }
     }
   },
   watch: {
-    curSongId(curData, lastData) {
+    curSongId (curData, lastData) {
       // console.log('curData: ', curData);
-      if (curData){
+      if (curData) {
         this.curTime = '00:00'
-        this.getPlayUrl();
+        this.getPlayUrl()
       } else {
-        this.curTime = '00:00';
+        this.curTime = '00:00'
       }
     }
   },
@@ -192,107 +189,107 @@ export default {
     window.a = this
   },
   methods: {
-    changeSpeed(index) {
-      this.speedIndex = index;
-      const audio = this.$refs.audio;
+    changeSpeed (index) {
+      this.speedIndex = index
+      const audio = this.$refs.audio
       const speedArr = [0.5, 0.75, 1, 1.5, 2]
-      audio.playbackRate = speedArr[index];
+      audio.playbackRate = speedArr[index]
     },
-    playBefore() {
+    playBefore () {
       if (this.playMode === 4) {
-        this.randomPlay();
-        return;
+        this.randomPlay()
+        return
       }
-      if (this.currentIndex === 0) return;
-      this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex - 1]);
+      if (this.currentIndex === 0) return
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex - 1])
     },
-    playClick() {
-      const audio = this.$refs.audio;
-      this.is_play = !audio.paused;
+    playClick () {
+      const audio = this.$refs.audio
+      this.is_play = !audio.paused
       if (audio.paused) {
-        audio.play();
+        audio.play()
       } else {
-        audio.pause();
+        audio.pause()
       }
       // if (this.songList.length === 0) return;
       // this.$store.commit('CHANGE_STATE');
     },
-    playAfter() {
+    playAfter () {
       if (this.playMode === 4) {
-        this.randomPlay();
-        return;
+        this.randomPlay()
+        return
       }
-      if (this.currentIndex === this.songList.length - 1) return;
-      this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex + 1]);  
+      if (this.currentIndex === this.songList.length - 1) return
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex + 1])
     },
-    playTimeChange(e) {
-      const audio = this.$refs.audio;
-      audio.currentTime = e || 0;
+    playTimeChange (e) {
+      const audio = this.$refs.audio
+      audio.currentTime = e || 0
     },
     timeupdate (e) {
       // console.log(e)
-      const currTime = e.target.currentTime;
-      const percent = currTime / this.curSong.duration;
-      this.curTime = mFormat(currTime);
-      this.nowTime = currTime;
-      this.$store.commit('CUR_TIME', currTime);
-      this.$store.commit('PERCENT', percent);
+      const currTime = e.target.currentTime
+      const percent = currTime / this.curSong.duration
+      this.curTime = mFormat(currTime)
+      this.nowTime = currTime
+      this.$store.commit('CUR_TIME', currTime)
+      this.$store.commit('PERCENT', percent)
     },
-    ended() {
-      this.nowTime = 0;
+    ended () {
+      this.nowTime = 0
 
-      const mode = this.playMode;
+      const mode = this.playMode
       if (mode === 0) { // 单曲播放
-        this.$store.commit('CHANGE_NOW_SONG', {});
+        this.$store.commit('CHANGE_NOW_SONG', {})
       } else if (mode === 1) { // 单曲循环
-        this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex]);
+        this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex])
       } else if (mode === 2) { // 顺序播放
-        if (this.currentIndex === this.songList.length - 1) return;
-        this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex + 1]);   
+        if (this.currentIndex === this.songList.length - 1) return
+        this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex + 1])
       } else if (mode === 3) { // 循环播放
-        const index = this.currentIndex === this.songList.length - 1 ? 0 : this.currentIndex + 1;
-        this.$store.commit('CHANGE_NOW_SONG', this.songList[index]);
+        const index = this.currentIndex === this.songList.length - 1 ? 0 : this.currentIndex + 1
+        this.$store.commit('CHANGE_NOW_SONG', this.songList[index])
       } else { // 随机播放
-        this.randomPlay();
+        this.randomPlay()
       }
     },
-    randomPlay() {
-      const len = this.songList.length;
-      let randomNum = -1;
-      while(randomNum < 0) {
-        const num = Math.floor(Math.random()*len);
+    randomPlay () {
+      const len = this.songList.length
+      let randomNum = -1
+      while (randomNum < 0) {
+        const num = Math.floor(Math.random() * len)
         if (num === this.currentIndex) {
-          continue;
+          continue
         } else {
-          randomNum = num;
+          randomNum = num
         }
       }
-      this.$store.commit('CHANGE_NOW_SONG', this.songList[randomNum]);
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[randomNum])
     },
-    changeMode(idx) {
-      this.$store.commit('CHANGE_MODE', idx);
-      this.showMode = false;
+    changeMode (idx) {
+      this.$store.commit('CHANGE_MODE', idx)
+      this.showMode = false
     },
-    changeVolume(e) {
-      const audio = this.$refs.audio;
-      audio.volume = e / 100;
+    changeVolume (e) {
+      const audio = this.$refs.audio
+      audio.volume = e / 100
       this.$store.commit('CHANGE_VOLUME', e)
     },
-    getPlayUrl(){
-      const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`;
+    getPlayUrl () {
+      const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`
       // const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
       const fn = (res) => {
         return res
       }
-      const arr = [];
-      arr[0] = jsonp(musicUrl).then(fn);
+      const arr = []
+      arr[0] = jsonp(musicUrl).then(fn)
       // arr[1] = jsonp(infoUrl).then(fn);
       Promise.all(arr).then(res => {
         // console.log('res: ', res);
-        const playSong = Object.assign({}, this.$store.state.song.curSong);
-        playSong.url = res[0].url;
+        const playSong = Object.assign({}, this.$store.state.song.curSong)
+        playSong.url = res[0].url
         console.log('playSong', playSong)
-        this.$store.commit('CHANGE_NOW_SONG', playSong);
+        this.$store.commit('CHANGE_NOW_SONG', playSong)
       })
     }
   }

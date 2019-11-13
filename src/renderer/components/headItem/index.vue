@@ -41,8 +41,8 @@
   </div>
 </template>
 <script>
-import { formatNum } from '@/common/tools.js';
-import PlayAll from '@/components/buttons/playAll.vue';
+import { formatNum } from '@/common/tools.js'
+import PlayAll from '@/components/buttons/playAll.vue'
 export default {
   props: {
     listInfo: Object,
@@ -52,19 +52,19 @@ export default {
     PlayAll
   },
   watch: {
-    listInfo(curdata) {
+    listInfo (curdata) {
       // console.log('curdata: ', curdata);
     }
   },
   methods: {
-    playAll() {
-      this.$store.commit('PLAY_ALL', this.listInfo.musicList);
-      this.$store.commit('CHANGE_NOW_SONG', this.listInfo.musicList[0]);
+    playAll () {
+      this.$store.commit('PLAY_ALL', this.listInfo.musicList)
+      this.$store.commit('CHANGE_NOW_SONG', this.listInfo.musicList[0])
     },
-    disposeNum(num) {
-      return formatNum(num);
+    disposeNum (num) {
+      return formatNum(num)
     },
-    toArtist(id) {
+    toArtist (id) {
       this.$router.push({name: 'artist', params: {id}})
     }
   }

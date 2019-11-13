@@ -34,9 +34,9 @@ export default {
       this.$http(param).then(res => {
         console.log('res1', res)
         if (res.status === 200) {
-          const playList = res.data.playlist || [];
-          playList.unshift(this.rcmList);
-          this.playList = playList;
+          const playList = res.data.playlist || []
+          playList.unshift(this.rcmList)
+          this.playList = playList
         }
       })
     }

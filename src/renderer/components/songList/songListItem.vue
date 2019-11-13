@@ -61,16 +61,16 @@ export default {
     }
   },
   created () {
-    this.getCurDate();
+    this.getCurDate()
   },
   methods: {
     toSongListDetails (listData) {
       if (this.from === 'playList' || this.from === 'index') {
-        const id = this.listData.id || listData.playlist_id ||0
-        console.log('this.listData: ', this.listData);
+        const id = this.listData.id || listData.playlist_id || 0
+        console.log('this.listData: ', this.listData)
         if (listData.rcm) {
-          this.$router.push({name: 'rcm'});
-          return;
+          this.$router.push({name: 'rcm'})
+          return
         }
         if (!id) {
           this.$message({
@@ -82,27 +82,27 @@ export default {
           this.$router.push({name: 'playlist_detail', params: {id}})
         }
       } else if (this.from === 'album') {
-        this.$router.push({name: 'album', params: { id: listData.albumid }});
+        this.$router.push({name: 'album', params: { id: listData.albumid }})
       }
     },
-    toAlbum(id) {
-      this.$router.push({name: 'album', params: { id } });
+    toAlbum (id) {
+      this.$router.push({ name: 'album', params: { id } })
     },
-    toBangDetial(data) {
-      const { sourceid, disname, pic5 } = data;
-      this.$router.push({name: 'bangDetial', query: { id: sourceid, name: disname, img: pic5 }});
+    toBangDetial (data) {
+      const { sourceid, disname, pic5 } = data
+      this.$router.push({name: 'bangDetial', query: { id: sourceid, name: disname, img: pic5 }})
     },
-    toRcm() {
-      this.$router.push({name: 'rcm'});      
+    toRcm () {
+      this.$router.push({name: 'rcm'})
     },
-    getCurDate() {
-      const date = new Date();
-      let day = date.getDate();
-      day = day < 10 ? `0${day}` : day;
-      this.day = day;
-      const month = date.getMonth();
-      const monthArr = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
-      this.month = monthArr[month];
+    getCurDate () {
+      const date = new Date()
+      let day = date.getDate()
+      day = day < 10 ? `0${day}` : day
+      this.day = day
+      const month = date.getMonth()
+      const monthArr = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
+      this.month = monthArr[month]
       // // 908新增刷新时间
       // setTimeout(() => {
       //   if (this.firstCome < 30) {
@@ -227,6 +227,7 @@ export default {
     left: 88%;
     width: 100%;
     height: 100%;
+    z-index: -1;
     background: url('../../assets/cd.png') no-repeat;
   }
   .title{

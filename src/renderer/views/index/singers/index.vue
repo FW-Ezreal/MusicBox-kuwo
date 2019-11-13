@@ -37,7 +37,7 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       letterArr: ['热门', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'G', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
       countryArr: [
@@ -48,11 +48,11 @@ export default {
       artistList: []
     }
   },
-  created() {
-    this.init();
+  created () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       const params = {
         url: 'http://wapi.kuwo.cn/api/www/artist/artistInfo',
         methods: 'get',
@@ -60,26 +60,26 @@ export default {
           category: this.countryIndex,
           prefix: this.letterIndex === 0 ? '' : encodeURIComponent(this.letterArr[this.letterIndex]),
           pn: 1,
-          rn: 100,
+          rn: 100
         }
       }
       this.$http(params).then(res => {
         if (res.status === 200) {
-          console.log('singer res', res);
-          this.artistList = res.data.data.artistList || [];
+          console.log('singer res', res)
+          this.artistList = res.data.data.artistList || []
         }
-      }) 
+      })
     },
-    changeCountry(index) {
-      this.countryIndex = index;
-      this.init();
+    changeCountry (index) {
+      this.countryIndex = index
+      this.init()
     },
-    changeLetter(index) {
-      this.letterIndex = index;
-      this.init();
+    changeLetter (index) {
+      this.letterIndex = index
+      this.init()
     },
-    toArtist(id) {
-      this.$router.push({name: 'artist', params: {id}});
+    toArtist (id) {
+      this.$router.push({name: 'artist', params: {id}})
     }
   }
 }

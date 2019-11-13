@@ -11,17 +11,26 @@ export default {
   components: {
     ArtistList
   },
-  data() {
-    return{
+  data () {
+    return {
       artistList: []
     }
   },
-
-  created() {
-    this.init();
+  computed: {
+    key () {
+      return this.$route.params.key
+    }
+  },
+  watch: {
+    key () {
+      this.init()
+    }
+  },
+  created () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       // console.log('this.$route.params.key', this.$route.params.key);
       const params = {
         url: `http://wapi.kuwo.cn/api/www/search/searchArtistBykeyWord?key=${decodeURIComponent(this.$route.params.key)}&pn=1&rn=100`,
@@ -30,8 +39,8 @@ export default {
       this.$http(params).then(res => {
         // console.log('key res: ', res);
         if (res.status === 200) {
-          this.artistList = res.data.data.artistList || [];
-          console.log("TCL: init -> this.artistList", this.artistList)
+          this.artistList = res.data.data.artistList || []
+          console.log('TCL: init -> this.artistList', this.artistList)
         }
       })
     }

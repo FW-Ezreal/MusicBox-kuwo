@@ -27,29 +27,29 @@ export default {
     SongList,
     Album
   },
-  data() {
-    return{
+  data () {
+    return {
       musicList: [],
-      tabs: ['单曲', 'MV', '歌单', '歌手',  '专辑'],
-      tabIndex: 3,
-      tabType: 'Singer'
+      tabs: ['单曲', 'MV', '歌单', '歌手', '专辑'],
+      tabIndex: 0,
+      tabType: 'Single'
     }
   },
   computed: {
-    key() {
-      return this.$route.params.key;
+    key () {
+      return this.$route.params.key
     }
   },
   watch: {
-    key() {
-      this.init();
+    key () {
+      this.init()
     }
   },
-  created() {
-    this.init();
+  created () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       // console.log('this.$route.params.key', this.$route.params.key);
       const params = {
         url: `http://wapi.kuwo.cn/api/www/search/searchMusicBykeyWord?key=${decodeURIComponent(this.$route.params.key)}&pn=1&rn=100`,
@@ -58,15 +58,15 @@ export default {
       this.$http(params).then(res => {
         // console.log('key res: ', res);
         if (res.status === 200) {
-          this.musicList = res.data.data.list || [];
+          this.musicList = res.data.data.list || []
         }
       })
     },
-    changTabs(index) {
-      if (index === this.tabIndex) return;
-      const tabArr = ['Single', 'MV', 'SongList', 'Singer', 'Album'];
-      this.tabIndex = index;
-      this.tabType = tabArr[index];
+    changTabs (index) {
+      if (index === this.tabIndex) return
+      const tabArr = ['Single', 'MV', 'SongList', 'Singer', 'Album']
+      this.tabIndex = index
+      this.tabType = tabArr[index]
     }
   }
 }

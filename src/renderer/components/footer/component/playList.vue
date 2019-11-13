@@ -27,8 +27,8 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
-import { mFormat } from '@/common/tools.js';
+import { mapState } from 'vuex'
+import { mFormat } from '@/common/tools.js'
 export default {
   data () {
     return {
@@ -37,28 +37,28 @@ export default {
   },
   computed: {
     ...mapState({
-      songList(state) {
-        return state.songList.list;
+      songList (state) {
+        return state.songList.list
       },
-      curSongId(state) {
-        return state.song.curSong.rid;
+      curSongId (state) {
+        return state.song.curSong.rid
       }
     })
   },
   methods: {
-    play(item) {
-      const now_rid = item.rid;
+    play (item) {
+      const nowRid = item.rid
       const index = this.songList.findIndex((ele) => {
-        return ele.rid === now_rid;
+        return ele.rid === nowRid
       })
-      this.$store.commit('CHANGE_NOW_SONG', this.songList[index]);
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[index])
     },
-    time(duration) {
-      return mFormat(duration);
+    time (duration) {
+      return mFormat(duration)
     },
-    clearSongList() {
-      this.$store.commit('CLEAR');
-      this.$store.commit('CHANGE_NOW_SONG', {});
+    clearSongList () {
+      this.$store.commit('CLEAR')
+      this.$store.commit('CHANGE_NOW_SONG', {})
     }
   }
 }

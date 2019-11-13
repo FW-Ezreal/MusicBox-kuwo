@@ -4,23 +4,31 @@
   </div>
 </template>
 <script>
-import AlbumList from '@/components/songList';
+import AlbumList from '@/components/songList'
 export default {
   components: {
     AlbumList
   },
-  data() {
-    return{
+  data () {
+    return {
       albumList: []
     }
   },
   computed: {
+    key () {
+      return this.$route.params.key
+    }
   },
-  created() {
-    this.init();
+  watch: {
+    key () {
+      this.init()
+    }
+  },
+  created () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       // console.log('this.$route.params.key', this.$route.params.key);
       const params = {
         url: `http://wapi.kuwo.cn/api/www/search/searchAlbumBykeyWord?key=${decodeURIComponent(this.$route.params.key)}&pn=1&rn=100`,
@@ -29,7 +37,7 @@ export default {
       this.$http(params).then(res => {
         // console.log('key res: ', res);
         if (res.status === 200) {
-          this.albumList = res.data.data.albumList || [];
+          this.albumList = res.data.data.albumList || []
         }
       })
     }

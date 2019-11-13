@@ -4,28 +4,38 @@
   </div>
 </template>
 <script>
-import MvList from '@/components/mv';
+import MvList from '@/components/mv'
 export default {
   components: {
     MvList
   },
-  data() {
-    return{
+  data () {
+    return {
       mvList: []
     }
   },
-  created() {
-    this.init();
+  computed: {
+    key () {
+      return this.$route.params.key
+    }
+  },
+  watch: {
+    key () {
+      this.init()
+    }
+  },
+  created () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       const params = {
         url: `http://wapi.kuwo.cn/api/www/search/searchMvBykeyWord?key=${decodeURIComponent(this.$route.params.key)}&pn=1&rn=100`,
         method: 'get'
       }
       this.$http(params).then(res => {
         if (res.status === 200) {
-          this.mvList = res.data.data.mvlist || [];
+          this.mvList = res.data.data.mvlist || []
         }
       })
     }

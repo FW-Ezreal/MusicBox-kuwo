@@ -7,20 +7,20 @@ const state = {
 }
 
 const mutations = {
-  CHANGE_NOW_SONG(state, param) {
+  CHANGE_NOW_SONG (state, param) {
     // console.log('state: ', param);
-    state.curSong = param;
+    state.curSong = param
   },
   CUR_TIME (state, curTime) {
     state.curTime = curTime
   },
-  PERCENT(state, percent) {
-    state.percent = percent;
+  PERCENT (state, percent) {
+    state.percent = percent
   },
-  CHANGE_VOLUME(state, volumeNum) {
-    state.volumeNum = volumeNum;
+  CHANGE_VOLUME (state, volumeNum) {
+    state.volumeNum = volumeNum
   },
-  CHANGE_MODE(state, mode) {
+  CHANGE_MODE (state, mode) {
     state.playMode = mode
   }
 }

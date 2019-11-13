@@ -5,9 +5,9 @@
   </div>
 </template>
 <script>
-import ListItem from '@/components/list';
+import ListItem from '@/components/list'
 import HeadItem from '@/components/headItem'
-import jsonp from '@/untils/jsonp'
+// import jsonp from '@/untils/jsonp'
 export default {
   components: {
     ListItem,
@@ -31,10 +31,10 @@ export default {
       this.$http(params).then(res => {
         console.log('playlist', res)
         if (res.status === 200) {
-          this.listInfo = res.data.data || {};
-          this.musicList = res.data.data.musicList || [];
+          this.listInfo = res.data.data || {}
+          this.musicList = res.data.data.musicList || []
         }
-      });
+      })
       // const baseDataurl = `http://mobilebasedata.kuwo.cn/basedata.s?type=get_songlist_info2&prod=MUSIC_9.0.6.0_BCS28&f=web&id=${this.$route.params.id}`;
       // jsonp(baseDataurl, {}, {data}).then(res => {
       //   let json;

@@ -20,11 +20,11 @@ export default {
   props: {
     artistList: Array
   },
-  created() {
+  created () {
   },
   methods: {
-    toArtist(id) {
-      this.$router.push({name: 'artist', params: {id}});
+    toArtist (id) {
+      this.$router.push({name: 'artist', params: {id}})
     }
   }
 }

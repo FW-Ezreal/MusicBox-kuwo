@@ -44,18 +44,18 @@
 </template>
 <script>
 export default {
-  data() {
-    return{
+  data () {
+    return {
       inputValue: '',
       newKeyArr: [],
-      isLarge: false ,
+      isLarge: false,
       showSearchList: false
     }
   },
   watch: {
-    inputValue(curData) {
+    inputValue (curData) {
       if (curData) {
-        this.search(curData);
+        this.search(curData)
       }
     }
   },
@@ -63,12 +63,12 @@ export default {
 
   },
   methods: {
-    enlarge() {
-      this.isLarge = !this.isLarge;
-      this.$electron.ipcRenderer.send('enlarge',  this.isLarge);
+    enlarge () {
+      this.isLarge = !this.isLarge
+      this.$electron.ipcRenderer.send('enlarge', this.isLarge)
     },
-    refresh() {
-      console.log('refresh');
+    refresh () {
+      console.log('refresh')
     },
     back () {
       this.$router.go(-1)
@@ -87,35 +87,35 @@ export default {
 
       })
     },
-    search(key) {
+    search (key) {
       this.$http({
         url: `http://wapi.kuwo.cn/api/www/search/searchKey?key=${key}`,
         method: 'get'
       }).then(res => {
         if (res.status === 200) {
-          const keyArr = res.data.data || [];
+          const keyArr = res.data.data || []
           this.newKeyArr = keyArr.map(ele => {
-            const keyVal = ele.split('\n');
-            const obj = {};
+            const keyVal = ele.split('\n')
+            const obj = {}
             keyVal.forEach(item => {
-              const arr = item.split('=');
-              obj[arr[0]] = arr[1];
-            });
+              const arr = item.split('=')
+              obj[arr[0]] = arr[1]
+            })
             return obj
-          });
+          })
           // console.log('this.newKeyArr: ', this.newKeyArr);
         }
       })
     },
-    blur() {
+    blur () {
       console.log(1)
-      this.showSearchList = false;
+      this.showSearchList = false
     },
-    goSearchPage(key) {
-      console.log('key: ', key);
-      this.inputValue = key;
-      this.$router.push({name: 'searchPage', params: {key}});
-      this.showSearchList = false;
+    goSearchPage (key) {
+      console.log('key: ', key)
+      this.inputValue = key
+      this.$router.push({name: 'searchPage', params: {key}})
+      this.showSearchList = false
     }
   }
 }

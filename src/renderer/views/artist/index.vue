@@ -17,12 +17,12 @@
   </div>
 </template>
 <script>
-import HeadItem from '@/components/headItem';
-import List from '@/components/list';
-import Btns from '@/components/buttons/playAll';
-import AlbumList from './components/albums';
-import Mv from './components/mv';
-import Info from './components/introduction';
+import HeadItem from '@/components/headItem'
+import List from '@/components/list'
+import Btns from '@/components/buttons/playAll'
+import AlbumList from './components/albums'
+import Mv from './components/mv'
+import Info from './components/introduction'
 export default {
   components: {
     HeadItem,
@@ -32,8 +32,8 @@ export default {
     Mv,
     Info
   },
-  data() {
-    return{
+  data () {
+    return {
       musicList: [],
       singerInfo: {},
       tabs: ['单曲', '专辑', 'MV', '简介', '评论', '相似歌手'],
@@ -42,41 +42,40 @@ export default {
     }
   },
   computed: {
-    nowComponent() {
-      switch(this.tabIndex) {
+    nowComponent () {
+      switch (this.tabIndex) {
         case 0:
-          return 'List';
+          return 'List'
         case 1:
-          return 'AlbumList';
+          return 'AlbumList'
         case 2:
-          return 'Mv';
+          return 'Mv'
         case 3:
-          return 'Info';
+          return 'Info'
         case 4:
-          return;
       }
     }
   },
-  created() {
-    this.init();
-    this.getArtistInfo();
+  created () {
+    this.init()
+    this.getArtistInfo()
   },
   methods: {
-    init() {
+    init () {
       const params = {
         url: `http://wapi.kuwo.cn/api/www/artist/artistMusic?artistid=${this.$route.params.id}&pn=1&rn=30`,
         method: 'get'
       }
       this.$http(params).then((res) => {
-        console.log('artistMusic', res);
+        console.log('artistMusic', res)
         if (res.status === 200) {
           // this.ablumInfo = res.data.data;
-          this.musicList = res.data.data.list || [];
+          this.musicList = res.data.data.list || []
           // console.log("TCL: init -> this.musicList", this.musicList)
         }
       })
     },
-    getArtistInfo() {
+    getArtistInfo () {
       const params = {
         url: `http://wapi.kuwo.cn/api/www/artist/artist?artistid=${this.$route.params.id}`,
         method: 'get'
@@ -85,17 +84,17 @@ export default {
         // console.log('getArtistInfo', res);
         if (res.status === 200) {
           // this.ablumInfo = res.data.data;
-          this.singerInfo = res.data.data || [];
+          this.singerInfo = res.data.data || []
           // console.log("TCL: getArtistInfo -> this.singerInfo", this.singerInfo)
         }
       })
     },
-    changeIndex(index) {
-      this.tabIndex = index;
+    changeIndex (index) {
+      this.tabIndex = index
     },
-    playAll() {
-      this.$store.commit('PLAY_ALL', this.musicList);
-      this.$store.commit('CHANGE_NOW_SONG', this.musicList[0]);
+    playAll () {
+      this.$store.commit('PLAY_ALL', this.musicList)
+      this.$store.commit('CHANGE_NOW_SONG', this.musicList[0])
     }
   }
 }

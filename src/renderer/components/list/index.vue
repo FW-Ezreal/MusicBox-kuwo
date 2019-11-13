@@ -61,11 +61,11 @@ export default {
     from: String
   },
   watch: {
-    musicList(curdata) {
+    musicList (curdata) {
       // console.log('curdata: ', curdata);
     }
   },
-  mounted() {
+  mounted () {
   },
   methods: {
     sort (index) {
@@ -88,18 +88,18 @@ export default {
     hot (item) {
       return item.score100
     },
-    playSong(item) {
+    playSong (item) {
       // console.log('item: ', item);
-      this.$store.commit('CHANGE_NOW_SONG', item);
-      this.$store.commit('ADD', item);
+      this.$store.commit('CHANGE_NOW_SONG', item)
+      this.$store.commit('ADD', item)
     },
-    toArtist(item) {
+    toArtist (item) {
       // console.log('this.$route: ', this.$router);
       // this.$route.push({name: 'playlist_detail', params: {id: item.artistid}})
-      
+
       this.$router.push({name: 'artist', params: { id: item.artistid }})
     },
-    toAlbum(item) {
+    toAlbum (item) {
       this.$router.push({name: 'album', params: { id: item.albumid }})
       // this.$route.push({name: 'artist', params: {id: item.artistid}})
     }

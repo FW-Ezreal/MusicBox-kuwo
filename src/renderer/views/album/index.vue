@@ -5,33 +5,33 @@
   </div>
 </template>
 <script>
-import HeadItem from '@/components/headItem';
-import List from '@/components/list';
+import HeadItem from '@/components/headItem'
+import List from '@/components/list'
 export default {
   components: {
     HeadItem,
     List
   },
-  data() {
-    return{
+  data () {
+    return {
       musicList: [],
       albumInfo: {}
     }
   },
-  created() {
-    this.init();
+  created () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       const params = {
         url: `http://wapi.kuwo.cn/api/www/album/albumInfo?pn=1&rn=30&albumId=${this.$route.params.id}`,
         method: 'get'
       }
       this.$http(params).then((res) => {
-        console.log('res', res);
+        console.log('res', res)
         if (res.status === 200) {
-          this.albumInfo = res.data.data;
-          this.musicList = res.data.data.musicList || [];
+          this.albumInfo = res.data.data
+          this.musicList = res.data.data.musicList || []
         }
       })
     }

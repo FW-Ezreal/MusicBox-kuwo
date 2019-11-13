@@ -17,11 +17,11 @@ export default {
   watch: {
 
   },
-  created() {
+  created () {
   },
   methods: {
-    playAll() {
-      this.$emit('playAll');
+    playAll () {
+      this.$emit('playAll')
     }
   }
 }

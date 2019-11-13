@@ -49,12 +49,12 @@
   </div>
 </template>
 <script>
-import SongList from '@/components/songList';
+import SongList from '@/components/songList'
 export default {
   components: {
     SongList
   },
-  data() {
+  data () {
     return {
       iscur: 0,
       tabs: [
@@ -75,37 +75,37 @@ export default {
       allBang: []
     }
   },
-  created() {
-    this.getBangList(93);
-    this.getAllBang();
+  created () {
+    this.getBangList(93)
+    this.getAllBang()
   },
   methods: {
-    tabChange(index, id) {
-      if (index === this.iscur) return;
-      this.iscur = index;
-      this.getBangList(id);
+    tabChange (index, id) {
+      if (index === this.iscur) return
+      this.iscur = index
+      this.getBangList(id)
     },
-    getBangList(id) {
+    getBangList (id) {
       const param = {
         url: ` http://wapi.kuwo.cn/api/www/bang/bang/musicList?bangId=${id}&pn=1&rn=20`,
         method: 'get'
-      };
+      }
       this.$http(param).then(res => {
         if (res.status === 200) {
-          this.bangMusicList = res.data.data.musicList || [];
-          console.log('this.bangMusicList: ', this.bangMusicList);
+          this.bangMusicList = res.data.data.musicList || []
+          console.log('this.bangMusicList: ', this.bangMusicList)
         }
       })
     },
-    getAllBang() {
+    getAllBang () {
       const param = {
         url: `http://wapi.kuwo.cn/api/pc/bang/list`,
         method: 'get'
-      };
+      }
       this.$http(param).then(res => {
         if (res.status === 200) {
-          this.allBang = res.data.child || [];
-          console.log('this.allBang: ', this.allBang);
+          this.allBang = res.data.child || []
+          console.log('this.allBang: ', this.allBang)
         }
       })
     },
@@ -114,13 +114,13 @@ export default {
       idx = idx < 10 ? `0${idx}` : idx
       return idx
     },
-    playSong(index) {
-      const item = this.bangMusicList[index];
-      this.$store.commit('CHANGE_NOW_SONG', item);
-      this.$store.commit('ADD', item);
+    playSong (index) {
+      const item = this.bangMusicList[index]
+      this.$store.commit('CHANGE_NOW_SONG', item)
+      this.$store.commit('ADD', item)
     },
-    toArtist(id) {
-      this.$router.push({name: 'artist', params: {id}});
+    toArtist (id) {
+      this.$router.push({name: 'artist', params: {id}})
     }
   }
 

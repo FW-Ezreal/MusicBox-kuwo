@@ -19,10 +19,12 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "npm run lint:fix",
-    "package": "electron-packager ./output myapp --platform=darwin --overwrite"
+    "package": "electron-packager ./output myapp --platform=darwin --overwrite",
+    "package1": "electron-packager ./output kuwo --platform=win32 --overwrite"
+
   },
   "build": {
-    "productName": "music-player",
+    "productName": "kuwo",
     "appId": "com.example.yourapp",
     "directories": {
       "output": "build"

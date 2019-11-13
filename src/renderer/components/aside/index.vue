@@ -45,13 +45,13 @@
 <script>
 export default {
   methods: {
-    goIndex() {
-      this.$router.push({path: '/'});
+    goIndex () {
+      this.$router.push({path: '/'})
     },
-    mouseEnter() {
+    mouseEnter () {
 
     },
-    mouseLeave() {
+    mouseLeave () {
 
     }
   }

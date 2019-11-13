@@ -14,10 +14,10 @@
 </template>
 <script>
 
-import jsonp from '@/untils/jsonp.js';
+import jsonp from '@/untils/jsonp.js'
 export default {
-  data() {
-    return{
+  data () {
+    return {
       infoObj: {
         name: '姓名',
         gender: '性别',
@@ -33,21 +33,21 @@ export default {
       aritstInfo: {}
     }
   },
-  created() {
-    this.init();
+  created () {
+    this.init()
   },
   methods: {
-    init() {
-      const url = `https://search.kuwo.cn/r.s?stype=artistinfo&encoding=utf8&thost=search.kuwo.cn&artistid=${this.$route.params.id}`;
+    init () {
+      const url = `https://search.kuwo.cn/r.s?stype=artistinfo&encoding=utf8&thost=search.kuwo.cn&artistid=${this.$route.params.id}`
       jsonp(url).then((res) => {
-        this.aritstInfo = res || {};
+        this.aritstInfo = res || {}
       })
     },
-    replaceBr(info) {
+    replaceBr (info) {
       return info
         .replace(/&lt;/g, '<')
         .replace(/br/g, 'br/')
-        .replace(/&gt;/g, '>');
+        .replace(/&gt;/g, '>')
     }
   }
 }

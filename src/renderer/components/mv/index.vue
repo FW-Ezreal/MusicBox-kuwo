@@ -4,13 +4,13 @@
   </div>
 </template>
 <script>
-import MvItem from './components/mvItem';
+import MvItem from './components/mvItem'
 export default {
   components: {
     MvItem
   },
   props: {
-    listData: Array,
+    listData: Array
   },
   mounted () {
   }
