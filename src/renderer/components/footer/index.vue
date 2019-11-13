@@ -122,7 +122,7 @@ export default {
       visible: false,
       curTime: '00:00',
       nowTime: 0,
-      is_play: true,
+      is_play: false,
       isLoop: false,
       showMode: false,
       volumeNum: this.$store.state.song.volumeNum,
@@ -188,6 +188,12 @@ export default {
   },
   created () {
     window.a = this
+    this.getPlayUrl()
+
+  },
+  mounted () {
+    const audio = this.$refs.audio
+    this.is_play = audio.paused
   },
   methods: {
     changeSpeed (index) {
@@ -211,10 +217,7 @@ export default {
       } else {
         audio.pause()
       }
-      console.log('audio.paused: ', audio.paused);
       this.is_play = !audio.paused
-      
-
       // if (this.songList.length === 0) return;
       // this.$store.commit('CHANGE_STATE');
     },
@@ -231,7 +234,6 @@ export default {
       audio.currentTime = e || 0
     },
     timeupdate (e) {
-      // console.log(e)
       const currTime = e.target.currentTime
       const percent = currTime / this.curSong.duration
       this.curTime = mFormat(currTime)
