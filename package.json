@@ -87,6 +87,7 @@
     "electron-builder": "^20.19.2",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
+    "electron-download": "^4.1.1",
     "electron-installer-dmg": "^3.0.0",
     "electron-osx-sign": "^0.4.14",
     "electron-packager": "^14.0.6",

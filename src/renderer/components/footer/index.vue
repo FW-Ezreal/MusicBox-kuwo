@@ -5,8 +5,8 @@
           <i class="iconfont icon-shangyiqu"></i>
       </el-button>
       <el-button class="play-btn hover-8" @click="playClick">
-          <i class="iconfont icon-zanting" v-if="is_play"></i>
-          <i class="iconfont icon-bofang1" v-else></i>
+          <i class="iconfont icon-bofang1" v-if="is_play"></i>
+          <i class="iconfont icon-zanting" v-else></i>
       </el-button>
       <el-button class="next-btn hover-8" @click="playAfter" :disabled="!after_song">
         <i class="iconfont icon-shangyiqu"></i>
@@ -16,7 +16,6 @@
       <img v-lazy="curSong.pic" :title="curSong.url">
       <audio
         ref="audio"
-        autoplay
         @timeupdate="timeupdate"
         @ended="ended"
         :src="curSong.url">
