@@ -373,7 +373,7 @@ export default {
       }
       .time{
         font-size: 12px;
-        width: 90px;
+        width: 80px;
         text-align: right;
       }
       .song-info{
@@ -382,9 +382,15 @@ export default {
       .song-info, .time{
         height: 17px;
         line-height: 17px;
+        .name{
+          max-width: 55%;
+
+        }
+        .ar_name{
+          max-width: 40%;
+        }
         span{
           display: inline-block;
-          max-width: 45%;
           vertical-align: middle;
         }
       }

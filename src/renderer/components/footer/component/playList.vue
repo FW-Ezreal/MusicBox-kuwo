@@ -70,7 +70,7 @@ export default {
 .playlist{
     display: flex;
     justify-content: flex-end;
-    height: 650px;
+    height: 550px;
     width: 400px;
     background-color: transparent;
     z-index: 10;

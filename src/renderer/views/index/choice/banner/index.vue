@@ -1,6 +1,6 @@
 <template>
     <div>
-      <el-carousel :interval="5000" :autoplay="false" arrow="hover" type="card" height="176px">
+      <el-carousel :interval="5000" :autoplay="false" arrow="hover" type="card" :height="height">
         <el-carousel-item v-for="(item, index) in focusMap" :key="index">
           <img :src="item.pic">
         </el-carousel-item>
@@ -13,15 +13,27 @@ export default {
   data () {
     return {
       activeName: 'choice',
-      focusMap: []
+      focusMap: [],
+      height: '176px'
     }
   },
   created () {
     this.init()
+    const that = this;
+    window.onresize = () => {
+      const width = document.getElementsByClassName('page-body')[0].offsetWidth;
+      that.height = 176 + (width - 784) * 0.09 + 'px';
+      console.log('that.height: ', that.height);
+    }
+  },
+  mounted() {
+    const that = this;
+
+    const width = document.getElementsByClassName('page-body')[0].offsetWidth;
+    that.height = 176 + (width - 784) * 0.09 + 'px';
   },
   methods: {
     init () {
-      console.log('bannerUrl: ', banner)
       const param = {
         url: banner,
         method: 'get'
