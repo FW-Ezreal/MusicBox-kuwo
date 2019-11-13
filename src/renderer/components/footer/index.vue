@@ -20,7 +20,7 @@
         :loop="playMode === 1"
         @timeupdate="timeupdate"
         @ended="ended"
-        :src="curSong.url">
+        :src="curSong.url || ''">
       </audio>
     </div>
     <div class="info">
