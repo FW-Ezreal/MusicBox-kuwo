@@ -30,7 +30,6 @@
             {{ curSong.name || curSong.artist ? ' - ' : '' }}
             <span class="ar_name">{{ curSong.artist }}</span>
           </div>
-          <div class="time"></div>
         </div>
         <div class="time">
           <span class="cur-time">{{ curTime }}</span>
@@ -349,6 +348,7 @@ export default {
   }
   .info{
     flex: 1;
+    // overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -360,6 +360,7 @@ export default {
       .names{
       }
       .time{
+        width: 100px;
         font-size: 12px;
       }
     }

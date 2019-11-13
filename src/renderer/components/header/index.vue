@@ -159,4 +159,9 @@ export default {
   /deep/.el-button+.el-button {
     margin-left: 6px;
   }
+  /deep/.el-button:focus, .el-button:hover {
+    background: transparent;
+    border-color: transparent;
+    color: rgba(0,0,0,1);
+  }
 </style>

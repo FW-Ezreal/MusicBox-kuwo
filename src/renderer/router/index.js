@@ -7,6 +7,12 @@ import Album from '@/views/album'
 import searchPage from '@/views/searchPage'
 import bangDetial from '@/views/bang_detial'
 import rcm from '@/views/rcm'
+
+// import SearchSingle from '@/views/searchPage/components/single'
+// import SearchMV from '@/views/searchPage/components/mv'
+// import SearchSinger from '@/views/searchPage/components/singer'
+// import SearchSongList from '@/views/searchPage/components/songList'
+// import SearchAlbum from '@/views/searchPage/components/album'
 // console.log('Index: ', Index);
 
 Vue.use(Router)
@@ -43,6 +49,33 @@ export default new Router({
           path: 'searchPage/:key',
           name: 'searchPage',
           component: searchPage
+          // children: [
+          //   {
+          //     path: '',
+          //     name: 'single',
+          //     component: SearchSingle
+          //   },
+          //   {
+          //     path: '/mv',
+          //     name: 'searchMV',
+          //     component: SearchMV
+          //   },
+          //   {
+          //     path: '/singer',
+          //     name: 'searchSinger',
+          //     component: SearchSinger
+          //   },
+          //   {
+          //     path: '/songList',
+          //     name: 'searchSongList',
+          //     component: SearchSongList
+          //   },
+          //   {
+          //     path: '/album',
+          //     name: 'searchAlbum',
+          //     component: SearchAlbum
+          //   }
+          // ]
         },
         {
           path: 'bangDetial',
