@@ -16,6 +16,7 @@
       <img v-lazy="curSong.pic" :title="curSong.url">
       <audio
         ref="audio"
+        autoplay
         @timeupdate="timeupdate"
         @ended="ended"
         :src="curSong.url">
@@ -188,11 +189,10 @@ export default {
   created () {
     window.a = this
     this.getPlayUrl()
-
   },
   mounted () {
     const audio = this.$refs.audio
-    this.is_play = audio.paused
+    this.is_play = !audio.paused
   },
   methods: {
     changeSpeed (index) {
