@@ -17,6 +17,7 @@
       <audio
         ref="audio"
         autoplay
+        :loop="playMode === 1"
         @timeupdate="timeupdate"
         @ended="ended"
         :src="curSong.url">
@@ -25,10 +26,10 @@
     <div class="info">
       <div class="top">
         <div class="names">
-          <div>
-            <span class="name">{{ curSong.name }} </span>
+          <div class="song-info">
+            <span class="name line1" :title="curSong.name">{{ curSong.name }} </span>
             {{ curSong.name || curSong.artist ? ' - ' : '' }}
-            <span class="ar_name">{{ curSong.artist }}</span>
+            <span class="ar_name line1" :title="curSong.artist">{{ curSong.artist }}</span>
           </div>
         </div>
         <div class="time">
@@ -40,7 +41,7 @@
       <div class="progress">
         <el-slider
           v-model="nowTime"
-          :max="curSong.duration || 0"
+          :max="curSong.duration || 1"
           @change="playTimeChange">
         </el-slider>
       </div>
@@ -178,21 +179,26 @@ export default {
   watch: {
     curSongId (curData, lastData) {
       // console.log('curData: ', curData);
+      this.is_play = false;
       if (curData) {
         this.curTime = '00:00'
         this.getPlayUrl()
       } else {
+        this.is_play = true;
         this.curTime = '00:00'
       }
     }
   },
   created () {
-    window.a = this
+    window.a = this;
     this.getPlayUrl()
   },
   mounted () {
     const audio = this.$refs.audio
     this.is_play = !audio.paused
+    if (!this.curSongId) {
+      this.is_play = true;
+    }
   },
   methods: {
     changeSpeed (index) {
@@ -212,7 +218,6 @@ export default {
     playClick () {
       const audio = this.$refs.audio
       this.is_play = !audio.paused
-
       if (audio.paused) {
         audio.play()
       } else {
@@ -243,14 +248,16 @@ export default {
     },
     ended () {
       this.nowTime = 0
-
       const mode = this.playMode
       if (mode === 0) { // 单曲播放
         this.$store.commit('CHANGE_NOW_SONG', {})
       } else if (mode === 1) { // 单曲循环
-        this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex])
+        // this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex])
       } else if (mode === 2) { // 顺序播放
-        if (this.currentIndex === this.songList.length - 1) return
+        if (this.currentIndex === this.songList.length - 1) {
+          this.$store.commit('CHANGE_NOW_SONG', {})
+          return
+        }
         this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex + 1])
       } else if (mode === 3) { // 循环播放
         const index = this.currentIndex === this.songList.length - 1 ? 0 : this.currentIndex + 1
@@ -356,15 +363,30 @@ export default {
     flex-direction: column;
     justify-content: center;
     height: 60px;
+    width: 0;
     .top{
       font-size: 13px;
       display: flex;
       justify-content: space-between;
       .names{
+        width: 78%;
       }
       .time{
-        width: 100px;
         font-size: 12px;
+        width: 90px;
+        text-align: right;
+      }
+      .song-info{
+        width: 100%;
+      }
+      .song-info, .time{
+        height: 17px;
+        line-height: 17px;
+        span{
+          display: inline-block;
+          max-width: 45%;
+          vertical-align: middle;
+        }
       }
     }
     .progress{
@@ -432,11 +454,12 @@ export default {
 .mode-list{
   height: 20px;
   line-height: 20px;
+  cursor: pointer;
   &:hover{
-    background: rgba(0,0,0,0.05);
+    background: rgba(0,0,0,0.09);
   }
 }
 .curMode{
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.09);
 }
 </style>

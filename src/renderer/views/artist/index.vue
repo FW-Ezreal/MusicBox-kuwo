@@ -54,6 +54,18 @@ export default {
           return 'Info'
         case 4:
       }
+    },
+    id () {
+      return this.$route.params.id
+    }
+  },
+  watch: {
+    id () {
+      console.log('aa');
+      this.init();
+      this.getArtistInfo()
+      this.tabIndex = 0,
+      this.from = 'artist'
     }
   },
   created () {

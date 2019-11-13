@@ -12,9 +12,9 @@
       <el-scrollbar class="scrollbar">
         <div class="song-item" v-for="(item, index) in songList" :key="index" @dblclick="play(item)">
           <div class="num">{{ index + 1 }}</div>
-          <div class="name" :style="{color: item.rid == curSongId ? '#C77F0E' : ''}" >{{ item.name }}</div>
+          <div class="name line1" :style="{color: item.rid == curSongId ? '#C77F0E' : ''}" @click="play(item)">{{ item.name }}</div>
           <!-- <div class="info"> -->
-          <span class="singler">{{ item.artist }}</span>
+          <span class="singer line1" :title="item.artist" @click="toArtist(item.artistid)">{{ item.artist }}</span>
             <!-- <span class="time">{{ time(item.duration) }}</span> -->
           <!-- </div> -->
           <!-- <div class="icon">
@@ -59,6 +59,9 @@ export default {
     clearSongList () {
       this.$store.commit('CLEAR')
       this.$store.commit('CHANGE_NOW_SONG', {})
+    },
+    toArtist (id) {
+      this.$router.push({name: 'artist', params: {id}})
     }
   }
 }
@@ -112,6 +115,7 @@ export default {
         position: relative;
         background: #fff;
         display: flex;
+        cursor: pointer;
         .num{
           width: 50px;
           text-align: center;
@@ -123,6 +127,7 @@ export default {
           overflow: hidden;
         }
         .singer{
+          width: 100px;
           color: #666;
         }
         // .time{

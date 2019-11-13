@@ -3,7 +3,7 @@ const state = {
   curTime: 0,
   percent: 0,
   volumeNum: 0.3,
-  playMode: 0
+  playMode: 3
 }
 
 const mutations = {
