@@ -2,26 +2,26 @@
   <SongList :list-data="playList"/>
 </template>
 <script>
-import { gxh } from '@/api';
-import SongList from '@/components/songList';
+// import { gxh } from '@/api'
+import SongList from '@/components/songList'
 export default {
   components: {
     SongList
   },
-  data() {
+  data () {
     return {
       activeName: 'choice',
       playList: []
     }
   },
-  created() {
-    this.init();
+  created () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       const param = {
         url: 'http://mgxhtj.kuwo.cn/mgxh.s?type=rcm_keyword_playlist&apiv=1',
-        method: 'get',
+        method: 'get'
         // data: {
         //   type: 'rcm_keyword_playlist',
         //   apiv: 1
@@ -30,7 +30,7 @@ export default {
       this.$http(param).then(res => {
         console.log('res1', res)
         if (res.status === 200) {
-          this.playList = res.data.playlist || [];
+          this.playList = res.data.playlist || []
         }
       })
     }

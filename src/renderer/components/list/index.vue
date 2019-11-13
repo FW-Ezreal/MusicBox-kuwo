@@ -25,27 +25,27 @@ export default {
     musicList: Array
   },
   methods: {
-    sort(index) {
-      let idx = parseInt(index) + 1;
-      idx = idx < 10 ? `0${idx}` : idx;
-      return idx;
+    sort (index) {
+      let idx = parseInt(index) + 1
+      idx = idx < 10 ? `0${idx}` : idx
+      return idx
     },
-    name(item) {
-      return item.name || '';
+    name (item) {
+      return item.name || ''
     },
-    artist(item) {
-      return item.artist || '';
+    artist (item) {
+      return item.artist || ''
     },
-    album(item) {
-      return item.album || '';
+    album (item) {
+      return item.album || ''
     },
-    time(item) {
-      return item.songTimeMinutes || '';
+    time (item) {
+      return item.songTimeMinutes || ''
     },
-    hot(item) {
-      return item.score100;
+    hot (item) {
+      return item.score100
     },
-    playSong(item) {
+    playSong (item) {
       const params = {
         url: `http://www.kuwo.cn/url?format=mp3&rid=${item.id}&response=url&type=convert_url3&br=128kmp3&from=web&t=1571301747629`,
         method: 'get'
@@ -55,7 +55,6 @@ export default {
           console.log('url', res.url)
         }
       })
-      
     }
   }
 }

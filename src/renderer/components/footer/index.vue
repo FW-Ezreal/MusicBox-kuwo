@@ -60,12 +60,12 @@
   </div>
 </template>
 <script>
-import PlayList from './component/playList';
+import PlayList from './component/playList'
 export default {
   components: {
     PlayList
   },
-  data() {
+  data () {
     return {
       is_play: false,
       before_song: true,
@@ -76,16 +76,16 @@ export default {
     }
   },
   methods: {
-    playBefore() {
+    playBefore () {
 
     },
-    playClick() {
+    playClick () {
 
     },
-    playAfter() {
+    playAfter () {
 
     },
-    playTimeChange() {
+    playTimeChange () {
 
     }
   }

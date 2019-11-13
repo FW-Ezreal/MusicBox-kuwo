@@ -9,10 +9,7 @@ import store from './store'
 
 import './comment/base'
 
-
-
 Vue.use(ElementUI)
-
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios

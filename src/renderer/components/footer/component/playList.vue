@@ -28,13 +28,13 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
 
     }
   },
   methods: {
-    play() {
+    play () {
 
     }
   }
