@@ -1,20 +1,55 @@
 <template>
   <div class="list">
-    <div class="list-item-wrap" v-for="(item, index) in musicList" :key="index">
-      <span class="num">{{ sort(index) }}</span>
+    <div class="list-item-wrap tab-name">
+      <div class="num">{{ musicList.length }}</div>
       <div class="music-info">
         <div class="name">
-          <a href="javascript:;" @click="playSong(item)">{{ name(item) }}</a>
+          歌名
         </div>
         <div class="other-info">
-          <span class="artist line1"><a href="javascript:;">{{ artist(item)}}</a></span>
-          <span class="album line1"><a href="javascript:;">{{ album(item) }}</a></span>
+          <span class="artist line1"
+            v-if="from !== 'artist'"
+          >歌手</span>
+          <span class="album line1"
+            v-if="from !== 'album'"
+          >专辑</span>
         </div>
       </div>
       <!-- <span class="time">{{ time(item) }}</span> -->
       <div class="end-icon">
-        <span class="hot">{{ hot(item) }}</span>
+        <span class="hot">热度</span>
         <span class="format">音质</span>
+      </div>
+    </div>
+    <div class="list-item-wrap tab-list" v-for="(item, index) in musicList" :key="index">
+      <div class="num">{{ sort(index) }}</div>
+      <div class="music-info">
+        <div class="name">
+          <a href="javascript:;" class="line1" @click="playSong(item)">{{ name(item) }}</a>
+          <i class="iconfont icon-vip" v-if="item.isListenFee"></i>
+          <i class="iconfont icon-mv-play" v-if="item.hasmv === 1"></i>
+        </div>
+        <div class="other-info">
+          <span class="artist line1"
+            v-if="from !== 'artist'"
+          >
+            <a href="javascript:;" @click="toArtist(item)">{{ artist(item)}}</a>
+          </span>
+          <span class="album line1"
+            v-if="from !== 'album'"
+          >
+            <a href="javascript:;" @click="toAlbum(item)">{{ album(item) }}</a>
+          </span>
+        </div>
+      </div>
+      <!-- <span class="time">{{ time(item) }}</span> -->
+      <div class="end-icon">
+        <div class="hot">
+          <span class="progess-bg">
+            <span class="progess" :style="{width: `${92 - index - Math.random()*6}%`}"></span>
+          </span>
+        </div>
+        <span class="format"><i class="iconfont icon-nondestructive"></i></span>
       </div>
     </div>
   </div>
@@ -22,7 +57,15 @@
 <script>
 export default {
   props: {
-    musicList: Array
+    musicList: Array,
+    from: String
+  },
+  watch: {
+    musicList (curdata) {
+      // console.log('curdata: ', curdata);
+    }
+  },
+  mounted () {
   },
   methods: {
     sort (index) {
@@ -46,31 +89,49 @@ export default {
       return item.score100
     },
     playSong (item) {
-      const params = {
-        url: `http://www.kuwo.cn/url?format=mp3&rid=${item.id}&response=url&type=convert_url3&br=128kmp3&from=web&t=1571301747629`,
-        method: 'get'
-      }
-      this.$http(params).then(res => {
-        if (res.code) {
-          console.log('url', res.url)
-        }
-      })
+      // console.log('item: ', item);
+      this.$store.commit('CHANGE_NOW_SONG', item)
+      this.$store.commit('ADD', item)
+    },
+    toArtist (item) {
+      // console.log('this.$route: ', this.$router);
+      // this.$route.push({name: 'playlist_detail', params: {id: item.artistid}})
+
+      this.$router.push({name: 'artist', params: { id: item.artistid }})
+    },
+    toAlbum (item) {
+      this.$router.push({name: 'album', params: { id: item.albumid }})
+      // this.$route.push({name: 'artist', params: {id: item.artistid}})
     }
   }
 }
 </script>
 <style lang="less" scoped>
   .list-item-wrap{
+    i{
+      font-size: 14px;
+      color: #C77F0E;
+    }
+    &.tab-name{
+      background: rgba(0, 0, 0, 0.03);
+      opacity: 0.6;
+    }
     font-size: 14px;
     height: 44px;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
     >span, >div{
-      line-height: 40px;
-      height: 40px;
+      line-height: 44px;
+      height: 44px;
     }
     a:hover{
       color: rgb(199, 127, 14);
+    }
+    &.tab-list{
+      .num{
+        opacity: 0.6;
+      }
     }
     .num{
       width: 71px;
@@ -79,6 +140,13 @@ export default {
     .music-info{
       flex: 1;
       display: flex;
+      overflow: hidden;
+      i{
+        margin-left: 5px;
+      }
+      a{
+        opacity: 0.8;
+      }
       .name{
         display: flex;
         width: 50%;
@@ -95,10 +163,28 @@ export default {
       width: 135px;
       display: flex;
       .hot{
-        width: 60px;
+        position: relative;
+        width: 52px;
+        margin-right: 8px;
+        span{
+          display: inline-block;
+          height: 6px;
+          border-radius: 10px;
+          width: 100%;
+          background: rgba(0,0,0, 0.07);
+        }
+        .progess{
+          position: absolute;
+          top: 20px;
+          background: rgba(0,0,0, 0.2);
+        }
       }
       .format{
-        width: 60px;
+        width: 28px;
+        font-size: 14px;
+        line-height: 44px;
+        height: 44px;
+        margin: 0 14px 0 32px;
       }
     }
   }

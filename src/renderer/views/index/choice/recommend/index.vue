@@ -1,8 +1,7 @@
 <template>
-  <SongList :list-data="playList"/>
+  <SongList :list-data="playList" :from="'index'"/>
 </template>
 <script>
-// import { gxh } from '@/api'
 import SongList from '@/components/songList'
 export default {
   components: {
@@ -11,7 +10,12 @@ export default {
   data () {
     return {
       activeName: 'choice',
-      playList: []
+      playList: [],
+      rcmList: {
+        pic: 'http://kwimg3.kuwo.cn/star/upload/42/4/1551686998992_.png',
+        name: '每日单曲推荐',
+        rcm: 1
+      }
     }
   },
   created () {
@@ -20,17 +24,19 @@ export default {
   methods: {
     init () {
       const param = {
-        url: 'http://mgxhtj.kuwo.cn/mgxh.s?type=rcm_keyword_playlist&apiv=1',
-        method: 'get'
-        // data: {
-        //   type: 'rcm_keyword_playlist',
-        //   apiv: 1
-        // }
+        url: 'http://mgxhtj.kuwo.cn/mgxh.s',
+        method: 'get',
+        params: {
+          type: 'rcm_keyword_playlist',
+          apiv: 1
+        }
       }
       this.$http(param).then(res => {
         console.log('res1', res)
         if (res.status === 200) {
-          this.playList = res.data.playlist || []
+          const playList = res.data.playlist || []
+          playList.unshift(this.rcmList)
+          this.playList = playList
         }
       })
     }

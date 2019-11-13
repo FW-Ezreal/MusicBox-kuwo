@@ -1,7 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '../views/index'
-import PlaylistDetail from '@/components/playlist_detail'
+import PlaylistDetail from '@/views/playlist_detail'
+import Artist from '@/views/artist'
+import Album from '@/views/album'
+import searchPage from '@/views/searchPage'
+import bangDetial from '@/views/bang_detial'
+import rcm from '@/views/rcm'
+
+// import SearchSingle from '@/views/searchPage/components/single'
+// import SearchMV from '@/views/searchPage/components/mv'
+// import SearchSinger from '@/views/searchPage/components/singer'
+// import SearchSongList from '@/views/searchPage/components/songList'
+// import SearchAlbum from '@/views/searchPage/components/album'
 // console.log('Index: ', Index);
 
 Vue.use(Router)
@@ -23,6 +34,58 @@ export default new Router({
           path: 'playlist_detail/:id',
           name: 'playlist_detail',
           component: PlaylistDetail
+        },
+        {
+          path: 'artist/:id',
+          name: 'artist',
+          component: Artist
+        },
+        {
+          path: 'album/:id',
+          name: 'album',
+          component: Album
+        },
+        {
+          path: 'searchPage/:key',
+          name: 'searchPage',
+          component: searchPage
+          // children: [
+          //   {
+          //     path: '',
+          //     name: 'single',
+          //     component: SearchSingle
+          //   },
+          //   {
+          //     path: '/mv',
+          //     name: 'searchMV',
+          //     component: SearchMV
+          //   },
+          //   {
+          //     path: '/singer',
+          //     name: 'searchSinger',
+          //     component: SearchSinger
+          //   },
+          //   {
+          //     path: '/songList',
+          //     name: 'searchSongList',
+          //     component: SearchSongList
+          //   },
+          //   {
+          //     path: '/album',
+          //     name: 'searchAlbum',
+          //     component: SearchAlbum
+          //   }
+          // ]
+        },
+        {
+          path: 'bangDetial',
+          name: 'bangDetial',
+          component: bangDetial
+        },
+        {
+          path: 'rcm',
+          name: 'rcm',
+          component: rcm
         }
       ]
     }

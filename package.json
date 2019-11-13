@@ -19,10 +19,12 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "npm run lint:fix",
-    "package": "electron-packager ./output myapp --platform=darwin --overwrite"
+    "package": "electron-packager ./output myapp --platform=darwin --overwrite",
+    "package1": "electron-packager ./output kuwo --platform=win32 --overwrite"
+
   },
   "build": {
-    "productName": "music-player",
+    "productName": "kuwo",
     "appId": "com.example.yourapp",
     "directories": {
       "output": "build"
@@ -46,10 +48,10 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "icon": "build/icons/kw.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/kw.ico"
     },
     "linux": {
       "icon": "build/icons"
@@ -100,6 +102,7 @@
     "eslint-plugin-standard": "^3.1.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
+    "jsonp": "^0.2.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "0.4.0",

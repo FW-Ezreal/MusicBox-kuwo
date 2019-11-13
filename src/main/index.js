@@ -23,7 +23,9 @@ function createWindow () {
     height: 800,
     useContentSize: true,
     width: 1200,
-    frame: false
+    frame: false,
+    minWidth: 1034,
+    minHeight: 654
   })
 
   mainWindow.loadURL(winURL)
@@ -48,11 +50,20 @@ app.on('activate', () => {
 })
 
 ipcMain.on('mini', () => {
+  console.log('aa')
   mainWindow.minimize()
 })
 
 ipcMain.on('close', () => {
   mainWindow.close()
+})
+
+ipcMain.on('enlarge', (event, ...args) => {
+  if (args[0]) {
+    mainWindow.maximize()
+  } else {
+    mainWindow.unmaximize()
+  }
 })
 /**
  * Auto Updater

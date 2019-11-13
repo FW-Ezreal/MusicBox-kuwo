@@ -1,65 +1,112 @@
 <template>
-  <div class="player">
+  <div class="player" :style="{backgroundColor: 'rgba(16,17,33,1)', color: 'rgba(255,255,255,0.88)'}">
     <div class="control">
-      <el-button @click="playBefore" :disabled="!before_song">
-          <i class="iconfont icon-kuaitui"></i>
+      <el-button class="pre-btn hover-8" @click="playBefore" :disabled="!before_song">
+          <i class="iconfont icon-shangyiqu"></i>
       </el-button>
-      <el-button class="play-btn" @click="playClick">
-          <i class="iconfont icon-zanting" v-if="!is_play"></i>
-          <i class="iconfont icon-bofang" v-else></i>
+      <el-button class="play-btn hover-8" @click="playClick">
+          <i class="iconfont icon-bofang1" v-if="is_play"></i>
+          <i class="iconfont icon-zanting" v-else></i>
       </el-button>
-      <el-button @click="playAfter" :disabled="!after_song">
-        <i class="iconfont icon-kuaijin"></i>
+      <el-button class="next-btn hover-8" @click="playAfter" :disabled="!after_song">
+        <i class="iconfont icon-shangyiqu"></i>
       </el-button>
     </div>
     <div class="cover">
-      <img src="http://img1.kwcdn.kuwo.cn/star/userpl2015/47/31/1564050079629_11868547_500.jpg">
+      <img v-lazy="curSong.pic" :title="curSong.url">
       <audio
-        autoplay
-        src="https://win-web-ra01-sycdn.kuwo.cn/372b2c9db3a73a018a0eaa3a03efbbc3/5da8298b/resource/n3/128/59/62/3529844721.mp3">
+        ref="audio"
+        @timeupdate="timeupdate"
+        @ended="ended"
+        :src="curSong.url">
       </audio>
     </div>
     <div class="info">
       <div class="top">
         <div class="names">
           <div>
-            <span class="name">天涯过客</span>
-            <span class="ar_name">周杰伦</span>
+            <span class="name">{{ curSong.name }} </span>
+            {{ curSong.name || curSong.artist ? ' - ' : '' }}
+            <span class="ar_name">{{ curSong.artist }}</span>
           </div>
-          <div class="time"></div>
         </div>
-        <div class="time">00:00-04:50</div>
+        <div class="time">
+          <span class="cur-time">{{ curTime }}</span>
+          {{ curTime || curSong.songTimeMinutes ? ' / ' : '' }}
+          <span class="all-time">{{ curSong.songTimeMinutes ? curSong.songTimeMinutes : '00:00' }}</span>
+        </div>
       </div>
       <div class="progress">
         <el-slider
-          :max="time/1000"
-          v-model="play_time"
+          v-model="nowTime"
+          :max="curSong.duration || 0"
           @change="playTimeChange">
         </el-slider>
       </div>
     </div>
     <div class="actions">
-      <el-button type="text">
-          <i class="iconfont icon-xiai"></i>
-      </el-button>
-      <el-button type="text">
-          <i class="iconfont icon-liebiaoxunhuan"></i>
-      </el-button>
-      <el-button type="text">
-          <i class="iconfont icon-shengyin"></i>
-      </el-button>
+      <el-popover
+        popper-class="speed"
+        width="100"
+        placement="top">
+        <div
+          class="mode-list"
+          v-for="(ele, idx) in speeds"
+          @click="changeSpeed(idx)"
+          :class="{curMode: idx === speedIndex}"
+          :key="idx">
+          {{ ele }}
+        </div>
+        <a href="javascript:;" slot="reference">{{ speeds[speedIndex] }}</a>
+      </el-popover>
+      <el-popover
+        popper-class="play-mode"
+        v-model="showMode"
+        width="150"
+        placement="top">
+        <div
+          class="mode-list"
+          v-for="(ele, idx) in playModeArray"
+          @click="changeMode(idx)"
+          :class="{curMode: idx === playMode}"
+          :key="idx">
+          <i class="iconfont" :class="playIcons[idx]"></i> {{ ele }}
+        </div>
+        <i class="iconfont" :class="iconType" slot="reference"></i>
+      </el-popover>
+      <el-popover
+        width="10"
+        placement="top"
+        popper-class="volume">
+        <el-slider
+          v-model="volumeNum"
+          :max="100"
+          :height="'100px'"
+          @input="changeVolume"
+          vertical>
+        </el-slider>
+        <a href="javascript:;" slot="reference"><i class="iconfont icon-yinliang"></i></a>
+      </el-popover>
+      <!-- <a href="javascript:;"><i class="iconfont icon-junhengqi32 icon"/></a> -->
+      <a href="javascript:;">HIFI</a>
+      <a href="javascript:;"><i class="iconfont icon-ci icon"/></a>
+      <a href="javascript:;"><i class="iconfont icon-pinglun icon"/></a>
+      <a href="javascript:;"><i class="iconfont icon-xihuan"></i></a>
       <el-popover
         v-model="visible"
-        width="300"
+        width="400"
         popper-class="ls"
         placement="top">
         <PlayList />
-        <el-button slot="reference"><i class="iconfont icon-liebiao"></i></el-button>
+        <a href="javascript:;" slot="reference"><i class="iconfont icon-yinleliebiao-"></i>{{ songList.length ? songList.length : '' }}</a>
       </el-popover>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+import { mFormat } from '@/common/tools.js'
+import jsonp from '@/untils/jsonp.js'
 import PlayList from './component/playList'
 export default {
   components: {
@@ -67,88 +114,251 @@ export default {
   },
   data () {
     return {
-      is_play: false,
       before_song: true,
       after_song: true,
       play_time: 40,
       time: 1300000,
-      visible: false
+      visible: false,
+      curTime: '00:00',
+      nowTime: 0,
+      is_play: false,
+      isLoop: false,
+      showMode: false,
+      volumeNum: this.$store.state.song.volumeNum,
+      playModeArray: ['单曲播放', '单曲循环', '顺序播放', '循环播放', '随机播放'],
+      playIcons: ['icon-danqubofang', 'icon-danquxunhuan', 'icon-shunxu', 'icon-xunhuanbofang', 'icon-bofangye-caozuolan-suijibofang'],
+      speeds: ['0.5x', '0.75x', '1.0x', '1.5x', '2.0x'],
+      speedIndex: 2
     }
   },
+  computed: {
+    ...mapState({
+      curSongId (state) {
+        return this.curSong.rid || this.curSong.id
+      },
+      curSong (state) {
+        return state.song.curSong
+      },
+      percent (state) {
+        return state.song.percent
+      },
+      currTime (state) {
+        return state.song.curTime
+      },
+      songList (state) {
+        return state.songList.list
+      },
+      playMode (state) {
+        return state.song.playMode
+      }
+    }),
+    currentIndex () {
+      const list = this.songList
+      if (list.length === 0) return -1
+      return list.findIndex((ele, idx) => {
+        return ele.rid === this.curSongId
+      })
+    },
+    iconType () {
+      switch (this.playMode) {
+        case 0:
+          return 'icon-danqubofang'
+        case 1:
+          return 'icon-danquxunhuan'
+        case 2:
+          return 'icon-shunxu'
+        case 3:
+          return 'icon-xunhuanbofang'
+        case 4:
+          return 'icon-bofangye-caozuolan-suijibofang'
+      }
+    }
+  },
+  watch: {
+    curSongId (curData, lastData) {
+      // console.log('curData: ', curData);
+      if (curData) {
+        this.curTime = '00:00'
+        this.getPlayUrl()
+      } else {
+        this.curTime = '00:00'
+      }
+    }
+  },
+  created () {
+    window.a = this
+  },
   methods: {
+    changeSpeed (index) {
+      this.speedIndex = index
+      const audio = this.$refs.audio
+      const speedArr = [0.5, 0.75, 1, 1.5, 2]
+      audio.playbackRate = speedArr[index]
+    },
     playBefore () {
-
+      if (this.playMode === 4) {
+        this.randomPlay()
+        return
+      }
+      if (this.currentIndex === 0) return
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex - 1])
     },
     playClick () {
-
+      const audio = this.$refs.audio
+      this.is_play = !audio.paused
+      if (audio.paused) {
+        audio.play()
+      } else {
+        audio.pause()
+      }
+      // if (this.songList.length === 0) return;
+      // this.$store.commit('CHANGE_STATE');
     },
     playAfter () {
-
+      if (this.playMode === 4) {
+        this.randomPlay()
+        return
+      }
+      if (this.currentIndex === this.songList.length - 1) return
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex + 1])
     },
-    playTimeChange () {
+    playTimeChange (e) {
+      const audio = this.$refs.audio
+      audio.currentTime = e || 0
+    },
+    timeupdate (e) {
+      // console.log(e)
+      const currTime = e.target.currentTime
+      const percent = currTime / this.curSong.duration
+      this.curTime = mFormat(currTime)
+      this.nowTime = currTime
+      this.$store.commit('CUR_TIME', currTime)
+      this.$store.commit('PERCENT', percent)
+    },
+    ended () {
+      this.nowTime = 0
 
+      const mode = this.playMode
+      if (mode === 0) { // 单曲播放
+        this.$store.commit('CHANGE_NOW_SONG', {})
+      } else if (mode === 1) { // 单曲循环
+        this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex])
+      } else if (mode === 2) { // 顺序播放
+        if (this.currentIndex === this.songList.length - 1) return
+        this.$store.commit('CHANGE_NOW_SONG', this.songList[this.currentIndex + 1])
+      } else if (mode === 3) { // 循环播放
+        const index = this.currentIndex === this.songList.length - 1 ? 0 : this.currentIndex + 1
+        this.$store.commit('CHANGE_NOW_SONG', this.songList[index])
+      } else { // 随机播放
+        this.randomPlay()
+      }
+    },
+    randomPlay () {
+      const len = this.songList.length
+      let randomNum = -1
+      while (randomNum < 0) {
+        const num = Math.floor(Math.random() * len)
+        if (num === this.currentIndex) {
+          continue
+        } else {
+          randomNum = num
+        }
+      }
+      this.$store.commit('CHANGE_NOW_SONG', this.songList[randomNum])
+    },
+    changeMode (idx) {
+      this.$store.commit('CHANGE_MODE', idx)
+      this.showMode = false
+    },
+    changeVolume (e) {
+      const audio = this.$refs.audio
+      audio.volume = e / 100
+      this.$store.commit('CHANGE_VOLUME', e)
+    },
+    getPlayUrl () {
+      const musicUrl = `http://www.kuwo.cn/url?format=mp3&rid=${this.curSongId}&response=url&type=convert_url3&br=128kmp3&from=web&t=${new Date().getTime()}`
+      // const infoUrl = `http://www.kuwo.cn/api/www/music/musicInfo?mid=${this.curSongId}`;
+      const fn = (res) => {
+        return res
+      }
+      const arr = []
+      arr[0] = jsonp(musicUrl).then(fn)
+      // arr[1] = jsonp(infoUrl).then(fn);
+      Promise.all(arr).then(res => {
+        // console.log('res: ', res);
+        const playSong = Object.assign({}, this.$store.state.song.curSong)
+        playSong.url = res[0].url
+        console.log('playSong', playSong)
+        this.$store.commit('CHANGE_NOW_SONG', playSong)
+      })
     }
   }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .player{
   display: flex;
   align-items: center;
+  font-weight: lighter !important;
   .el-button{
     padding: 0px;
     border-color: transparent;
   }
   .control {
-    width: 230px;
+    width: 200px;
     flex-shrink: 0;
     display: flex;
-    justify-content: center;
     button {
-      margin: 0 15px;
-      color: #31c27c;
+      color: #FFD200;
+      background: transparent;
       i {
-          font-size: 32px;
+          font-size: 37px;
       }
     }
-    button:hover {
-      color: #2fab67;
+    .next-btn{
+      margin-left: 14px;
+      transform: rotateZ(180deg);
+    }
+    .pre-btn{
+      margin-left: 26px;
     }
     .play-btn {
+      margin-left: 15px;
       i {
-        font-size: 38px;
+        font-size: 42px;
       }
     }
   }
   .cover{
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 16px;
     img{
-      width: 50px;
-      height: 50px;
-      border-radius: 2px;
+      width: 59px;
+      height: 59px;
+      border-radius: 0;
+      // border-radius: 2px;
     }
   }
   .info{
     flex: 1;
+    // overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 70px;
+    height: 60px;
     .top{
       font-size: 13px;
-      color: #666;
       display: flex;
       justify-content: space-between;
       .names{
-        color: #444;
       }
       .time{
+        width: 100px;
         font-size: 12px;
-        color: #999;
       }
     }
     .progress{
@@ -156,22 +366,71 @@ export default {
       /deep/.el-slider__runway{
         margin: 0px;
       }
+      /deep/.el-slider__bar{
+        height: 2px;
+        background-color: #FFD200;
+      }
+      /deep/.el-slider__runway{
+        height: 2px;
+        background: rgba(255,255,255,0.3);
+        .el-slider__button{
+          width: 12px;
+          height: 12px;
+          background-color: #FFD200;
+          border: none;
+        }
+        .el-slider__button-wrapper{
+          top: -17px;
+        }
+      }
     }
   }
   .actions {
-    width: 200px;
+    width: 385px;
     padding: 0 20px;
     display: flex;
     flex-shrink: 0;
     justify-content: space-between;
+    align-items: center;
+    i{
+      font-size: 18px;
+    }
+    .speed{
+
+    }
+    a{
+      font-size: 14px;
+      color: rgba(255,255,255, 1);
+    }
     button {
-      color: #333;
       flex: 1;
       flex-shrink: 0;
     }
-    button:hover {
-      color: #31c27c;
-    }
   }
+}
+.volume{
+  min-width: 40px;
+  /deep/.el-slider.is-vertical .el-slider__runway{
+    margin: 0px 0 0 5px;
+  }
+  .el-slider__bar{
+    background: #FFD200;
+  }
+  .el-tooltip.el-slider__button{
+    border-color: #FFD200;
+  }
+}
+.icon{
+  margin: 0 3px;
+}
+.mode-list{
+  height: 20px;
+  line-height: 20px;
+  &:hover{
+    background: rgba(0,0,0,0.05);
+  }
+}
+.curMode{
+  background: rgba(0,0,0,0.5);
 }
 </style>
