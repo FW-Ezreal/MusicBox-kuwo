@@ -23,12 +23,10 @@ export default {
     window.onresize = () => {
       const width = document.getElementsByClassName('page-body')[0].offsetWidth;
       that.height = 176 + (width - 784) * 0.09 + 'px';
-      console.log('that.height: ', that.height);
     }
   },
   mounted() {
     const that = this;
-
     const width = document.getElementsByClassName('page-body')[0].offsetWidth;
     that.height = 176 + (width - 784) * 0.09 + 'px';
   },
