@@ -64,7 +64,7 @@ export default {
       console.log('aa');
       this.init();
       this.getArtistInfo()
-      this.tabIndex = 0,
+      this.tabIndex = 0
       this.from = 'artist'
     }
   },
